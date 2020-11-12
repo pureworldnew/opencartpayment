@@ -1,0 +1,22 @@
+<modification>
+    <id>DREAM SHOPUNITY</id>
+    <version>1.0</version>
+    <vqmver>2.1.1</vqmver>
+    <author>Dreamvention.com</author>
+	
+	<file name="admin/controller/extension/module.php">
+		<operation>
+			<search position="after"><![CDATA[$this->model_extension_module->deleteModule($this->request->get['module_id']);]]></search>
+			<add><![CDATA[
+			// Call delete method if it exsits
+			$this->load->controller('module/' . $this->request->get['extension'] . '/delete');
+			]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA['delete'    => $this->url->link('extension/module/delete', 'token=' . $this->session->data['token'] . '&module_id=' . $module['module_id'], 'SSL')]]></search>
+			<add><![CDATA[
+			'delete'    => $this->url->link('extension/module/delete', 'token=' . $this->session->data['token'] . '&extension=' . $extension . '&module_id=' . $module['module_id'], 'SSL')
+			]]></add>
+		</operation>
+	</file>
+</modification>

@@ -1,0 +1,6 @@
+drwxrwxrwx    2 496      497          4096 Dec 16 12:51 .
+drwxrwxrwx    4 496      497          4096 Dec 16 12:51 ..
+-rwxr-xr-x    1 0        0           26925 Dec 16 12:51 LICENSE
+-rwxr-xr-x    1 0        0            8999 Dec 16 12:51 README
+-rwxr-xr-x    1 0        0           82519 Dec 16 12:51 class.phpmailer.php
+-rwxr-xr-x    1 0        0           25403 Dec 16 12:51 class.smtp.php

@@ -1,0 +1,160 @@
+table.quickbuy {
+    border-collapse: collapse;
+}
+table.quickbuy {
+    border-collapse: collapse;
+    border-left: 1px solid #DDDDDD;
+    border-right: 1px solid #DDDDDD;
+    border-top: 1px solid #DDDDDD;
+    margin-bottom: 15px;
+    width: 100%;
+}
+.quickbuy td {
+    padding: 7px;
+    text-align: center;
+}
+.quickbuy thead td {
+    background-color: #F7F7F7;
+    border-bottom: 1px solid #DDDDDD;
+    color: #4D4D4D;
+    font-weight: bold;
+}
+.quickbuy tbody td {
+    border-bottom: 1px solid #DDDDDD;
+    vertical-align: top;
+}
+
+.search_block{
+    min-height: 40px;
+    overflow: hidden;
+}
+.search_block .filter_type{
+    float:left;
+    padding:5px;
+    position: relative;
+}
+
+.search_block .search input,.search_block select {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #CCCCCC;
+    -webkit-border-radius: 3px 3px 3px 3px;
+    -moz-border-radius: 3px 3px 3px 3px;
+    -khtml-border-radius: 3px 3px 3px 3px;
+    border-radius: 3px 3px 3px 3px;
+    -webkit-box-shadow: 0px 2px 0px #F0F0F0;
+    -moz-box-shadow: 0px 2px 0px #F0F0F0;
+    box-shadow: 0px 2px 0px #F0F0F0;
+    height: 21px;
+    padding: 1px 33px 1px 3px;
+}
+.search_block select {
+    min-height: 25px;
+    padding: 3px 3px 3px 3px;
+}
+.search_block .search .btn-search {
+    background: url("../image/button-search.png") no-repeat scroll center center rgba(0, 0, 0, 0);
+    border:0px solid;
+    cursor: pointer;
+    height: 24px;
+    right: 5px;
+    width: 28px;
+    text-indent: -99999px;
+    position: absolute;
+    padding:0px;
+    border:0px solid;
+    box-shadow: 0px 0px 0px #F0F0F0;
+}
+.search_block .search .btn-search:hover{
+    background: url("../image/button-search.png") no-repeat scroll center center rgba(0, 0, 0, 0);
+}
+.ui-widget-content{
+    background:#FFFFFF!important;
+}
+ul.ui-autocomplete {
+    background-color: #FFFFFF;
+    border: 2px solid #C4C6C8;
+    margin: 0;
+    padding: 5px;
+}
+ul.ui-autocomplete  > li{
+    border: 1px solid #C4C6C8;
+    color: #2F2F2F;
+    cursor: pointer;
+    margin: 4px 0;
+    min-height: 15px;
+    padding: 4px;
+}
+ul.ui-autocomplete  > li {
+    text-align: left;
+}
+ul.ui-autocomplete > li p {
+    text-align: justify;
+}
+ul.ui-autocomplete > li:hover{
+    background-color: #D5E4EB;
+}
+ul.ui-autocomplete li.ui-menu-item{
+    border-style: dotted none none;
+    border-width: 1px 0 0;
+    margin: 0;
+    min-height: 0;
+    padding: 0;
+}
+ul.ui-autocomplete ol {
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+}
+ul.ui-autocomplete ol .price {
+    color: #333333;
+    float: right;
+    font-size: 12px;
+    min-height: 10px;
+    margin-left: 8px;
+    text-align: right;
+}
+ul.ui-autocomplete ol .price-old {
+    color: #FF0000;
+    text-decoration: line-through;
+}
+ul.ui-autocomplete ol .price-new {
+    font-weight: bold;
+}
+ul.ui-autocomplete ol .price-tax {
+    color: #BBBBBB;
+    font-size: 12px;
+    font-weight: normal;
+}
+.clear {
+    clear: both;
+    height: 1px;
+    overflow: hidden;
+}
+.search-loading{
+    background-image: url("../image/loading.gif") !important;
+    background-position: right center !important;
+    background-repeat: no-repeat !important;
+}
+
+.product-info .image-additional .carousel-control {
+    font-size: 20px;
+    height: 20px;
+    line-height: 19px;
+    width: 20px;
+    cursor: pointer;
+}
+.product-info > .left{
+    width:40%;
+}
+/*style for vertical mode*/
+.search_block ul.fields{
+    margin-left: 0px;
+    padding-left: 0px;
+    list-style-type: none;
+}
+.search_block ul.fields li{
+    padding-bottom:5px;
+}
+.ecquickbuy .product-info .image img#image {
+    width: 100%;
+}

@@ -1,0 +1,134 @@
+<modification>
+
+	<id>Smart SEO Pagination</id>
+	<version>1.0.0</version>
+	<vqmver>2.1.5</vqmver>
+	<author>ovife21</author>
+	
+	<file name="catalog/controller/common/seo_url.php,catalog/controller/startup/seo_url.php" error="skip">
+		<operation error="skip">
+			<search position="after" index="1"><![CDATA[if (isset($this->request->get['_route_'])) {]]></search>
+			<add><![CDATA[
+			if (strpos($this->request->get['_route_'], '/page/') !== false) {
+					$this->request->get['page'] = str_replace('/page/','',substr($this->request->get['_route_'], strpos($this->request->get['_route_'], '/page/')));	
+					$this->request->get['_route_'] = str_replace('/page/'.$this->request->get['page'],'',$this->request->get['_route_']);
+
+
+				}			
+			]]></add>
+		</operation>
+
+		<operation error="skip">
+			<search position="before"><![CDATA[($url)]]></search>
+			<add><![CDATA[
+			$seopagination = $this->config->get('seopagination');				
+			if (isset($key) && $key == 'page' && $url && (isset($seopagination['pagination']))) {
+						$url .= '/page/' . $value;
+						unset($data[$key]);
+					}
+			]]></add>
+		</operation>		
+	</file>	
+	
+	<file name="system/library/pagination.php">
+		<operation>
+			<search position="before" index="1"><![CDATA[function render]]></search>
+			<add><![CDATA[
+				public function prevnext() {
+					$total = $this->total;
+										
+					if ($this->page < 1) {
+						$page = 1;
+					} else {
+						$page = $this->page;
+					}
+					
+					if (!(int)$this->limit) {
+						$limit = 10;
+					} else {
+						$limit = $this->limit;
+					}
+					
+					$num_links = $this->num_links;
+					$num_pages = ceil($total / $limit);
+					
+					$output = array();
+					
+					if ($page > 1) {
+						$output[] = array("rel" => "prev", "href" => str_replace('{page}', $page - 1, $this->url));
+					}
+
+										
+					if ($page < $num_pages) {
+						$output[] = array("rel" => "next", "href" => str_replace('{page}', $page + 1, $this->url));
+					}
+					
+					return $output;
+				}
+				]]></add>
+		</operation>					
+	</file>
+	<file name="catalog/controller/product/category.php,catalog/controller/product/manufacturer.php,catalog/controller/product/special.php">
+		<operation error="skip">
+			<search position="replace"><![CDATA[// http://googlewebmastercentral.blogspot.com/2011/09/pagination-with-relnext-and-relprev.html]]></search>
+			<add><![CDATA[/* // http://googlewebmastercentral.blogspot.com/2011/09/pagination-with-relnext-and-relprev.html ]]></add>
+		</operation>
+		<operation error="skip">
+			<search position="replace"><![CDATA[$data['sort'] = $sort;]]></search>
+			<add><![CDATA[// */ 
+			$data['sort'] = $sort;]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/product/category.php">
+		<operation>
+			<search position="after"><![CDATA[$data['pagination'] = $pagination->render();]]></search>
+			<add><![CDATA[			
+				foreach ($pagination->prevnext() as $pagelink) {
+					$this->document->addLink($pagelink['href'], $pagelink['rel']);
+				}
+				]]></add>
+		</operation>		
+	</file>	
+	<file name="catalog/controller/product/manufacturer.php">
+		<operation>
+			<search position="after"><![CDATA[$data['pagination'] = $pagination->render();]]></search>
+			<add><![CDATA[			
+				foreach ($pagination->prevnext() as $pagelink) {
+					$this->document->addLink($pagelink['href'], $pagelink['rel']);
+				}
+				]]></add>
+		</operation>		
+	</file>	
+	<file name="catalog/controller/product/product.php">
+		<operation>
+			<search position="after"><![CDATA[$data['pagination'] = $pagination->render();]]></search>
+			<add><![CDATA[			
+				foreach ($pagination->prevnext() as $pagelink) {
+					$this->document->addLink($pagelink['href'], $pagelink['rel']);
+				}
+				]]></add>
+		</operation>		
+	</file>	
+	<file name="catalog/controller/product/search.php">
+		<operation>
+			<search position="after"><![CDATA[$data['pagination'] = $pagination->render();]]></search>
+			<add><![CDATA[			
+				foreach ($pagination->prevnext() as $pagelink) {
+					$this->document->addLink($pagelink['href'], $pagelink['rel']);
+				}
+				]]></add>
+		</operation>		
+	</file>	
+	<file name="catalog/controller/product/special.php">
+		<operation>
+			<search position="after"><![CDATA[$data['pagination'] = $pagination->render();]]></search>
+			<add><![CDATA[			
+				foreach ($pagination->prevnext() as $pagelink) {
+					$this->document->addLink($pagelink['href'], $pagelink['rel']);
+				}
+				]]></add>
+		</operation>		
+	</file>	
+		
+</modification>
+

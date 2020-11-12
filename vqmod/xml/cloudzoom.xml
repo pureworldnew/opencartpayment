@@ -1,0 +1,213 @@
+<!-- This module includes new Star Plugins Cloud Zoom into Open Cart. -->
+
+<!-- Provides many new capabilities not available in the old Professor Cloud version Cloud Zoom. -->
+
+<!-- Works great on touch devices and responsive websites,  plus much smoother and faster movement. -->
+
+<!-- Comes with an unlicensed trial version of Star Plugins Cloud Zoom. -->
+
+<!-- You will need to obtain an appropriate License for commercial use. -->
+
+<!-- Cloud Zoom properties can be modified by changing the data-cloudzoom attribute around line 60 below -->
+
+<!-- See all properties here: www.starplugins.com/cloudzoom/quickstart -->
+
+<!-- www.starplugins.com/cloudzoom -->
+
+<!-- (c) Star Plugins -->
+
+
+
+<modification>
+
+	<id><![CDATA[Star Plugins Cloud Zoom V1.1 (vQmod) www.starplugins.com]]></id>
+
+	<version><![CDATA[3]]></version>
+
+	<author><![CDATA[webrasta]]></author>
+
+<!-- Header section. The following code places cloudzoom.js, jquery.min.js and cloudzoom.css inside the header -->
+
+	<file name="catalog/view/theme/*/template/common/header.tpl">
+
+		<operation>
+
+			<search position="before"><![CDATA[</head>]]></search>
+
+			<add><![CDATA[<link href="catalog/view/javascript/jquery/starplugins-cloudzoom/cloudzoom.css" rel="stylesheet" type="text/css" />
+
+<script type="text/JavaScript" src="catalog/view/javascript/jquery/starplugins-cloudzoom/cloudzoom.js"></script><script type="text/javascript">
+
+	CloudZoom.quickStart();
+
+		
+
+	$(function(){
+
+		// If you don't want colorbox pop-up on click, add back in the return; below this line.
+
+		// return;
+
+		if(!$.colorbox) return;
+
+		// Bind a click event to a Cloud Zoom instance.
+
+		$('.cloudzoom').bind('click',function(){
+
+		 
+
+			// On click, get the Cloud Zoom object,
+
+		  var cloudZoom = $(this).data('CloudZoom');
+
+			// Close the zoom window (from 2.1 rev 1211291557)
+
+			cloudZoom.closeZoom();    
+
+			
+
+			// Get the list of images, use first one for ColorBox.
+
+			var src;
+
+			var list = cloudZoom.getGalleryList();		
+
+			// Array of images, or just one?
+
+			if (list instanceof Array) {
+
+				a = list[0].href ? list[0].href:false;
+
+				if (a === false)
+
+					return false;
+
+				src = list[0].href;
+
+			}
+
+			else src = list.href;
+
+		  
+
+			// Open colorbox.
+
+			$.colorbox({html:"<img style='width:500px' src='"+src+"'/>", maxHeight:window.innerHeight,maxWidth:window.innerWidth});
+
+		   
+
+			return false;
+
+		});
+
+	});
+
+	
+
+</script>]]></add>
+
+		</operation>
+
+	</file>
+
+<!-- Add the relevant changes to product.tpl to use Star Plugins Cloud Zoom. The Cloud Zoom properties are in the data-cloudzoom attribute below. -->
+
+	<file name="catalog/view/theme/*/template/product/product.tpl,catalog/view/theme/*/template/product/product_grouped_default.tpl">
+
+		<operation>
+
+			<search position="replace" offset="1"><![CDATA[<?php if ($thumb) { ?>]]></search>
+
+
+
+			<add><![CDATA[
+
+	<?php if ($thumb) { ?>
+
+	<div class="image"><a href="<?php echo $zoom_image; ?>" title="<?php echo $heading_title; ?>"><img src="<?php echo $thumb; ?>" title="<?php echo $heading_title; ?>" alt="<?php echo $heading_title; ?>" id="image"  class="cloudzoom" data-cloudzoom = "zoomSizeMode: 'image',startMagnification:1.9,tintColor:'#000',tintOpacity:0.25,captionPosition:'bottom',maxMagnification:4,autoInside:750"/></a></div>   
+
+	  ]]></add>
+
+		</operation>
+
+<!-- Add the main image as the first gallery image. -->
+
+		<operation>
+
+			<search position="before"><![CDATA[<?php foreach ($images as $image) { ?>]]></search>
+
+			<add><![CDATA[
+
+		<a href="<?php echo $zoom_image; ?>" title="<?php echo $heading_title; ?>" class="cloudzoom-gallery" data-cloudzoom="useZoom: '.cloudzoom', image: '<?php echo $thumb; ?>', zoomImage:'<?php echo $zoom_image; ?>' "><img src="<?php echo $popup; ?>" title="<?php echo $heading_title; ?>" alt="<?php echo $heading_title; ?>" id="image" class="img-responsive" /></a>
+
+		]]></add>
+
+		</operation>
+
+<!-- Add additional gallery images -->
+
+		<operation>
+
+			<search position="replace" offset="1"><![CDATA[<?php foreach ($images as $image) { ?>]]></search>
+
+			<add><![CDATA[
+
+		<?php foreach ($images as $image) { ?>
+
+		<a href="<?php echo $image['zoom_image']; ?>" title="<?php echo $heading_title; ?>" class="cloudzoom-gallery" data-cloudzoom="useZoom: '.cloudzoom', image: '<?php echo $image['thumbimage']; ?>', zoomImage:'<?php echo $image['zoom_image']; ?>' "><img src="<?php echo $image['thumbimage']; ?>" title="<?php echo $heading_title; ?>" alt="<?php echo $heading_title; ?>" /></a>	
+
+		]]></add>
+
+		</operation>
+
+	</file>
+
+<!-- The following requests opencart to make additional images, 1000 x 1000 for cloudzoom and other thumbnails for cloudzoom -->
+
+	<file name="catalog/controller/product/product.php,catalog/controller/product/product_grouped.php">
+
+        <operation>
+
+            <search position="after" index="1"><![CDATA[$this->load->model('tool/image');]]></search>
+
+            <add><![CDATA[
+
+            	$data['zoom_image'] = '';
+
+			
+
+			if (isset($product_info['image']) && $product_info['image']) {
+
+				$data['zoom_image'] = $this->model_tool_image->resize($product_info['image'], 1000, 1000);								
+
+				$data['thumbadditional'] = $this->model_tool_image->resize($product_info['image'], $this->config->get('config_image_additional_width'), $this->config->get('config_image_additional_height'));								
+
+			} else {
+
+				$data['zoom_image'] = '';
+
+				$data['thumbadditional'] = '';				
+
+			}		
+
+            ]]></add>
+
+        </operation>
+
+		<operation><!-- For each additional image -->
+
+            <search position="after"><![CDATA[data['images'][] = array(]]></search>
+
+            <add><![CDATA[			
+
+			'zoom_image' => $this->model_tool_image->resize(isset($result['image'])?$result['image']:'' , 1000, 1000),
+
+			'thumbimage' => $this->model_tool_image->resize(isset($result['image'])?$result['image']:'' , $this->config->get('config_image_thumb_width'), $this->config->get('config_image_thumb_height')),			
+
+            ]]></add>
+
+        </operation>
+
+	</file>
+
+</modification>

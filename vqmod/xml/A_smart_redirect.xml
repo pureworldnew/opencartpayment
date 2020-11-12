@@ -1,0 +1,43 @@
+<modification>
+
+	<id>Smart Redirect</id>
+	<version>1.0.0</version>
+	<vqmver>2.1.5</vqmver>
+	<author>ovife21</author>
+	
+	<file name="catalog/controller/common/seo_url.php,catalog/controller/startup/seo_url.php" error="skip">
+		<operation error="skip">
+			<search position="after" index="1"><![CDATA[if (isset($this->request->get['_route_'])) {]]></search>
+			<add><![CDATA[
+			$redirect_settings = $this->config->get('redirect_settings');
+			if (isset($redirect_settings['redirectmanager'])) {
+				$redirects = $this->config->get('redirect');
+				if ($redirects) {
+				foreach ($redirects as $redirectlink) {
+						if ($redirectlink['title'] == $this->request->get['_route_']) {
+								$this->request->get['_route_'] = $redirectlink['url'];							
+							}
+					}
+				}
+			}
+			
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search position="before" index="1"><![CDATA[if ($query->num_rows) {]]></search>
+			<add><![CDATA[
+			$redirect_settings = $this->config->get('redirect_settings');
+			if ((isset($redirect_settings['autoredirect'])) && (!($query->num_rows))) {
+			$link = $this->db->escape($part);
+			$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "url_alias WHERE keyword sounds like '" . $this->db->escape($part) . "'");
+				if (($query->num_rows)) {
+					$this->db->query("insert into " . DB_PREFIX . "autoredirect values ('".$link."','".$query->row['keyword']."',now());");
+				}
+			}
+			]]></add>
+		</operation>
+				
+	</file>	
+	
+</modification>
+

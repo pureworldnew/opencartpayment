@@ -1,0 +1,153 @@
+---------- Date: 2020-06-30 11:00:21 ~ IP : 2601:584:300:df70:b9b7:76a8:330c:5d3f ----------
+REQUEST URI : /index.php?route=product/product/question&gp_product=1&product_id=41132
+MOD DETAILS:
+   modFile   : /var/www/vhosts/gempacked.com/home/versions/2020-02-27_15_16_01/vqmod/xml/advancedmenu_seo_url_modsII.xml
+   id        : Advanced Menu V4 - vqmod for opencart V2.xor greater
+   version   : 1.1.0
+   vqmver    : 2.3
+   author    : www.ocmodules.com
+
+File Name    : catalog/controller/common/seo_url.php(2)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): if ($query->row['query']
+----------------------------------------------------------------------
+
+
+---------- Date: 2020-06-30 11:00:24 ~ IP : 2601:584:300:df70:b9b7:76a8:330c:5d3f ----------
+REQUEST URI : /index.php?route=product/product_grouped/getGroupOptions&v=1593540021525
+MOD DETAILS:
+   modFile   : /var/www/vhosts/gempacked.com/home/versions/2020-02-27_15_16_01/vqmod/xml/vqmod_ALTHEMIST_TABS.xml
+   id        : ALTHEMIST TABS/ACCORDION/TOGGLE Module
+   version   : 1.0
+   vqmver    : 2.1.0
+   author    : Dimitar Koev
+
+File Name    : catalog/view/theme/*/template/common/header.tpl(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <?php echo $google_analytics; ?>
+----------------------------------------------------------------------
+
+
+---------- Date: 2020-06-30 11:00:26 ~ IP : 23.240.105.73 ----------
+REQUEST URI : /admin/index.php?route=extension/modification&token=gN6qwqO12cTf6fGFpqku6WBZOqot3IXg
+VQMod::_parseMods - INVALID XML FILE: : Document is empty in /var/www/vhosts/gempacked.com/home/versions/2020-02-27_15_16_01/vqmod/xml/404s_report.xml, line: 1
+MOD DETAILS:
+   modFile   : /var/www/vhosts/gempacked.com/home/versions/2020-02-27_15_16_01/vqmod/xml/a_vqmod_d_quickcheckout.xml
+   id        : AJAX QUICK CHECKOUT V6 BY DREAMVENTION
+   version   : 2.0.0.0
+   vqmver    : 2.2.1
+   author    : dreamvention.com
+VQModObject::parseMods - Could not resolve path for [system/library/cart/tax.php] (SKIPPED)
+MOD DETAILS:
+   modFile   : /var/www/vhosts/gempacked.com/home/versions/2020-02-27_15_16_01/vqmod/xml/jc_returns_admin_email.xml
+   id        : Returns admin email
+   version   : 1.0.1
+   vqmver    : 2.1.5
+   author    : Jeroen Custers
+VQModObject::parseMods - Could not resolve path for [catalog/language/dutch/account/return.php] (SKIPPED)
+MOD DETAILS:
+   modFile   : /var/www/vhosts/gempacked.com/home/versions/2020-02-27_15_16_01/vqmod/xml/universal_import_pro.xml
+   id        : Universal Import Export Pro
+   version   : 1.9.0
+   vqmver    : 2.5.1
+   author    : GeekoDev
+
+File Name    : admin/view/template/catalog/product_list.tpl(0)
+Operation <add> tag missing
+
+File Name    : admin/view/template/catalog/product_list.tpl(1)
+Operation <search> tag missing
+
+File Name    : admin/view/template/catalog/product_list.tpl(1)
+Operation <add> tag missing
+MOD DETAILS:
+   modFile   : /var/www/vhosts/gempacked.com/home/versions/2020-02-27_15_16_01/vqmod/xml/zoemdevfix.xml
+   id        : One page order entry systems
+   version   : 6.1
+   vqmver    : 2.5.2
+   author    : cartbinder.com
+
+File Name    : admin/model/sale/order.php(0)
+VQModObject::applyMod - SEARCH NOT FOUND (SKIPPED): $sql = "SELECT o.order_id
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2020-06-30 11:00:28 ~ IP : 23.240.105.73 ----------
+REQUEST URI : /admin/index.php?route=sale/order/uploadOrderImages&token=VG6vp8dr6cygFZdDsjgEDbXZx22L7YqE&order_id=42101
+MOD DETAILS:
+   modFile   : /var/www/vhosts/gempacked.com/home/versions/2020-02-27_15_16_01/vqmod/xml/zoemdev.xml
+   id        : One page order entry systems
+   version   : 6.1
+   vqmver    : 2.5.2
+   author    : cartbinder.com
+
+File Name    : admin/controller/sale/order.php(0)
+VQModObject::applyMod - SEARCH NOT FOUND (SKIPPED): 'order_id'      => $result['order_id'],
+
+File Name    : admin/controller/sale/order.php(0)
+VQModObject::applyMod - SEARCH NOT FOUND (SKIPPED): 'order_id'      => $result['order_id'],
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2020-06-30 11:00:29 ~ IP : 23.240.105.73 ----------
+REQUEST URI : /metal-beads/high-karat-solid-gold-beads/14k-gold-beads/14k-gold-beads-without-stones/High-Karat-Bali-Style-Handmade-Faceted-Nugget-Spacer-Bead?gp_product_id=42820
+MOD DETAILS:
+   modFile   : /var/www/vhosts/gempacked.com/home/versions/2020-02-27_15_16_01/vqmod/xml/vqmod_ALTHEMIST_TABS.xml
+   id        : ALTHEMIST TABS/ACCORDION/TOGGLE Module
+   version   : 1.0
+   vqmver    : 2.1.0
+   author    : Dimitar Koev
+
+File Name    : catalog/view/theme/*/template/common/header.tpl(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <?php echo $google_analytics; ?>
+----------------------------------------------------------------------
+
+
+---------- Date: 2020-06-30 11:01:20 ~ IP : 23.240.105.73 ----------
+REQUEST URI : /admin/index.php?route=sale/order&token=nTHPgyiQfaMFgxnwJQurzWQchUHD7kVM
+MOD DETAILS:
+   modFile   : /var/www/vhosts/gempacked.com/home/versions/2020-02-27_15_16_01/vqmod/xml/zoemdev.xml
+   id        : One page order entry systems
+   version   : 6.1
+   vqmver    : 2.5.2
+   author    : cartbinder.com
+
+File Name    : admin/view/template/sale/order_list.tpl(0)
+VQModObject::applyMod - SEARCH NOT FOUND (SKIPPED): <td class="text-right"><a href="<?php echo $order['view']; ?>" data-toggle="tooltip" title="<?php echo $button_view; ?>" class="btn btn-info"><i class="fa fa-eye"></i></a>
+
+File Name    : admin/view/template/sale/order_list.tpl(0)
+VQModObject::applyMod - SEARCH NOT FOUND (SKIPPED): <td class="text-right"><a href="<?php echo $order['view']; ?>" data-toggle="tooltip" title="<?php echo $button_view; ?>" class="btn btn-info"><i class="fa fa-eye"></i></a>
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2020-06-30 11:01:41 ~ IP : 2606:6000:6700:8800:6484:c34:2511:6776 ----------
+REQUEST URI : /
+MOD DETAILS:
+   modFile   : /var/www/vhosts/gempacked.com/home/versions/2020-02-27_15_16_01/vqmod/xml/canonical-url.xml
+   id        : Opencart Canonical URL
+   version   : 1
+   vqmver    : 
+   author    : Ersen16 - www.opencart-soft.com
+
+File Name    : catalog/controller/common/home.php(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): $this->document->setTitle($this->config->get('config_title'));
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2020-06-30 11:02:11 ~ IP : 23.240.105.73 ----------
+REQUEST URI : /findings-jewelry-components-and-parts/chains/link-chains-by-foot/sterling-silver-chains/17546-2mm-knurl-oval-cable-chain-10577?search=knurl
+MOD DETAILS:
+   modFile   : /var/www/vhosts/gempacked.com/home/versions/2020-02-27_15_16_01/vqmod/xml/qrCodes.reasonline.net.vqmod.xml
+   id        : Provides QR Code image in product views.
+   version   : 1.0
+   vqmver    : 2.X
+   author    : @StephenDubliner | reasonline.net
+
+File Name    : catalog/view/theme/*/template/product/product.tpl(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): if ($price)
+
+----------------------------------------------------------------------
+
+

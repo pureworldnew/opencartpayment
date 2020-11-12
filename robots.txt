@@ -1,0 +1,11 @@
+user-agent: *
+Disallow: /*&limit
+Disallow: /*&sort
+Disallow: /*?route=checkout/
+Disallow: /*?route=account/
+Disallow: /*?route=product/search
+Disallow: /*?route=affiliate/
+Disallow: /download/
+Disallow: /system/
+Disallow: /admin/
+Sitemap: http://gempacked.com/index.php?route=feed/google_sitemap

@@ -1,0 +1,265 @@
+<file path="admin/controller/marketing/contact.php" email_template="admin.newsletter">
+	<operation>
+		<search><![CDATA[$data['entry_message'] = $this->language->get('entry_message');]]></search>
+		<add position="after"><![CDATA[
+		$data['entry_template'] = $this->language->get('entry_template');
+		$data['entry_preheader'] = $this->language->get('entry_preheader');
+		$data['entry_campaign_name'] = $this->language->get('entry_campaign_name');
+		$data['warning_template_content'] = $this->language->get('warning_template_content');
+		$data['text_select'] = $this->language->get('text_select');
+
+		$this->load->model('localisation/language');
+		$this->load->model('module/emailtemplate');
+
+        $templates = $this->model_module_emailtemplate->getTemplates(array(
+			'emailtemplate_key' => 'admin.newsletter'
+		));
+
+		$data['email_templates'] = array();
+
+		foreach($templates as $row) {
+			$label = $row['emailtemplate_label'];
+
+			if ($row['emailtemplate_default']) {
+				$label = $this->language->get('text_default') . ' - ' . $label;
+			}
+
+			$data['email_templates'][] = array(
+				'value' => $row['emailtemplate_id'],
+				'label' => $label
+			);
+		}
+
+		$data['languages'] = $this->model_localisation_language->getLanguages();
+
+		$config = $this->model_module_emailtemplate->getConfig(1, true, true);
+
+        $data['campaign_name'] = $config['tracking_campaign_name'];
+
+        $data['templates_action'] = $this->url->link('module/emailtemplate/get_template', 'token='.$this->session->data['token'], 'SSL');]]></add>
+	</operation>
+
+	<operation>
+		<search index="0"><![CDATA[$json['success'] = $this->language->get('text_success');]]></search>
+		<add position="replace"><![CDATA[$json['success'] = sprintf($this->language->get('text_success_sent'), $email_total);]]></add>
+	</operation>
+	<operation>
+		<search index="0"><![CDATA[if ($emails) {]]></search>
+		<add position="replace"><![CDATA[if (!$emails) {
+					$json['error']['warning'] = $this->language->get('warning_mail_recipients');
+				} else {]]></add>
+	</operation>
+
+	<operation info="Add extra info into email array">
+		<search><![CDATA[$emails[] = $customer_info['email'];]]></search>
+		<add position="replace"><![CDATA[$email_total = 1;
+
+									$emails[] = array(
+										'customer' => $customer_info,
+										'email' => $customer_info['email'],
+										'customer_id' => $customer_info['customer_id'],
+										'store_id' => $customer_info['store_id'],
+										'language_id' => $customer_info['language_id']
+									);]]></add>
+	</operation>
+	<operation info="Add extra info into email array">
+		<search><![CDATA[$emails[$result['customer_id']] = $result['email'];]]></search>
+		<add position="replace"><![CDATA[$emails[$result['customer_id']] = array(
+								'email' => $result['email'],
+								'customer_id' => $result['customer_id'],
+								'store_id' => $result['store_id'],
+								'language_id' => $result['language_id']
+							);]]></add>
+	</operation>
+	<operation info="affiliate_all">
+		<search index="2"><![CDATA[$emails[] = $result['email'];]]></search>
+		<add position="replace"><![CDATA[$emails[$result['affiliate_id']] = array(
+								'email' => $result['email'],
+								'affiliate_id' => $result['affiliate_id']
+							);]]></add>
+	</operation>
+	<operation info="affiliate">
+		<search><![CDATA[$emails[] = $affiliate_info['email'];]]></search>
+		<add position="replace"><![CDATA[$email_total = 1;
+
+									$emails[$affiliate_info['affiliate_id']] = array(
+										'affiliate' => $affiliate_info,
+										'email' => $affiliate_info['email'],
+										'affiliate_id' => $affiliate_info['affiliate_id']
+									);]]></add>
+	</operation>
+	<operation info="newsletter, customer_all, product">
+		<search><![CDATA[$emails[] = $result['email'];]]></search>
+		<add position="replace"><![CDATA[$emails[$result['customer_id']] = array(
+								'email' => $result['email'],
+								'customer_id' => $result['customer_id'],
+								'store_id' => $result['store_id'],
+								'language_id' => $result['language_id']
+							);]]></add>
+	</operation>
+
+	<operation info="Move message into foreach">
+		<search index="0"><![CDATA[foreach ($emails as $email) {]]></search>
+		<add/>
+	</operation>
+	<operation>
+		<search index="0"><![CDATA[$message  = '<html ]]></search>
+		<add position="before"><![CDATA[					foreach ($emails as $email_info) {
+						if (empty($email_info['customer_id']) && empty($email_info['affiliate_id'])) continue;
+
+						$email = $email_info['email'];
+
+						$file = DIR_SYSTEM . 'library/emailtemplate/email_template.php';
+
+						if (file_exists($file)) {
+							include_once($file);
+						} else {
+							trigger_error('Error: Could not load library ' . $file . '!');
+							exit();
+						}
+
+						$template = new EmailTemplate($this->request, $this->registry);
+
+						if (isset($email_info['customer'])) {
+							$template->addData($email_info['customer']);
+							unset($email_info['customer']);
+						} elseif (isset($email_info['customer_id'])) {
+							$customer_info = $this->model_sale_customer->getCustomer($email_info['customer_id']);
+							$template->addData($customer_info);
+						}
+
+						if (isset($email_info['affiliate'])) {
+							$template->addData($email_info['affiliate']);
+							unset($email_info['affiliate']);
+						} elseif (isset($email_info['affiliate_id'])) {
+							$affiliate_info = $this->model_sale_affiliate->getAffiliate($email_info['affiliate_id']);
+							$template->addData($affiliate_info);
+						}
+
+						if (isset($email_info['language_id']) && $email_info['language_id']) {
+							$language_id = $email_info['language_id'];
+						} else {
+							$language_id = $this->config->get('config_language_id');
+						}
+
+	  					// Default store auto select from db
+						if ($this->request->post['store_id'] == 0 && isset($email_info['store_id'])) {
+ 							$store_id = $email_info['store_id'];
+						} else {
+							$store_id = $this->request->post['store_id'];
+						}
+
+						$template_data = array(
+							'key' => 'admin.newsletter',
+							'store_id' => $store_id
+						);
+
+						$template->load($template_data);
+
+						if (!empty($template->data['emailtemplate']['unsubscribe_text']) && in_array($this->request->post['to'], array('newsletter', 'customer_all', 'customer_group', 'customer'))) {
+							$url = (isset($store_info['url']) ? $store_info['url'] : HTTP_CATALOG) . 'index.php?route=account/newsletter/unsubscribe&code='.md5($email);
+							$template->data['unsubscribe'] = sprintf(html_entity_decode($template->data['emailtemplate']['unsubscribe_text'], ENT_QUOTES, 'UTF-8'), $url);
+					    }
+
+						if (is_array($this->request->post['subject']) && !empty($this->request->post['subject'][$language_id])) {
+							$subject = $this->request->post['subject'][$language_id];
+						} else {
+							$subject = $store_name;
+						}
+
+						if (is_array($this->request->post['message']) && !empty($this->request->post['message'][$language_id])) {
+							$body = $this->request->post['message'][$language_id];
+						} else {
+							$body = $store_name;
+						}
+
+						$template->addData($email_info);
+
+						$template->set('subject', $subject);
+
+						$template->data['config']['tracking_campaign_name'] = $this->request->post['campaign_name'];
+		]]></add>
+	</operation>
+	<operation>
+		<search index="0"><![CDATA[<title>' . $this->request->post['subject'] . '</title>']]></search>
+		<add position="replace"><![CDATA[<title>' . $subject . '</title>']]></add>
+	</operation>
+    <operation>
+		<search index="0"><![CDATA[$mail->setSender($store_name);]]></search>
+		<add position="replace"><![CDATA[$mail->setSubject($subject);]]></add>
+	</operation>
+	<operation>
+		<search index="0"><![CDATA[html_entity_decode($this->request->post['message'] ]]></search>
+		<add position="replace"><![CDATA[html_entity_decode($message]]></add>
+	</operation>
+	<operation>
+		<search index="0"><![CDATA[$mail->setHtml($message);]]></search>
+		<add position="replace"><![CDATA[$template->build();
+
+							$template->fetch(null, $body);
+
+							$mail = $template->hook($mail);]]></add>
+	</operation>
+	<operation>
+		<search index="0"><![CDATA[$mail->send();]]></search>
+		<add position="after"><![CDATA[							$template->sent();]]></add>
+	</operation>
+	<operation>
+		<search index="0"><![CDATA[marketing/contact.tpl]]></search>
+		<add position="replace"><![CDATA[marketing/contact_lang.tpl]]></add>
+	</operation>
+</file>
+
+<file path="catalog/controller/account/newsletter.php" email_template="admin.newsletter">
+	<operation>
+	    <search index="0"><![CDATA[class ControllerAccountNewsletter extends Controller {]]></search>
+	   	<ignoreif><![CDATA[public function unsubscribe(]]></ignoreif>
+	   	<add position="after"><![CDATA[	public function unsubscribe() {
+ 		$this->load->language('account/newsletter');
+
+ 		$this->document->setTitle($this->language->get('heading_title'));
+
+ 		if ($this->request->get['code']) {
+ 			$result = $this->db->query("SELECT customer_id, email FROM ".DB_PREFIX."customer WHERE MD5(email) = '" . $this->db->escape($this->request->get['code']) . "'");
+
+			if ($result->num_rows) {
+				$this->db->query("UPDATE ".DB_PREFIX."customer SET newsletter = '0' WHERE customer_id = " . (int)$result->row['customer_id'] . "");
+
+	 			$data['text_message'] = sprintf($this->language->get('success_unsubscribe'), $result->row['email']);
+ 			} else {
+ 				$data['text_message'] = $this->language->get('error_unsubscribe');
+ 			}
+ 		}
+
+ 		$data['breadcrumbs'] = array();
+ 		$data['breadcrumbs'][] = array(
+			'text' => $this->language->get('text_home'),
+			'href' => $this->url->link('common/home')
+ 		);
+ 		$data['breadcrumbs'][] = array(
+			'text' => $this->language->get('text_newsletter'),
+			'href' => $this->url->link('account/newsletter', '', 'SSL')
+ 		);
+
+ 		$data['heading_title'] = $this->language->get('heading_unsubscribe');
+
+	   	$data['button_continue'] = $this->language->get('button_continue');
+
+	   	$data['continue'] = $this->url->link('common/home');
+
+		$data['column_left'] = $this->load->controller('common/column_left');
+		$data['column_right'] = $this->load->controller('common/column_right');
+		$data['content_top'] = $this->load->controller('common/content_top');
+		$data['content_bottom'] = $this->load->controller('common/content_bottom');
+		$data['footer'] = $this->load->controller('common/footer');
+		$data['header'] = $this->load->controller('common/header');
+
+		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/common/success.tpl')) {
+			$this->response->setOutput($this->load->view($this->config->get('config_template') . '/template/common/success.tpl', $data));
+		} else {
+			$this->response->setOutput($this->load->view('default/template/common/success.tpl', $data));
+		}
+ 	}
+ 	  ]]></add>
+	</operation>
+</file>

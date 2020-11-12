@@ -1,0 +1,14 @@
+drwxr-xr-x    6 496      497          4096 Dec 16 12:51 .
+drwxr-xr-x   11 496      497          4096 Dec 16 12:51 ..
+drwxr-xr-x    2 496      497          4096 Dec 16 12:51 commands
+-rw-r--r--    1 0        0            5279 Dec 16 12:51 elFinder.command.js
+-rw-r--r--    1 0        0            1712 Dec 16 12:51 elFinder.history.js
+-rw-r--r--    1 0        0           72200 Dec 16 12:51 elFinder.js
+-rw-r--r--    1 0        0            9335 Dec 16 12:51 elFinder.options.js
+-rw-r--r--    1 0        0            3754 Dec 16 12:51 elFinder.resources.js
+-rw-r--r--    1 0        0              90 Dec 16 12:51 elFinder.version.js
+drwxr-xr-x    2 496      497          4096 Dec 16 12:51 i18n
+-rw-r--r--    1 0        0            2822 Dec 16 12:51 jquery.dialogelfinder.js
+-rw-r--r--    1 0        0             663 Dec 16 12:51 jquery.elfinder.js
+drwxr-xr-x    2 496      497          4096 Dec 16 12:51 proxy
+drwxr-xr-x    2 496      497          4096 Dec 16 12:51 ui

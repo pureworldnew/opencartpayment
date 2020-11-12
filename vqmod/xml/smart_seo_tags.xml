@@ -1,0 +1,51 @@
+<modification>
+
+	<id>SEO Tags</id>
+	<version>1.0.0</version>
+	<vqmver>2.1.5</vqmver>
+	<author>ovife21</author>
+	
+	<file name="catalog/controller/common/seo_url.php,catalog/controller/startup/seo_url.php" error="skip">
+		<operation error="skip">
+			<search position="before"><![CDATA[if (isset($this->request->get['route'])) {]]></search>
+			<add><![CDATA[
+			if (strpos($this->request->get['_route_'], 'tags/') !== false) {
+					$this->request->get['route'] = 'product/search';
+					$this->request->get['tag'] = str_replace('tags/','',$this->request->get['_route_']);
+				}
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search position="before"><![CDATA[if (!isset($this->request->get['route'])) {]]></search>
+			<add><![CDATA[
+			if (strpos($this->request->get['_route_'], 'tags/') !== false) {
+					$this->request->get['route'] = 'product/search';
+					$this->request->get['tag'] = str_replace('tags/','',$this->request->get['_route_']);
+				}
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search position="after"><![CDATA[$data = array();]]></search>
+			<add><![CDATA[
+			$extendedseo = $this->config->get('extendedseo');
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search position="before"><![CDATA[elseif ($key == 'path')]]></search>
+			<add><![CDATA[
+			} elseif ($data['route'] == 'product/search' && (isset($extendedseo['seotags'])) && ($key == 'filter_tag' || $key == 'tag')) {
+						$url .= '/tags/' . $value;
+						unset($data[$key]);
+			]]></add>
+		</operation>		
+	</file>
+	
+	<file name="catalog/controller/product/search.php">
+		<operation error="skip">
+			<search position="replace"><![CDATA[$this->request->get['filter_tag']]]></search>
+			<add><![CDATA[$this->request->get['tag']]]></add>
+		</operation>
+	</file>
+	
+</modification>
+

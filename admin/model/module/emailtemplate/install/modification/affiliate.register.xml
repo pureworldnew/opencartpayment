@@ -1,0 +1,38 @@
+<file path="catalog/model/affiliate/affiliate.php" email_template="affiliate.register">
+	<operation>
+		<search index="0"><![CDATA[$mail = new Mail(]]></search>
+		<add position="before"><![CDATA[		$file = DIR_SYSTEM . 'library/emailtemplate/email_template.php';
+
+		if (file_exists($file)) {
+			include_once($file);
+		} else {
+			trigger_error('Error: Could not load library ' . $file . '!');
+			exit();
+		}
+		
+		$template = new EmailTemplate($this->request, $this->registry);
+		
+		$affiliate_info = $this->getAffiliate($affiliate_id);
+		
+		$template->addData($affiliate_info);
+		
+		$template->data['url_affiliate_login'] = $this->url->link('affiliate/login', '', 'SSL');
+		$template->data['url_affiliate_login_tracking'] = $template->getTracking($template->data['url_affiliate_login']);
+		
+		if ($this->config->get('config_affiliate_approval')) {
+			$template->data['text_welcome'] = $this->language->get('text_approval');
+		} else {
+			$template->data['text_welcome'] = $this->language->get('text_login');
+		}
+		]]></add>
+	</operation>
+	<operation>
+		<search index="0"><![CDATA[$mail->send();]]></search>
+		<add position="replace"><![CDATA[$template->load('affiliate.register');
+
+		$mail = $template->hook($mail);
+		$mail->send();
+		
+		$template->sent();]]></add>
+	</operation>
+</file>

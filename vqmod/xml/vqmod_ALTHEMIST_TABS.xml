@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+  <id>ALTHEMIST TABS/ACCORDION/TOGGLE Module</id>
+  <version>1.0</version>
+  <vqmver>2.1.0</vqmver>
+  <author>Dimitar Koev</author>
+  <decription>
+    <![CDATA[/*
+      This file is part of the "ALTHEMIST TABS/ACCORDION/TOGGLE Module"
+      
+      The "ALTHEMIST TABS/ACCORDION/TOGGLE Module" is a commercial software: you can not redistribute it 
+      and/or modify it under ANY conditions.
+      
+      ---------------------------------------------------------------------
+      Name:		ALTHEMIST TABS/ACCORDION/TOGGLE Module
+      
+      Extensions Version: 1.0
+      
+      OpenCart:	Version 1.5.5.1 - 1.5.6.1
+      
+      Author: 	Dimitar Koev
+      
+      License type: 	Commercial
+      
+      Copyright 2014 - All rights reserved!
+      
+      */]]>
+  </decription>
+  <file name="catalog/view/theme/*/template/common/header.tpl">
+		<operation>
+			<search position="before"><![CDATA[<?php echo $google_analytics; ?>]]></search>
+			<add><![CDATA[<link rel="stylesheet" href="catalog/view/theme/<?php echo $this->config->get('config_template'); ?>/althemist/css/font/font-awesome.min.css">]]></add>
+		</operation>
+	</file>
+</modification>

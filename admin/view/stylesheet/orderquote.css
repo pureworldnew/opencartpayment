@@ -1,0 +1,19 @@
+.gear {
+	background:url(../image/orderquote/gears.gif) no-repeat center center;width:32px;height:32px;
+}
+
+.lessopacity {
+	opacity:  0.5;
+}
+
+.text-danger2 {
+    color: #f56b6b;
+}
+
+.text-success2 {
+    color: green;
+}
+
+tbody#cart td.text-center button {
+	margin-bottom: 3px;
+}

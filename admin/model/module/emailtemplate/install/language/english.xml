@@ -1,0 +1,179 @@
+<modification>
+	<name>Email Templates Language - English</name>
+	<code>emailtemplates_lang_eng</code>
+	<version>2.6.17.5</version>
+	<author>Opencart-Templates</author>
+	<link>http://www.opencart-templates.co.uk/advanced_professional_email_template</link>
+
+	<file path="admin/language/english/common/menu.php">
+		<operation>
+            <search><![CDATA[<?php]]></search>
+            <add position="after"><![CDATA[
+$_['text_emailtemplate']               = 'Email Templates';]]></add>
+        </operation>
+	</file>
+
+    <file path="admin/language/english/mail/customer.php" error="skip">
+        <operation>
+            <search index="0"><![CDATA[<?php]]></search>
+            <add position="after"><![CDATA[
+$_['text_address']  	= 'Address:';
+$_['text_company'] 		= 'Company';
+$_['text_customer_group'] = 'Customer group';
+$_['text_email']  		= 'Email';
+$_['text_fax'] 			= 'Fax';
+$_['text_name']  		= 'Name';
+$_['text_newsletter'] 	= 'Newsletter';
+$_['text_password'] 	= 'Password';
+$_['text_telephone']	= 'Telephone';
+
+$_['text_login']          = 'Your account has now been created and you can log in by using your email address and password by visiting our website or at the following URL:';
+$_['text_approval']       = 'Your account must be approved before you can login. Once approved you can log in by using your email address and password by visiting our website or at the following URL:';
+$_['text_services']       = 'Upon logging in, you will be able to access other services including reviewing past orders, printing invoices and editing your account information.';
+$_['text_thanks']         = 'Thanks,';]]></add>
+        </operation>
+    </file>
+
+    <file path="admin/language/english/mail/return.php" error="skip">
+        <operation>
+            <search index="0"><![CDATA[<?php]]></search>
+            <add position="after"><![CDATA[
+$_['text_return_link'] = 'View return details:';]]></add>
+        </operation>
+    </file>
+
+    <file path="admin/language/english/customer/customer.php" error="skip">
+        <operation>
+            <search index="0"><![CDATA[<?php]]></search>
+            <add position="after"><![CDATA[
+$_['entry_notify'] = 'Notify:';]]></add>
+        </operation>
+    </file>
+
+    <file path="admin/language/english/sale/customer.php" error="skip">
+        <operation>
+            <search index="0"><![CDATA[<?php]]></search>
+            <add position="after"><![CDATA[
+$_['entry_notify'] = 'Notify:';]]></add>
+        </operation>
+    </file>
+
+    <file path="admin/language/english/sale/order.php" error="skip">
+        <operation>
+            <search index="0"><![CDATA[<?php]]></search>
+            <add position="after"><![CDATA[
+$_['entry_template']  = 'Template:';
+$_['entry_preheader'] = '<span data-toggle="tooltip" title="Preview text shown before the email is opened">Preheader Text:</span>';
+$_['entry_pdf_attach']  = 'Attach PDF Invoice';
+$_['entry_order_summary']  = 'Order Summary';
+
+$_['button_resend']  = 'Resend Email';
+
+$_['text_preview']  = 'Preview';
+
+$_['warning_template_content']	= 'Are you sure you want to change the template? This will clear all of the text inside the editor';]]></add>
+        </operation>
+    </file>
+
+    <file path="admin/language/english/sale/return.php" error="skip">
+        <operation>
+            <search index="0"><![CDATA[<?php]]></search>
+            <add position="after"><![CDATA[
+$_['entry_template']  = 'Template';
+$_['entry_summary']  = 'Summary';
+
+$_['warning_template_content']	= 'Are you sure you want to change the template? This will clear all of the text inside the editor';]]></add>
+        </operation>
+    </file>
+
+    <file path="admin/language/english/marketing/contact.php" error="skip">
+        <operation>
+            <search index="0"><![CDATA[<?php]]></search>
+            <add position="after"><![CDATA[
+$_['entry_template']  			= 'Template:';
+$_['entry_campaign_name']  		= 'Tracking (<a href="https://support.google.com/analytics/answer/1033863" target="_blank">utm_campaign</a>):';
+
+$_['warning_template_content']	= 'Are you sure you want to change the template? This will clear all of the text inside the editor';
+$_['warning_mail_recipients']	= 'Warning: no recipients could be found';
+
+$_['text_success_sent']         = 'Your message has been successfully sent to %s recipients!';]]></add>
+        </operation>
+    </file>
+
+    <file path="catalog/language/english/account/newsletter.php" error="skip">
+        <operation>
+            <search index="0"><![CDATA[<?php]]></search>
+            <add position="after"><![CDATA[
+$_['heading_unsubscribe']   = 'Newsletter Unsubscribe';
+$_['success_unsubscribe']   = '<b>Success:</b> %s has been unsubscribed from our newsletter!';
+$_['error_unsubscribe']     = '<b>Error:</b> E-Mail Address was not found in our records, please try again!';]]></add>
+        </operation>
+    </file>
+
+    <file path="catalog/language/english/mail/affiliate.php" error="skip">
+        <operation>
+            <search index="0"><![CDATA[<?php]]></search>
+            <add position="after"><![CDATA[
+$_['text_company'] 		= 'Company';
+$_['text_email']  		= 'Email';
+$_['text_fax'] 			= 'Fax';
+$_['text_name']  		= 'Name';
+$_['text_telephone']	= 'Telephone';]]></add>
+        </operation>
+    </file>
+
+    <file path="catalog/language/english/mail/customer.php" error="skip">
+        <operation>
+            <search index="0"><![CDATA[<?php]]></search>
+            <add position="after"><![CDATA[
+$_['text_address']  	= 'Address:';
+$_['text_approve'] 		= 'Customer account requires approval, click the link below to approve:';
+$_['text_company'] 		= 'Company:';
+$_['text_customer_group'] = 'Customer group:';
+$_['text_email']  		= 'Email:';
+$_['text_fax'] 			= 'Fax:';
+$_['text_name']  		= 'Name:';
+$_['text_newsletter'] 	= 'Newsletter:';
+$_['text_password'] 	= 'Password:';]]></add>
+        </operation>
+    </file>
+
+    <file path="catalog/language/english/mail/forgotten.php" error="skip">
+        <operation>
+            <search index="0"><![CDATA[<?php]]></search>
+            <add position="after"><![CDATA[
+$_['text_login']  = 'Log in by visiting:';
+$_['text_new_password']  = 'Your new password is:';]]></add>
+        </operation>
+    </file>
+
+    <file path="catalog/language/english/mail/order.php" error="skip">
+        <operation>
+            <search index="0"><![CDATA[<?php]]></search>
+            <add position="after"><![CDATA[
+$_['text_affiliate'] = 'Affiliate:';
+$_['text_customer_group'] = 'Customer group:';
+$_['text_id'] = 'ID';
+$_['text_new_subject_admin'] = 'Order %s - %s (%s)'; // 1.Order ID, 2.Customer Name, 3.Store Name
+$_['text_order_link'] = 'To view this order click on the link below:';
+$_['text_sku'] = 'SKU';
+$_['text_stock_quantity'] = 'In Stock';
+$_['text_backorder_quantity'] = 'Back Order';
+$_['text_invoice_no'] = 'Invoice No:';]]></add>
+        </operation>
+    </file>
+
+    <file path="catalog/language/english/mail/review.php" error="skip">
+        <operation>
+            <search index="0"><![CDATA[<?php]]></search>
+            <add position="after"><![CDATA[
+$_['label_product']  = 'Product:';
+$_['label_reviewer']  = 'Reviewer:';
+$_['label_rating']	  = 'Rating:';
+$_['label_message']	  = 'Message:';
+
+$_['text_new_review'] = 'You have received a new review for';
+$_['text_approve']	  = 'To approve review click on the link below';]]></add>
+        </operation>
+    </file>
+</modification>

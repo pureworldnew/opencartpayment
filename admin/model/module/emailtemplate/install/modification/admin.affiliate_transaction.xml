@@ -1,0 +1,34 @@
+<file path="admin/model/marketing/affiliate.php" email_template="admin.affiliate_transaction">
+	<operation>
+		<search index="0"><![CDATA[$message  = sprintf($this->language->get('text_transaction_received')]]></search>
+		<add position="before"><![CDATA[
+			$file = DIR_SYSTEM . 'library/emailtemplate/email_template.php';
+
+			if (file_exists($file)) {
+				include_once($file);
+			} else {
+				trigger_error('Error: Could not load library ' . $file . '!');
+				exit();
+			}
+
+            $template = new EmailTemplate($this->request, $this->registry);
+
+			$template->data['customer_transaction_received'] = $this->currency->format($amount, $this->config->get('config_currency'));
+			$template->data['customer_transaction_total'] = $this->currency->format($this->getTransactionTotal($affiliate_id), $this->config->get('config_currency'));
+		]]></add>
+	</operation>
+	<operation>
+		<search index="1"><![CDATA[$mail->send();]]></search>
+		<add position="replace"><![CDATA[
+			$template->load('admin.affiliate_transaction');
+			$template->loadLanguage();
+
+			$template->data['text_received'] = sprintf($template->language_data['text_transaction_received'], $template->data['customer_transaction_received']);
+			$template->data['text_total'] = sprintf($template->language_data['text_transaction_total'], $template->data['customer_transaction_total']);
+
+			$mail = $template->hook($mail);
+ 			$mail->send();
+
+			$template->sent();]]></add>
+	</operation>
+</file>

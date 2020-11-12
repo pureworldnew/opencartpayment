@@ -1,0 +1,50 @@
+<modification>
+  <id>Advanced Menu V4 SEO_URL MODS- vqmod for opencart V2.0 or greater</id>
+  <version>1.1.0</version>
+  <vqmver>2.3</vqmver>
+  <author>www.ocmodules.com</author>
+  <file name="catalog/controller/common/seo_url.php">
+    <operation>
+      <search position="after" index="1">
+        <![CDATA[} elseif (isset($this->request->get['path'])) {]]>
+      </search>
+      <add>
+        <![CDATA[//FULL lAYERED MENU WITH SEO
+          if(isset($this->request->get['dnd'])){
+          $this->request->get['route'] = 'module/supercategorymenuadvancedseemore';
+          }elseif (isset($this->request->get['filtering']) or isset($this->request->get['pr']) or $this->request->get['path']==0){
+          $this->request->get['route'] = 'product/asearch';
+          }else{]]>
+      </add>
+    </operation>
+    <operation>
+      <search position="after" index="1">
+        <![CDATA[$this->request->get['route'] = 'product/category';]]>
+      </search>
+      <add>
+        <![CDATA[}]]>
+      </add>
+    </operation>
+    <operation>
+      <search position="after" index="1">
+        <![CDATA[} elseif (isset($this->request->get['manufacturer_id'])) {]]>
+      </search>
+      <add>
+        <![CDATA[//FULL lAYERED MENU WITH SEO
+          if(isset($this->request->get['dnd'])){
+          $this->request->get['route'] = 'module/supercategorymenuadvancedseemore';
+          }elseif (isset($this->request->get['filtering']) or isset($this->request->get['pr']) or $this->request->get['manufacturer_id']==0){
+          $this->request->get['route'] = 'product/asearch';
+          }else{]]>
+      </add>
+    </operation>
+    <operation>
+      <search position="after" index="1">
+        <![CDATA[$this->request->get['route'] = 'product/manufacturer/info';]]>
+      </search>
+      <add>
+        <![CDATA[}]]>
+      </add>
+    </operation>
+  </file>
+</modification>

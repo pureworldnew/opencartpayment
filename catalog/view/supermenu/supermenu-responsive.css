@@ -1,0 +1,199 @@
+
+@media(max-width :1024px) {
+#supermenu ul li div.bigdiv {
+	min-width: 960px;
+	position: absolute!important;
+	left: 25px;
+	Z-index: 999999
+}
+#supermenu ul li.tlli {
+	position: inherit;
+	left: 25px!important
+}
+}
+#supermenu.respmedium ul li.tlli .bigdiv {
+	min-width: 768px;
+	margin-left: 0!important
+}
+#supermenu.respmedium ul li div.bigdiv.withflyout {
+	width: 200px!important
+}
+#supermenu.respmedium ul li div .withimage .image img {
+	width: 35px;
+	height: 35px
+}
+#supermenu.respmedium ul li div .withimage .image {
+	float: left;
+	margin-right: 10px
+}
+#supermenu.respmedium ul li div .withimage .name {
+	position: relative
+}
+#supermenu.respmedium .child-level {
+	display: none
+}
+#supermenu.respmedium ul li div .withchild {
+	position: relative;
+	width: 305px!important
+}
+#supermenu.respmedium ul li div.bigdiv .withimage, #supermenu.respmedium ul li div.bigdiv.withflyout .withimage {
+	min-height: 45px;
+	width: 305px!important
+}
+#supermenu.respmedium ul li div.bigdiv.withflyout .withchild, #supermenu.respmedium ul li div.bigdiv.withflyout .withimage {
+	width: 250px!important
+}
+#supermenu.respmedium ul li div .withimage .name {
+	margin-left: 47px
+}
+#supermenu.respmedium ul li div .withchild .mainexpand, #supermenu.respmedium ul li div .withimage .mainexpand {
+	display: block;
+	width: 50px;
+	height: 24px;
+	position: absolute;
+	top: 0;
+	right: 0;
+	background: url(mkid2.png) center center no-repeat #30B6D8;
+	cursor: pointer;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	-khtml-border-radius: 4px;
+	border-radius: 4px
+}
+#supermenu.respmedium ul li div .withimage .mainexpand {
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	border-radius: 3px
+}
+#supermenu ul li div .withimage .name.exped .mainexpand, #supermenu.respmedium ul li div .withchild.exped .mainexpand {
+	background-image: url(arrow-open.png)
+}
+#supermenu.respmedium ul li div .withchild.exped ul.child-level, #supermenu.respmedium ul li div .withimage .name.exped ul.child-level {
+	display: block
+}
+#supermenu.respmedium ul li div .supermenu-left {
+	margin-right: 0!important
+}
+#supermenu.respmedium ul li div .dropbrands+.supermenu-left {
+	margin-right: 170px!important
+}
+#supermenu-mobile .child-level, #supermenu.respmedium .menu-add {
+	display: none
+}
+#supermenu-mobile ul {
+	list-style: none;
+	margin: 0;
+	padding: 0
+}
+#supermenu-mobile ul li.tlli {
+	text-align: left;
+	z-index: 20
+}
+#supermenu-mobile ul li.tlli:hover {
+	z-index: 100
+}
+#supermenu-mobile ul li a.tll {
+	font-size: 12px;
+	color: #fff;
+	font-weight: 700;
+	line-height: 14px;
+	text-decoration: none;
+	padding: 10px;
+	z-index: 6;
+	position: relative;
+	text-shadow: none!important;
+	background: url(Navigation-Icon.png) no-repeat;
+	height: 22px;
+	display: inline-block;
+	top: 2px;
+	width: 28px;
+	margin-left: 10px
+}
+#supermenu-mobile ul li div.bigdiv {
+	display: none;
+	background: #f9f9f9;
+	z-index: 100;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	width: 100%
+}
+#supermenu-mobile ul li div .withchild {
+	display: block;
+	margin-left: 5px;
+	margin-right: 5px;
+	margin-top: 10px;
+	vertical-align: top;
+	position: relative
+}
+#supermenu-mobile ul li div .withchild .toexpand {
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	top: 1px;
+	right: 1px;
+	background: url(arrow.png) no-repeat 0 0;
+	cursor: pointer;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	-khtml-border-radius: 4px;
+	border-radius: 4px
+}
+#supermenu-mobile ul li div .withchild .toexpandkids {
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	top: 1px;
+	right: 7px;
+	background: url(arrow.png) no-repeat;
+	cursor: pointer;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	-khtml-border-radius: 4px;
+	border-radius: 4px
+}
+#supermenu-mobile ul li div .withchild.exped .toexpand, #supermenu-mobile ul li div .withchild>ul li.exped .toexpandkids {
+	background-image: url(arrow-open.png);
+}
+#supermenu-mobile ul li div .withchild>ul {
+	display: none
+}
+#supermenu-mobile ul li div .withchild.exped>ul {
+	display: block
+}
+#supermenu-mobile ul li div .withchild>ul li {
+	padding: 6px 10px 10px;
+	position: relative
+}
+#supermenu-mobile ul li div .withchild>ul li.exped ul.child-level {
+	display: block
+}
+#supermenu-mobile ul li div .withchild>ul li a {
+	text-decoration: none;
+	color: #444;
+	padding-bottom: 8px;
+	border-bottom: 1px solid #ddd;
+	display: block
+}
+#supermenu-mobile ul li div .withchild>ul li ul li a {
+	padding-left: 15px
+}
+#supermenu-mobile ul li div .withchild a.theparent {
+	color: #333;
+	border-bottom: 1px solid #333;
+	display: block;
+	padding: 7px 5px;
+	text-decoration: none;
+	font-weight: 700;
+	text-align: left
+}
+#supermenu-mobile ul li div .withchild>ul li {
+	margin-top: 7px
+}
+#supermenu-mobile ul li div .withchild>ul li+li {
+	margin-top: 0
+}
+#supermenu-mobile.showsupnow {
+	display: block;
+	margin-top:-43px;
+}

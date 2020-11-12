@@ -1,0 +1,35 @@
+<file path="catalog/model/checkout/order.php" email_template="order.admin">
+	<operation>
+		<search index="0"><![CDATA[if ($this->config->get('config_order_mail')) {]]></search>
+		<add position="after"><![CDATA[
+					$template->data['order_link'] = (defined('HTTP_ADMIN') ? HTTP_ADMIN : HTTPS_SERVER.'admin/') . 'index.php?route=sale/order/info&order_id=' . $order_id;
+
+					// Total cart weight
+					if (!empty($order_info['weight'])) {
+						$template->data['order_weight'] = $this->weight->format($order_info['weight'], $this->config->get('config_weight_class_id'), $this->language->get('decimal_point'), $this->language->get('thousand_point'));
+					}]]></add>
+	</operation>
+	<operation>
+		<search index="1"><![CDATA[$mail->send();]]></search>
+		<add position="replace"><![CDATA[$template->load('order.admin');
+					$template->build();
+
+					$mail = $template->hook($mail);
+
+					if ($template->data['emailtemplate']['attach_invoice']) {
+			    		$this->load->model('module/pdf_invoice');
+
+			    		$pdf_invoice = $this->model_module_pdf_invoice->getInvoice($order_info, true);
+
+			    		if ($pdf_invoice && file_exists($pdf_invoice)) {
+			    			$template->data['emailtemplate_invoice_pdf'] = $pdf_invoice;
+
+			    			$mail->addAttachment($pdf_invoice);
+			    		}
+			    	}
+
+					$mail->send();
+
+					$template->sent();]]></add>
+	</operation>
+</file>

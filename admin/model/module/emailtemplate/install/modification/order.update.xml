@@ -1,0 +1,468 @@
+<file path="catalog/model/checkout/order.php" email_template="order.update">
+	<operation>
+		<search index="0"><![CDATA[$message .= $language->get('text_update_footer');]]></search>
+		<add position="after"><![CDATA[
+				$file = DIR_SYSTEM . 'library/emailtemplate/email_template.php';
+
+				if (file_exists($file)) {
+					include_once($file);
+				} else {
+					trigger_error('Error: Could not load library ' . $file . '!');
+					exit();
+				}
+
+            	$template = new EmailTemplate($this->request, $this->registry);
+
+            	if (!empty($order_info['customer_group_id'])) {
+	            	$this->load->model('account/customer_group');
+					$template->data['customer_group'] = $this->model_account_customer_group->getCustomerGroup($order_info['customer_group_id']);
+	            }
+
+				if (!empty($order_info['affiliate_id'])) {
+	            	$this->load->model('affiliate/affiliate');
+					$template->data['affiliate'] = $this->model_affiliate_affiliate->getAffiliate($order_info['affiliate_id']);
+	            }
+
+				$template->addData($order_info);
+
+				$template->addData('order_status_id', $order_status_id);
+
+				$template->data['date_added'] = date($language->get('date_format_short'), strtotime($order_info['date_added']));
+
+				if ($order_info['order_status_id'] != $order_status_id){
+					$template->data['prev_order_status_id'] = $order_info['order_status_id'];
+				}
+
+				$template->data['comment'] = $comment;
+
+				if ($order_info['comment']) {
+	            	$template->data['order_comment'] = str_replace(array("\r\n", "\r", "\n"), "<br />", $order_info['comment']);
+	            }
+
+	            if ($comment && $order_info['comment'] != $comment) {
+					$template->data['instruction'] = str_replace(array("\r\n", "\r", "\n"), "<br />", $comment);
+				} else {
+					$template->data['instruction'] = '';
+				}
+
+				if ($order_status_query->num_rows) {
+					$template->data['order_status'] = $order_status_query->row['name'];
+				}
+
+				if ($order_info['customer_id']) {
+					$template->data['order_url'] = $order_info['store_url'] . 'index.php?route=account/order/info&order_id=' . $order_id;
+					$template->data['order_url_tracking'] = $template->getTracking($template->data['order_url']);
+				}
+
+				if (isset($this->request->post['order_summary'])) {
+					$this->load->model('tool/image');
+		  			$this->load->model('tool/upload');
+					$this->load->model('catalog/product');
+
+					$order_product_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "order_product WHERE order_id = '" . (int)$order_id . "'");
+
+					$order_voucher_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "order_voucher WHERE order_id = '" . (int)$order_id . "'");
+
+					$order_total_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "order_total` WHERE order_id = '" . (int)$order_id . "' ORDER BY sort_order ASC");
+
+					$template->data['text_product'] = $language->get('text_new_product');
+					$template->data['text_model'] = $language->get('text_new_model');
+					$template->data['text_quantity'] = $language->get('text_new_quantity');
+					$template->data['text_price'] = $language->get('text_new_price');
+					$template->data['text_total'] = $language->get('text_new_total');
+
+			      	// Plain text
+					$message .= $language->get('text_new_products') . "\n";
+
+					foreach ($order_product_query->rows as $product) {
+						$message .= $product['quantity'] . 'x ' . $product['name'] . ' (' . $product['model'] . ') ' . html_entity_decode($this->currency->format($product['total'] + ($this->config->get('config_tax') ? ($product['tax'] * $product['quantity']) : 0), $order_info['currency_code'], $order_info['currency_value']), ENT_NOQUOTES, 'UTF-8') . "\n";
+
+						$order_option_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "order_option WHERE order_id = '" . (int)$order_id . "' AND order_product_id = '" . $product['order_product_id'] . "'");
+
+						foreach ($order_option_query->rows as $option) {
+							if ($option['type'] != 'file') {
+								$value = $option['value'];
+							} else {
+								$upload_info = $this->model_tool_upload->getUploadByCode($option['value']);
+
+								if ($upload_info) {
+									$value = $upload_info['name'];
+								} else {
+									$value = '';
+								}
+							}
+
+							$message .= chr(9) . '-' . $option['name'] . ' ' . (utf8_strlen($value) > 20 ? utf8_substr($value, 0, 20) . '..' : $value) . "\n";
+						}
+					}
+
+					foreach ($order_voucher_query->rows as $voucher) {
+						$message .= '1x ' . $voucher['description'] . ' ' . $this->currency->format($voucher['amount'], $order_info['currency_code'], $order_info['currency_value']);
+					}
+
+					$message .= "\n";
+
+					$message .= $language->get('text_new_order_total') . "\n";
+
+					foreach ($order_total_query->rows as $total) {
+						$message .= $total['title'] . ': ' . html_entity_decode($this->currency->format($total['value'], $order_info['currency_code'], $order_info['currency_value']), ENT_NOQUOTES, 'UTF-8') . "\n";
+					}
+
+					// HTML
+					$template->data['products'] = array();
+
+					foreach ($order_product_query->rows as $product) {
+						$product_data = $this->model_catalog_product->getProduct($product['product_id']);
+						
+						$option_data = array();
+
+						$order_option_query = $this->db->query("SELECT oo.*, pov.* FROM " . DB_PREFIX . "order_option oo LEFT JOIN " . DB_PREFIX . "product_option_value pov ON (pov.product_option_value_id = oo.product_option_value_id) WHERE oo.order_id = '" . (int)$order_id . "' AND oo.order_product_id = '" . (int)$product['order_product_id'] . "'");
+
+						foreach ($order_option_query->rows as $option) {
+							if ($option['type'] != 'file') {
+								$value = $option['value'];
+							} else {
+								$upload_info = $this->model_tool_upload->getUploadByCode($option['value']);
+
+								if ($upload_info) {
+									$value = $upload_info['name'];
+								} else {
+									$value = '';
+								}
+							}
+
+							$option_data[] = array(
+								'name'  => $option['name'],
+								'price' => ((($this->config->get('config_customer_price') && $this->customer->isLogged()) || !$this->config->get('config_customer_price')) && (float)$option['price']) ? $this->currency->format($this->tax->calculate($option['price'], $product_data['tax_class_id'], $this->config->get('config_tax') ? 'P' : false)) : 0,
+								'price_prefix' => isset($option['price_prefix']) ? $option['price_prefix'] : '',
+								'stock_quantity' => isset($option['quantity']) ? $option['quantity'] : '',
+								'stock_subtract' => isset($option['subtract']) ? $option['subtract'] : '',
+								'value' => (utf8_strlen($value) > 120 ? utf8_substr($value, 0, 120) . '..' : $value)
+							);
+						}
+
+						if (isset($product_data['image'])) {
+							$this->model_tool_image->setUrl($order_info['store_url']);
+
+							$image = $this->model_tool_image->resize($product_data['image'], 50, 50);
+						} else {
+							$image = '';
+						}
+
+						$url = $this->url->link('product/product', 'product_id='.$product['product_id'], 'SSL');
+
+						if ($this->config->get('config_stock_checkout') && $product_data['subtract']) {
+							$stock_quantity = $product_data['quantity'] + $product['quantity']; // quantity before order
+						} else {
+							$stock_quantity = false;
+						}
+
+						if ($stock_quantity && $product['quantity'] > $stock_quantity) {
+							$stock_backorder = $product['quantity'] - $stock_quantity;
+						} else {
+							$stock_backorder = false;
+						}
+
+						$template->data['products'][] = array(
+							'product_id'       => $product_data['product_id'],
+							'url'     		   => $url,
+							'url_tracking' 	   => $template->getTracking($url),
+							'image'     	   => $image,
+							'weight'		   => ($product_data['weight'] > 0) ? $this->weight->format($product_data['weight'], $product_data['weight_class_id']) : 0,
+							'description'      => utf8_substr(strip_tags(html_entity_decode($product_data['description'], ENT_QUOTES, 'UTF-8')), 0, 200) . '..',
+							'manufacturer'     => $product_data['manufacturer'],
+							'sku'              => $product_data['sku'],
+							'stock_status'     => $product_data['stock_status'],
+							'stock_subtract'   => $product_data['subtract'],
+							'stock_quantity'   => $stock_quantity,
+							'stock_backorder'  => $stock_backorder,
+							'name'     => $product['name'],
+							'model'    => $product['model'],
+							'option'   => $option_data,
+							'quantity' => $product['quantity'],
+							'price'    => $this->currency->format($product['price'] + ($this->config->get('config_tax') ? $product['tax'] : 0), $order_info['currency_code'], $order_info['currency_value']),
+							'total'    => $this->currency->format($product['total'] + ($this->config->get('config_tax') ? ($product['tax'] * $product['quantity']) : 0), $order_info['currency_code'], $order_info['currency_value'])
+						);
+					}
+
+					$template->data['vouchers'] = array();
+
+					foreach ($order_voucher_query->rows as $voucher) {
+						$template->data['vouchers'][] = array(
+							'description' => $voucher['description'],
+							'amount'      => $this->currency->format($voucher['amount'], $order_info['currency_code'], $order_info['currency_value']),
+						);
+					}
+
+					foreach ($order_total_query->rows as $total) {
+						$template->data['totals'][] = array(
+							'title' => $total['title'],
+							'text'  => $this->currency->format($total['value'], $order_info['currency_code'], $order_info['currency_value']),
+						);
+					}
+				}
+				]]></add>
+	</operation>
+	<operation>
+		<search index="3"><![CDATA[$mail->send();]]></search>
+		<add position="replace"><![CDATA[
+				$template_load = array();
+
+				if (!empty($order_info['language_id'])) {
+					$template_load['language_id'] = $order_info['language_id'];
+				}
+
+				if (!empty($order_info['store_id'])) {
+					$template_load['store_id'] = $order_info['store_id'];
+				}
+
+				if (!empty($order_status_id)) {
+					$template_load['order_status_id'] = $order_status_id;
+				}
+
+				if (!empty($this->request->post['emailtemplate_id'])) {
+					$template_load['emailtemplate_id'] = $this->request->post['emailtemplate_id'];
+				} else {
+					$template_load['key'] = 'order.update';
+				}
+
+				$template->load($template_load);
+
+				$mail = $template->hook($mail);
+
+				if ($template->data['emailtemplate']['attach_invoice']) {
+		    		$this->load->model('module/pdf_invoice');
+
+		    		$pdf_invoice = $this->model_module_pdf_invoice->getInvoice($order_info, true);
+
+		    		if ($pdf_invoice && file_exists($pdf_invoice)) {
+		    			$template->data['emailtemplate_invoice_pdf'] = $pdf_invoice;
+
+		    			$mail->addAttachment($pdf_invoice);
+		    		}
+		    	}
+
+				$mail->send();
+
+				$template->sent();
+		]]></add>
+	</operation>
+</file>
+
+<file path="admin/controller/sale/order.php" email_template="order.update">
+	<operation>
+		<search index="0"><![CDATA[$data['shipping'] = $this->url->link('sale/order/shipping', 'token=' . $this->session->data['token'] . '&order_id=' . (int)$this->request->get['order_id'], 'SSL');]]></search>
+		<add position="after"><![CDATA[
+            $data['entry_template'] = $this->language->get('entry_template');
+            $data['entry_pdf_attach'] = $this->language->get('entry_pdf_attach');
+            $data['entry_order_summary'] = $this->language->get('entry_order_summary');
+
+            $data['text_select'] = $this->language->get('text_select');
+			$data['text_preview'] = $this->language->get('text_preview');
+
+			$data['warning_template_content'] = $this->language->get('warning_template_content');
+
+			$data['language_id'] = $order_info['language_id'];
+			$data['store_id'] = $order_info['store_id'];
+
+			$this->load->model('localisation/language');
+			$this->load->model('module/emailtemplate');
+
+			$config = $this->model_module_emailtemplate->getConfig(1, true, true);
+
+            $templates = $this->model_module_emailtemplate->getTemplates(array(
+				'emailtemplate_key' => 'order.update'
+			));
+
+			$data['templates_options'] = array();
+
+			$data['comment'] = '';
+
+			foreach($templates as $row) {
+				$label = $row['emailtemplate_label'];
+
+				if ($row['emailtemplate_default']) {
+					$label = $this->language->get('text_default') . ' - ' . $label;
+				}
+
+				$template_option = array(
+					'value' => $row['emailtemplate_id'],
+					'label' => $label
+				);
+
+				if ($row['store_id'] == $order_info['store_id'] && $data['comment'] == '') {
+					$template_option['selected'] = true;
+
+					$template = new EmailTemplate($this->request, $this->registry);
+
+					$template->set('insert_shortcodes', false);
+					$template->set('parse_shortcodes', true);
+
+					$template->addData($order_info);
+
+					$template_data = array(
+						'emailtemplate_id' => $row['emailtemplate_id'],
+						'store_id' => $order_info['store_id'],
+						'language_id' => $order_info['language_id'],
+						'customer_group_id' => $order_info['customer_group_id'],
+						'customer_id' => $order_info['customer_id']
+					);
+
+					if ($template->load($template_data)) {
+						$template->build();
+
+						$data['comment'] = $template->data['emailtemplate']['comment'];
+					}
+				}
+
+				$data['templates_options'][] = $template_option;
+			}
+
+            $data['templates_action'] = $this->url->link('module/emailtemplate/fetch_template', 'output=comment&token='.$this->session->data['token'], 'SSL');]]></add>
+	</operation>
+	<operation>
+		<search><![CDATA[public function history(]]></search>
+		<add position="after"><![CDATA[		$file = DIR_SYSTEM . 'library/emailtemplate/email_template.php';
+
+		if (file_exists($file)) {
+			include_once($file);
+		} else {
+			trigger_error('Error: Could not load library ' . $file . '!');
+			exit();
+		}]]></add>
+	</operation>
+	<operation>
+		<search><![CDATA[nl2br($result['comment'])]]></search>
+		<add position="replace"><![CDATA[html_entity_decode($result['comment'], ENT_QUOTES, 'UTF-8')]]></add>
+	</operation>
+</file>
+
+<file path="admin/view/template/sale/order_info.tpl" email_template="order.update">
+	<operation>
+		<search><![CDATA[id="input-notify"]]></search>
+		<add position="after"><![CDATA[
+                </div>
+              </div>
+
+              <div class="form-group form-group-notify hide">
+                <label class="col-sm-2 control-label" for="input-order-summary"><?php echo $entry_order_summary; ?></label>
+                <div class="col-sm-10">
+                	<div class="checkbox"><label><input type="checkbox" name="order_summary" id="input-order-summary" value="1" autocomplete="off" /></label></div>
+                </div>
+              </div>
+
+              <div class="form-group form-group-notify hide">
+                <label class="col-sm-2 control-label" for="input-templates"><?php echo $entry_template; ?></label>
+                <div class="col-sm-10">
+                  <select id="input-templates" name="field_template" class="form-control">
+					<option value=""><?php echo $text_select; ?></option>
+	            	<?php foreach($templates_options as $item) { ?>
+	            		<option value="<?php echo $item['value']; ?>"<?php if (!empty($item['selected'])) echo ' selected="selected"'; ?>><?php echo $item['label']; ?></option>
+	            	<?php } ?>
+            	  </select>]]></add>
+	</operation>
+	<operation>
+		<search><![CDATA[$('#button-history').on('click', function() {]]></search>
+		<add position="after"><![CDATA[  var $comment = $('textarea[name=\'comment\']');
+
+  if (typeof CKEDITOR !== "undefined" && CKEDITOR.instances["comment"]) {
+    $comment.val(CKEDITOR.instances["comment"].getData());
+  } else {
+    $comment.val($comment.code());
+  }
+
+  if ($comment.val() == '<br />' || $comment.val() == '<p><br></p>') {
+	  $comment.val('');
+  }]]></add>
+	</operation>
+	<operation>
+		<search><![CDATA['index.php?route=sale/order/history&token=<?php echo $token; ?>&order_id=<?php echo $order_id; ?>']]></search>
+		<ignoreif><![CDATA['index.php?route=sale/order/history&token=<?php echo $token; ?>&order_id=<?php echo $order_id; ?>&store_id=<?php echo $store_id; ?>']]></ignoreif>
+		<add position="replace"><![CDATA['index.php?route=sale/order/history&token=<?php echo $token; ?>&order_id=<?php echo $order_id; ?>&store_id=<?php echo $store_id; ?>']]></add>
+	</operation>
+	<operation>
+		<search><![CDATA['index.php?route=sale/order/api&token=<?php echo $token; ?>&api=api/order/history&order_id=<?php echo $order_id; ?>']]></search>
+		<ignoreif><![CDATA['index.php?route=sale/order/api&token=<?php echo $token; ?>&api=api/order/history&order_id=<?php echo $order_id; ?>&store_id=<?php echo $store_id; ?>']]></ignoreif>
+		<add position="replace"><![CDATA['index.php?route=sale/order/api&token=<?php echo $token; ?>&api=api/order/history&order_id=<?php echo $order_id; ?>&store_id=<?php echo $store_id; ?>']]></add>
+	</operation>
+	<operation>
+		<search><![CDATA['&comment=' + encodeURIComponent($('textarea[name=\'comment\']').val())]]></search>
+		<add position="replace"><![CDATA['&comment=' + encodeURIComponent($('textarea[name=\'comment\']').val()) + ($('input[name=\'order_summary\']').prop('checked') ? '&order_summary=1' : '') + '&emailtemplate_id=' + $('select[name=\'field_template\']').val()]]></add>
+	</operation>
+	<operation>
+		<search><![CDATA[$('textarea[name=\'comment\']').val('');]]></search>
+		<add position="after"><![CDATA[
+			if (typeof CKEDITOR !== "undefined" && CKEDITOR.instances["comment"]) {
+		      CKEDITOR.instances["comment"].setData('');
+		    } else {
+  	          $('textarea[name=\'comment\']').code('<br />');
+	        }
+
+			$('input[name=notify]').prop('checked', false);
+
+           	$('.form-group-notify').addClass('hide').each(function(){
+           		$(this).find('input[type=checkbox]').prop('checked', false);
+           		$(this).find('option:selected').prop('selected', false)
+           	});
+		]]></add>
+	</operation>
+	<operation>
+		<search><![CDATA[<?php echo $footer; ?>]]></search>
+		<add position="before"><![CDATA[<script type="text/javascript"><!--
+(function($){
+  $(document).ready(function(){
+    var $comment = $('textarea[name=comment]');
+
+    $('#input-notify').change(function(){
+      if ($(this).prop("checked")) {
+        $('.form-group-notify').removeClass('hide');
+      } else {
+        $('.form-group-notify').addClass('hide');
+      }
+    }).change();
+
+    if(typeof CKEDITOR !== "undefined") {
+      CKEDITOR.replace('comment', {
+        filebrowserImageBrowseUrl: 'index.php?route=common/filemanager&token=<?php echo $token; ?>',
+        filebrowserUploadUrl: 'index.php?route=common/filemanager&token=<?php echo $token; ?>',
+        filebrowserImageUploadUrl: 'index.php?route=common/filemanager&token=<?php echo $token; ?>'
+      });
+    } else {
+      $comment.summernote();
+    }
+
+    $('select[name=field_template]').change(function() {
+      var val = $(this).val();
+
+      if (!confirm("<?php echo $warning_template_content; ?>")) return;
+
+	  if (typeof CKEDITOR !== "undefined" && CKEDITOR.instances["comment"]) {
+	    CKEDITOR.instances["comment"].setData('');
+	  } else {
+        $comment.code('<br />');
+      }
+
+      $.ajax({
+        url: '<?php echo html_entity_decode($templates_action); ?>',
+        type: 'get',
+        data: 'id=' + val + '&store_id=<?php echo $store_id; ?>' + '&language_id=<?php echo $language_id; ?>' + '&order_id=<?php echo $order_id; ?>',
+        dataType: 'html',
+        success: function(html) {
+          if (html) {
+            if (typeof CKEDITOR !== "undefined" && CKEDITOR.instances["comment"]) {
+			  CKEDITOR.instances["comment"].setData(html);
+		    } else {
+  	          $comment.code(html);
+	        }
+          }
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+          console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+      });
+    });
+  });
+})(jQuery);
+//--></script>]]></add>
+	</operation>
+</file>

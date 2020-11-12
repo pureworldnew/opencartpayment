@@ -1,0 +1,288 @@
+
+<!--
+/*******************************************************************************
+*                                 Opencart SEO Pack                            *
+*                             Copyright : Ovidiu Fechete                       *
+*                              email: ovife21@gmail.com                        *
+*                Below source-code or any part of the source-code              *
+*                          cannot be resold or distributed.                    *
+*******************************************************************************/
+-->
+
+<modification>
+
+	<id>seopack</id>
+	<version>1.0.0</version>
+	<vqmver>2.1.5</vqmver>
+	<author>ovife21</author>
+	
+		
+	<file name="admin/language/*/common/menu.php">
+		<operation>
+			<search position="before"><![CDATA[$_['text_product']]]></search>
+			<add><![CDATA[
+			$_['text_seopack']                       = 'SEO Pack';
+			$_['text_seoimages']                     = 'SEO Images';
+			$_['text_autolinks']                     = 'Auto Links';
+			$_['text_seoeditor']                     = 'Advanced SEO Editor';
+			$_['text_seoreport']                     = 'SEO Report';
+			$_['text_canonicals']                    = 'Canonical Links';
+			$_['text_mlseo']                         = 'Multi-Language SEO';
+			$_['text_seopagination']                 = 'SEO Pagination';
+			$_['text_richsnippets']                  = 'Rich Snippets';
+			$_['text_redirect']                      = 'SEO Redirector';
+			$_['text_not_found_report']              = '404s (Not found) Report';
+			$_['text_seoreplacer']                   = 'SEO Replacer Tool';
+			$_['text_extendedseo']                   = 'Extended SEO';
+			$_['text_about']       		             = 'About & License';
+			]]></add>
+		</operation>		
+	</file>	
+	
+	<file name="admin/view/template/common/menu.tpl" error="skip">
+		<operation error="skip">
+			<search position="after"><![CDATA[<li><a href="<?php echo $product; ?>"><?php echo $text_product; ?></a></li>]]></search>
+			<add><![CDATA[<li><a class="parent">SEO</a>
+			<ul>			
+			<li><a href="<?php echo $seopack; ?>"><?php echo $text_seopack; ?></a></li>
+			<li><a href="<?php echo $seoimages; ?>"><?php echo $text_seoimages; ?></a></li>
+			<li>
+				<?php if (file_exists(DIR_APPLICATION.'controller/catalog/autolinks.php')) { ?>
+				<a href="<?php echo $autolinks; ?>"><?php echo $text_autolinks; ?></a>
+				<?php } else { ?>
+				<a onclick="alert('Auto Internal Links is not installed!\nYou can purchase Auto Internal Links from\n http://www.opencart.com/index.php?route=extension/extension/info&extension_id=5650\nor you can purchase the whole Opencart SEO Pack PRO:\n http://www.opencart.com/index.php?route=extension/extension/info&extension_id=6182');" class="button"><?php echo $text_autolinks; ?></a>
+				<?php } ?>
+			</li>
+			<li>
+				<?php if (file_exists(DIR_APPLICATION.'controller/catalog/canonicals.php')) { ?>
+				<a href="<?php echo $canonicals; ?>"><?php echo $text_canonicals; ?></a>
+				<?php } else { ?>
+				<a onclick="alert('Canonical Links is not installed!\nYou can purchase Opencart SEO Pack PRO from:\n http://www.opencart.com/index.php?route=extension/extension/info&extension_id=6182');" class="button"><?php echo $text_canonicals; ?></a>
+				<?php } ?>
+			</li>
+			<li>
+				<?php if (file_exists(DIR_APPLICATION.'controller/catalog/mlseo.php')) { ?>
+				<a href="<?php echo $mlseo; ?>"><?php echo $text_mlseo; ?></a>
+				<?php } else { ?>
+				<a onclick="alert('Multi-Language SEO is not installed!\nYou can purchase Opencart SEO Pack PRO from:\n http://www.opencart.com/index.php?route=extension/extension/info&extension_id=6182');" class="button"><?php echo $text_mlseo; ?></a>
+				<?php } ?>
+			</li>
+			<li>
+				<?php if (file_exists(DIR_APPLICATION.'controller/catalog/richsnippets.php')) { ?>
+				<a href="<?php echo $richsnippets; ?>"><?php echo $text_richsnippets; ?></a>
+				<?php } else { ?>
+				<a onclick="alert('Rich Snippets is not installed!\nYou can purchase Opencart SEO Pack PRO from:\n http://www.opencart.com/index.php?route=extension/extension/info&extension_id=6182');" class="button"><?php echo $text_richsnippets; ?></a>
+				<?php } ?>
+			</li>
+			<li>
+				<?php if (file_exists(DIR_APPLICATION.'controller/catalog/seopagination.php')) { ?>
+				<a href="<?php echo $seopagination; ?>"><?php echo $text_seopagination; ?></a>
+				<?php } else { ?>
+				<a onclick="alert('SEO Pagination is not installed!\nYou can purchase Opencart SEO Pack PRO from:\n http://www.opencart.com/index.php?route=extension/extension/info&extension_id=6182');" class="button"><?php echo $text_seopagination; ?></a>
+				<?php } ?>
+			</li>
+			<li>
+				<?php if (file_exists(DIR_APPLICATION.'controller/catalog/redirect.php')) { ?>
+				<a href="<?php echo $redirect; ?>"><?php echo $text_redirect; ?></a>
+				<?php } else { ?>
+				<a onclick="alert('SEO Redirector is not installed!\nYou can purchase Opencart SEO Pack PRO from:\n http://www.opencart.com/index.php?route=extension/extension/info&extension_id=6182');" class="button"><?php echo $text_redirect; ?></a>
+				<?php } ?>
+			</li>
+			<li>
+				<?php if (file_exists(DIR_APPLICATION.'controller/catalog/not_found_report.php')) { ?>
+				<a href="<?php echo $not_found_report; ?>"><?php echo $text_not_found_report; ?></a>
+				<?php } else { ?>
+				<a onclick="alert('404s Report is not installed!\nYou can purchase Opencart SEO Pack PRO from:\n http://www.opencart.com/index.php?route=extension/extension/info&extension_id=6182');" class="button"><?php echo $text_not_found_report; ?></a>
+				<?php } ?>
+			</li>
+			<li>
+				<?php if (file_exists(DIR_APPLICATION.'controller/catalog/seoreplacer.php')) { ?>
+				<a href="<?php echo $seoreplacer; ?>"><?php echo $text_seoreplacer; ?></a>
+				<?php } else { ?>
+				<a onclick="alert('Extended SEO is not installed!\nYou can purchase Opencart SEO Pack PRO from:\n http://www.opencart.com/index.php?route=extension/extension/info&extension_id=6182');" class="button"><?php echo $text_seoreplacer; ?></a>
+				<?php } ?>
+			</li>
+			<li>
+				<?php if (file_exists(DIR_APPLICATION.'controller/catalog/extendedseo.php')) { ?>
+				<a href="<?php echo $extendedseo; ?>"><?php echo $text_extendedseo; ?></a>
+				<?php } else { ?>
+				<a onclick="alert('Extended SEO is not installed!\nYou can purchase Opencart SEO Pack PRO from:\n http://www.opencart.com/index.php?route=extension/extension/info&extension_id=6182');" class="button"><?php echo $text_extendedseo; ?></a>
+				<?php } ?>
+			</li>
+			<li>
+				<?php if (file_exists(DIR_APPLICATION.'controller/catalog/seoeditor.php')) { ?>
+				<a href="<?php echo $seoeditor; ?>"><?php echo $text_seoeditor; ?></a>
+				<?php } else { ?>
+				<a onclick="alert('Advanced SEO Editor is not installed!\nYou can purchase Advanced SEO Editor from\n http://www.opencart.com/index.php?route=extension/extension/info&extension_id=6183\nor you can purchase the whole Opencart SEO Pack PRO:\n http://www.opencart.com/index.php?route=extension/extension/info&extension_id=6182');" class="button"><?php echo $text_seoeditor; ?></a>
+				<?php } ?>
+			</li>
+			<li><a href="<?php echo $seoreport; ?>"><?php echo $text_seoreport; ?></a></li>
+			<li><a href="<?php echo $about; ?>"><?php echo $text_about; ?></a></li>
+			</ul>
+			</li>]]></add>
+		</operation>		
+	</file>	
+	
+	<file name="admin/controller/common/menu.php" error="skip">
+		<operation>
+			<search position="after"><![CDATA[$data['text_product']]]></search>
+			<add><![CDATA[
+			$data['text_seopack'] = $this->language->get('text_seopack');
+			$data['text_seoimages'] = $this->language->get('text_seoimages');
+			$data['text_seoeditor'] = $this->language->get('text_seoeditor');
+			$data['text_seoreport'] = $this->language->get('text_seoreport');
+			$data['text_autolinks'] = $this->language->get('text_autolinks');
+			$data['text_canonicals'] = $this->language->get('text_canonicals');
+			$data['text_mlseo'] = $this->language->get('text_mlseo');
+			$data['text_richsnippets'] = $this->language->get('text_richsnippets');
+			$data['text_seopagination'] = $this->language->get('text_seopagination');
+			$data['text_redirect'] = $this->language->get('text_redirect');
+			$data['text_not_found_report'] = $this->language->get('text_not_found_report');
+			$data['text_seoreplacer'] = $this->language->get('text_seoreplacer');
+			$data['text_extendedseo'] = $this->language->get('text_extendedseo');
+			$data['text_about'] = $this->language->get('text_about');
+			]]></add>
+		</operation>
+		<operation>
+			<search position="after"><![CDATA[$data['product']]]></search>
+			<add><![CDATA[
+			$data['seopack'] = $this->url->link('catalog/seopack', 'token=' . $this->session->data['token'], 'SSL');
+			$data['seoimages'] = $this->url->link('catalog/seoimages', 'token=' . $this->session->data['token'], 'SSL');
+			$data['seoeditor'] = $this->url->link('catalog/seoeditor', 'token=' . $this->session->data['token'], 'SSL');
+			$data['seoreport'] = $this->url->link('catalog/seoreport', 'token=' . $this->session->data['token'], 'SSL');
+			$data['autolinks'] = $this->url->link('catalog/autolinks', 'token=' . $this->session->data['token'], 'SSL');
+			$data['canonicals'] = $this->url->link('catalog/canonicals', 'token=' . $this->session->data['token'], 'SSL');
+			$data['mlseo'] = $this->url->link('catalog/mlseo', 'token=' . $this->session->data['token'], 'SSL');
+			$data['richsnippets'] = $this->url->link('catalog/richsnippets', 'token=' . $this->session->data['token'], 'SSL');
+			$data['seopagination'] = $this->url->link('catalog/seopagination', 'token=' . $this->session->data['token'], 'SSL');
+			$data['redirect'] = $this->url->link('catalog/redirect', 'token=' . $this->session->data['token'], 'SSL');
+			$data['not_found_report'] = $this->url->link('catalog/not_found_report', 'token=' . $this->session->data['token'], 'SSL');
+			$data['seoreplacer'] = $this->url->link('catalog/seoreplacer', 'token=' . $this->session->data['token'], 'SSL');
+			$data['extendedseo'] = $this->url->link('catalog/extendedseo', 'token=' . $this->session->data['token'], 'SSL');
+			$data['about'] = $this->url->link('catalog/l', 'token=' . $this->session->data['token'], 'SSL');
+			]]></add>
+		</operation>		
+	</file>	
+	
+	<file name="admin/controller/common/column_left.php" error="skip">
+		<operation error="skip">
+			<search position="before"><![CDATA['access', 'catalog/recurring']]></search>
+			<add><![CDATA[
+			
+			$seo = array();
+			
+			if ($this->user->hasPermission('access', 'catalog/seopack')) {
+				$seo[] = array(
+					'name'     => 'SEO Pack',
+					'href'     => $this->url->link('catalog/seopack', 'token=' . $this->session->data['token'], true),
+					'children' => array()	
+				);
+			}
+			
+			if ($this->user->hasPermission('access', 'catalog/seoimages')) {
+				$seo[] = array(
+					'name'	   => 'SEO Images',
+					'href'     => $this->url->link('catalog/seoimages', 'token=' . $this->session->data['token'], true),
+					'children' => array()		
+				);
+			}
+			if ($this->user->hasPermission('access', 'catalog/autolinks')) {
+				$seo[] = array(
+					'name'	   => 'Auto Links',
+					'href'     => $this->url->link('catalog/autolinks', 'token=' . $this->session->data['token'], true),
+					'children' => array()		
+				);
+			}
+			if ($this->user->hasPermission('access', 'catalog/canonicals')) {
+				$seo[] = array(
+					'name'	   => 'Canonical Links',
+					'href'     => $this->url->link('catalog/canonicals', 'token=' . $this->session->data['token'], true),
+					'children' => array()		
+				);
+			}
+			if ($this->user->hasPermission('access', 'catalog/mlseo')) {
+				$seo[] = array(
+					'name'	   => 'Multi-Language SEO',
+					'href'     => $this->url->link('catalog/mlseo', 'token=' . $this->session->data['token'], true),
+					'children' => array()		
+				);
+			}
+			if ($this->user->hasPermission('access', 'catalog/richsnippets')) {
+				$seo[] = array(
+					'name'	   => 'Rich Snippets',
+					'href'     => $this->url->link('catalog/richsnippets', 'token=' . $this->session->data['token'], true),
+					'children' => array()		
+				);
+			}
+			if ($this->user->hasPermission('access', 'catalog/seopagination')) {
+				$seo[] = array(
+					'name'	   => 'SEO Pagination',
+					'href'     => $this->url->link('catalog/seopagination', 'token=' . $this->session->data['token'], true),
+					'children' => array()		
+				);
+			}
+			if ($this->user->hasPermission('access', 'catalog/redirect')) {
+				$seo[] = array(
+					'name'	   => 'SEO Redirector',
+					'href'     => $this->url->link('catalog/redirect', 'token=' . $this->session->data['token'], true),
+					'children' => array()		
+				);
+			}
+			if ($this->user->hasPermission('access', 'catalog/not_found_report')) {
+				$seo[] = array(
+					'name'	   => '404s (Not found) Report',
+					'href'     => $this->url->link('catalog/not_found_report', 'token=' . $this->session->data['token'], true),
+					'children' => array()		
+				);
+			}
+			if ($this->user->hasPermission('access', 'catalog/seoreplacer')) {
+				$seo[] = array(
+					'name'	   => 'SEO Replacer Tool',
+					'href'     => $this->url->link('catalog/seoreplacer', 'token=' . $this->session->data['token'], true),
+					'children' => array()		
+				);
+			}
+			if ($this->user->hasPermission('access', 'catalog/extendedseo')) {
+				$seo[] = array(
+					'name'	   => 'Extended SEO',
+					'href'     => $this->url->link('catalog/extendedseo', 'token=' . $this->session->data['token'], true),
+					'children' => array()		
+				);
+			}
+			if ($this->user->hasPermission('access', 'catalog/seoeditor')) {
+				$seo[] = array(
+					'name'	   => 'Advanced SEO Editor',
+					'href'     => $this->url->link('catalog/seoeditor', 'token=' . $this->session->data['token'], true),
+					'children' => array()		
+				);
+			}
+			if ($this->user->hasPermission('access', 'catalog/seoreport')) {
+				$seo[] = array(
+					'name'	   => 'SEO Report',
+					'href'     => $this->url->link('catalog/seoreport', 'token=' . $this->session->data['token'], true),
+					'children' => array()		
+				);
+			}
+			if ($this->user->hasPermission('access', 'catalog/l')) {
+				$seo[] = array(
+					'name'	   => 'About & License',
+					'href'     => $this->url->link('catalog/l', 'token=' . $this->session->data['token'], true),
+					'children' => array()		
+				);
+			}
+			
+			if ($seo) {
+				$catalog[] = array(
+					'name'	   => 'SEO',
+					'href'     => '',
+					'children' => $seo
+				);
+			}	
+			
+			]]></add>
+		</operation>		
+	</file>	
+
+	
+</modification>
+

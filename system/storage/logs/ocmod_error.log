@@ -1,0 +1,624 @@
+2020-10-26 17:35:35 - ----------------------------------------------------------------
+NOT FOUND!
+CODE: $sql = "SELECT * FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+FILE: admin/model/catalog/product.php
+MOD: <b style="color:#4170bd">ADV Profit Module</b>
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <td class="text-right"><input type="text" name="product_discount[<?php echo $discount_row; ?>][price]" value="<?php echo $product_discount['price']; ?>" placeholder="<?php echo $entry_price; ?>" class="form-control" /></td>
+FILE: admin/view/template/catalog/product_form.tpl
+MOD: <b style="color:#4170bd">ADV Profit Module</b>
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <td class="text-center" colspan="8"><?php echo $text_no_results; ?></td>
+FILE: admin/view/template/catalog/product_list.tpl
+MOD: <b style="color:#4170bd">ADV Profit Module</b>
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <td colspan="4" class="text-right"><?php echo $total['title']; ?></td>
+FILE: admin/view/template/sale/order_info.tpl
+MOD: <b style="color:#4170bd">ADV Profit Module</b>
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <input type="hidden" name="product[<?php echo $product_row; ?>][quantity]" value="<?php echo $order_product['quantity']; ?>" /></td>
+FILE: admin/view/template/sale/order_form.tpl
+MOD: <b style="color:#4170bd">ADV Profit Module</b>
+----------------------------------------------------------------
+NOT FOUND!
+CODE: => $product['quantity'],
+FILE: catalog/controller/api/order.php
+MOD: <b style="color:#4170bd">ADV Profit Module</b>
+----------------------------------------------------------------
+NOT FOUND!
+CODE: $this->db->query("UPDATE `" . DB_PREFIX . "product` SET quantity = (quantity + " . (int)$product['quantity'] . ") WHERE product_id = '" . (int)$product['product_id'] . "' AND subtract = '1'");
+FILE: catalog/model/checkout/order.php
+MOD: <b style="color:#4170bd">ADV Profit Module</b>
+----------------------------------------------------------------
+NOT FOUND!
+CODE: => ($price + $option_price),
+FILE: system/library/cart.php
+MOD: <b style="color:#4170bd">ADV Profit Module</b>
+----------------------------------------------------------------
+NOT FOUND!
+CODE: $this->db->query("INSERT " . DB_PREFIX . "cart SET customer_id = '" . (int)$this->customer->getId() . "', session_id = '" . $this->db->escape($this->session->getId()) . "', product_id = '" . (int)$product_id . "', recurring_id = '" . (int)$recurring_id . "', `option` = '" . $this->db->escape(json_encode($option)) . "', quantity = '" . (int)$quantity . "', date_added = NOW()");
+FILE: system/library/cart.php
+MOD: Abandoned Carts
+----------------------------------------------------------------
+MISSING FILE!
+/var/www/vhosts/gempacked.com/home/live/system/library/cart/tax.php
+MOD: Ajax Quick Checkout
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <?php echo $header; ?>
+FILE: catalog/view/theme/default/template/account/rma/printlable.tpl
+MOD: Bootstrap Addistion in account pages
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <?php echo $header; ?>
+FILE: catalog/view/theme/default/template/account/rma/viewrmaprint.tpl
+MOD: Bootstrap Addistion in account pages
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <?php echo $header; ?>
+FILE: catalog/view/theme/gempack/template/account/rma/printlable.tpl
+MOD: Bootstrap Addistion in account pages
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <?php echo $header; ?>
+FILE: catalog/view/theme/gempack/template/account/rma/viewrmaprint.tpl
+MOD: Bootstrap Addistion in account pages
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/default/template/account/rma/rma.tpl
+MOD: Bootstrap Addistion in account pages
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/rma/addrma.tpl
+MOD: Bootstrap Addistion in account pages
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/rma/rma.tpl
+MOD: Bootstrap Addistion in account pages
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/rma/rmalogin.tpl
+MOD: Bootstrap Addistion in account pages
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/rma/viewrma.tpl
+MOD: Bootstrap Addistion in account pages
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/default/template/account/tmdaccount.tpl
+MOD: Bootstrap Addistion in account pages
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/default/template/account/tmdaccount_old.tpl
+MOD: Bootstrap Addistion in account pages
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/address_form.tpl
+MOD: Bootstrap Addistion in account pages
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/address_list.tpl
+MOD: Bootstrap Addistion in account pages
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/download.tpl
+MOD: Bootstrap Addistion in account pages
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/edit.tpl
+MOD: Bootstrap Addistion in account pages
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/forgotten.tpl
+MOD: Bootstrap Addistion in account pages
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/login.tpl
+MOD: Bootstrap Addistion in account pages
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/newsletter.tpl
+MOD: Bootstrap Addistion in account pages
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/order_info.tpl
+MOD: Bootstrap Addistion in account pages
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/order_list.tpl
+MOD: Bootstrap Addistion in account pages
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/password.tpl
+MOD: Bootstrap Addistion in account pages
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/recurring_info.tpl
+MOD: Bootstrap Addistion in account pages
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/recurring_list.tpl
+MOD: Bootstrap Addistion in account pages
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/register.tpl
+MOD: Bootstrap Addistion in account pages
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/return_form.tpl
+MOD: Bootstrap Addistion in account pages
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/return_info.tpl
+MOD: Bootstrap Addistion in account pages
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/tmdaccount.tpl
+MOD: Bootstrap Addistion in account pages
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/transaction.tpl
+MOD: Bootstrap Addistion in account pages
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/wishlist.tpl
+MOD: Bootstrap Addistion in account pages
+----------------------------------------------------------------
+NOT FOUND!
+CODE: $this->session->data['token'] = md5(mt_rand());
+FILE: admin/controller/common/login.php
+MOD: POS Opencart Modifications
+----------------------------------------------------------------
+NOT FOUND!
+CODE: public function getProducts() {
+FILE: system/library/cart.php
+MOD: POS Opencart Modifications
+----------------------------------------------------------------
+MISSING FILE!
+/var/www/vhosts/gempacked.com/home/live/admin/view/template/sale/customer_form.tpl
+MOD: POS Opencart Modifications
+----------------------------------------------------------------
+MISSING FILE!
+/var/www/vhosts/gempacked.com/home/live/admin/controller/sale/customer.php
+MOD: POS Opencart Modifications
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="product-thumb transition">
+FILE: catalog/view/theme/gempack/template/module/featured.tpl
+MOD: Products_label
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="product-thumb transition">
+FILE: catalog/view/theme/default/template/product/product.tpl
+MOD: Products_label
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="product-thumb transition">
+FILE: catalog/view/theme/gempack/template/product/product.tpl
+MOD: Products_label
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="product-thumb transition">
+FILE: catalog/view/theme/default/template/product/product_grouped_default.tpl
+MOD: Products_label
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="product-thumb transition">
+FILE: catalog/view/theme/gempack/template/product/product_grouped_default.tpl
+MOD: Products_label
+----------------------------------------------------------------
+NOT FOUND!
+CODE: title="<?php echo $product['name']; ?>" alt="<?php echo $product['name']; ?>"></a>
+FILE: catalog/view/theme/gempack/template/product/category.tpl
+MOD: Products_label
+----------------------------------------------------------------
+NOT FOUND!
+CODE: title="<?php echo $product['name']; ?>" alt="<?php echo $product['name']; ?>"></a>
+FILE: catalog/view/theme/gempack/template/product/asearch.tpl
+MOD: Products_label
+----------------------------------------------------------------
+MISSING FILE!
+/var/www/vhosts/gempacked.com/home/live/admin/language/*/common/column_left.php
+MOD: RMA for OC v2
+----------------------------------------------------------------
+NOT FOUND!
+CODE: // Catalog
+FILE: admin/controller/common/column_left.php
+MOD: RMA for OC v2
+----------------------------------------------------------------
+MISSING FILE!
+/var/www/vhosts/gempacked.com/home/live/admin/controller/extension/extension/module.php
+MOD: RMA for OC v2
+----------------------------------------------------------------
+NOT FOUND!
+CODE: response($.map(json, function(article) {
+FILE: admin/view/template/catalog/product_form.tpl
+MOD: TICKET_785
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/default/template/account/account.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/default/template/account/address_form.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/default/template/account/address_list.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/default/template/account/download.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/default/template/account/edit.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/default/template/account/forgotten.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/default/template/account/login.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/default/template/account/newsletter.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/default/template/account/order_info.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/default/template/account/order_list.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/default/template/account/password.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/default/template/account/recurring_info.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/default/template/account/recurring_list.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/default/template/account/register.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/default/template/account/return_form.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/default/template/account/return_info.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/default/template/account/return_list.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/default/template/account/reward.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/default/template/account/tmdaccount.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/default/template/account/tmdaccount_old.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/default/template/account/transaction.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/default/template/account/voucher.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/default/template/account/wishlist.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/account.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/address_form.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/address_list.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/download.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/edit.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/forgotten.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/login.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/newsletter.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/order_info.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/order_list.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/password.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/recurring_info.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/recurring_list.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/register.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/return_form.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/return_info.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/return_list.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/reward.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/tmdaccount.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/transaction.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/voucher.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/account/wishlist.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <div class="container">
+FILE: catalog/view/theme/gempack/template/common/success.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/account/order_info.tpl')) {
+FILE: catalog/controller/account/account.php
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/account/order_info.tpl')) {
+FILE: catalog/controller/account/address.php
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/account/order_info.tpl')) {
+FILE: catalog/controller/account/download.php
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/account/order_info.tpl')) {
+FILE: catalog/controller/account/edit.php
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/account/order_info.tpl')) {
+FILE: catalog/controller/account/forgotten.php
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/account/order_info.tpl')) {
+FILE: catalog/controller/account/login.php
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/account/order_info.tpl')) {
+FILE: catalog/controller/account/logout.php
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/account/order_info.tpl')) {
+FILE: catalog/controller/account/newsletter.php
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/account/order_info.tpl')) {
+FILE: catalog/controller/account/password.php
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/account/order_info.tpl')) {
+FILE: catalog/controller/account/recurring.php
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/account/order_info.tpl')) {
+FILE: catalog/controller/account/register.php
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/account/order_info.tpl')) {
+FILE: catalog/controller/account/return.php
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/account/order_info.tpl')) {
+FILE: catalog/controller/account/reward.php
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/account/order_info.tpl')) {
+FILE: catalog/controller/account/success.php
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/account/order_info.tpl')) {
+FILE: catalog/controller/account/tmdaccount.php
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/account/order_info.tpl')) {
+FILE: catalog/controller/account/transaction.php
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/account/order_info.tpl')) {
+FILE: catalog/controller/account/voucher.php
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/account/order_info.tpl')) {
+FILE: catalog/controller/account/wishlist.php
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <?php foreach ($custom_fields as $custom_field) { ?>
+FILE: catalog/view/theme/default/template/account/edit.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <?php foreach ($custom_fields as $custom_field) { ?>
+FILE: catalog/view/theme/gempack/template/account/edit.tpl
+MOD: TMD Account Dashboard
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <ul class="list-inline">
+FILE: catalog/view/theme/gempack/template/common/header.tpl
+MOD: Webkul Quick Order
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <td class="text-center"><button type="button" onclick="cart.remove('<?php echo $product['cart_id']; ?>');" title="<?php echo $button_remove; ?>" class="btn btn-danger btn-xs"><i class="fa fa-times"></i></button></td>
+FILE: catalog/view/theme/default/template/common/cart.tpl
+MOD: Webkul Quick Order
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <td class="text-center"><button type="button" onclick="cart.remove('<?php echo $product['cart_id']; ?>');" title="<?php echo $button_remove; ?>" class="btn btn-danger btn-xs"><i class="fa fa-times"></i></button></td>
+FILE: catalog/view/theme/gempack/template/common/cart.tpl
+MOD: Webkul Quick Order
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <label for="<?php echo $quote['code']; ?>"><span class="text"><?php echo $quote['title']; ?></span><span class="price"><?php echo $quote['text']; ?></span></label>
+FILE: catalog/view/theme/default/template/quickcheckout/shipping_method.tpl
+MOD: X-Shipping Pro
+----------------------------------------------------------------
+NOT FOUND!
+CODE: <label for="<?php echo $quote['code']; ?>"><span class="text"><?php echo $quote['title']; ?></span><span class="price"><?php echo $quote['text']; ?></span></label>
+FILE: catalog/view/theme/gempack/template/quickcheckout/shipping_method.tpl
+MOD: X-Shipping Pro
+----------------------------------------------------------------
+MISSING FILE!
+/var/www/vhosts/gempacked.com/home/live/catalog/view/theme/journal2/template/journal2/checkout/shipping_methods.tpl
+MOD: X-Shipping Pro

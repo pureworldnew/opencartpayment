@@ -1,0 +1,49 @@
+<!-- Opencart Canonical URL -->
+<!-- Ersen16 - www.opencart-soft.com -->
+
+<!-- Birden fazla link ile ulaşılabilen sayfalarınızı SEO açısından arama motorlarının tekrar içerik olarak görmemesi için bu eklentiyi kullanabilirsiniz -->
+
+<modification>
+	<id><![CDATA[Opencart Canonical URL]]></id>
+	<version><![CDATA[1]]></version>
+	<author><![CDATA[Ersen16 - www.opencart-soft.com]]></author>
+
+	
+	<file name="catalog/controller/common/home.php">
+		<operation>
+			<search position="after"><![CDATA[$this->document->setTitle($this->config->get('config_title'));]]></search>
+			<add><![CDATA[$this->document->addLink($this->config->get('config_url'), 'canonical');]]></add>
+		</operation>
+	</file>
+
+	<file name="catalog/controller/product/special.php">
+		<operation>
+			<search position="after"><![CDATA[$this->document->setTitle($this->language->get('heading_title'));]]></search>
+			<add><![CDATA[$this->document->addLink($this->url->link('product/special'), 'canonical');]]></add>
+		</operation>
+	</file>
+	
+	<file name="catalog/controller/product/manufacturer.php">
+		<operation>
+			<search position="after"><![CDATA[$this->load->model('tool/image');]]></search>
+			<add><![CDATA[if (isset($this->request->get['manufacturer_id'])) {$this->document->addLink($this->url->link('product/manufacturer/info', 'manufacturer_id=' . $this->request->get['manufacturer_id']), 'canonical');}]]></add>
+		</operation>
+	</file>
+	
+	<file name="catalog/controller/product/category.php">
+		<operation>
+			<search position="after"><![CDATA[$this->document->setKeywords($category_info['meta_keyword']);]]></search>
+			<add><![CDATA[$pathx = explode('_', $this->request->get['path']);
+                $pathx = end($pathx);
+                $this->document->addLink($this->url->link('product/category', 'path=' . $pathx ), 'canonical');]]></add>
+		</operation>
+	</file>
+
+	<file name="catalog/controller/product/product_grouped.php">
+		<operation>
+			<search position="after"><![CDATA[$main_product_id = $this->request->get['product_id'];]]></search>
+			<add><![CDATA[$this->document->addLink($this->url->link('product/product_grouped', 'product_id=' . $product_id ), 'canonical');]]></add>
+		</operation>
+	</file>
+	
+</modification>

@@ -1,0 +1,54 @@
+<file path="admin/model/sale/voucher.php" email_template="admin.voucher">
+	<operation>
+	    <search index="0,1"><![CDATA[$mail->setHtml($this->load->view('mail/voucher.tpl', $data));]]></search>
+	    <add />
+	</operation>
+	<operation>
+	    <search index="0,1"><![CDATA[$voucher_theme_info = $this->model_sale_voucher_theme->getVoucherTheme($voucher_info['voucher_theme_id']);]]></search>
+	    <add position="after"><![CDATA[				$file = DIR_SYSTEM . 'library/emailtemplate/email_template.php';
+
+				if (file_exists($file)) {
+					include_once($file);
+				} else {
+					trigger_error('Error: Could not load library ' . $file . '!');
+					exit();
+				}
+
+				$template = new EmailTemplate($this->request, $this->registry);
+
+	        	if (isset($order_info)) {
+	        		$template->addData($order_info);
+
+	        		$template->data['store_id'] = $order_info['store_id'];
+
+					$template->data['language_id'] = $order_info['language_id'];
+	        	}
+
+				$template->addData($voucher_info);
+
+				$template->addData($voucher_theme_info);
+
+	    		if ($voucher_theme_info['image'] && file_exists(DIR_IMAGE . $voucher_theme_info['image'])) {
+	    			list($template->data['image_width'], $template->data['image_height']) = getimagesize(DIR_IMAGE . $voucher_theme_info['image']);
+				}]]></add>
+	</operation>
+	<operation>
+	    <search index="0,1"><![CDATA[$mail->send();]]></search>
+	    <add position="replace"><![CDATA[$template->addData($data);
+
+	    		$template_load = array('key' => 'admin.voucher');
+
+	    		if ($order_info) {
+					$template_load['store_id'] = $order_info['store_id'];
+
+					$template_load['language_id'] = $order_info['language_id'];
+	        	}
+
+	    		$template->load($template_load);
+
+				$mail = $template->hook($mail);
+				$mail->send();
+
+				$template->sent();]]></add>
+	</operation>
+</file>

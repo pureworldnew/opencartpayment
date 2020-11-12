@@ -1,0 +1,21 @@
+<modification>
+    <id>BootstrapAdded</id>
+    <version>1.0</version>
+    <vqmver>2.1.1</vqmver>
+    <author>Raza Umer</author>
+  
+   <file name="catalog/view/theme/*/template/account/*.tpl,catalog/view/theme/*/template/account/rma/*.tpl">
+    <operation>
+      <search position="before">
+	    <![CDATA[<?php echo $content_top; ?>]]>
+      </search>
+      <add>
+        <![CDATA[
+<link rel="stylesheet" href="catalog/view/theme/default/stylesheet/bootstrap.min.css">
+		]]>
+      </add>
+    </operation>
+    
+  </file>
+ 
+</modification>

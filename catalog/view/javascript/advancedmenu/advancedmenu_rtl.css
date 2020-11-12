@@ -1,0 +1,117 @@
+/* RTL CLASSES */
+
+.text-info-filter {
+    left: 10px;
+}
+.filter_box select {
+	margin-right:5px;
+}
+img.picker {
+	margin-left:2px;
+}
+#current_search h2.refine_txt {
+    margin-left: 3px;
+}
+.filter_del ,.filter_del:hover {
+	float:left;
+}
+.page_preload_select {
+	margin-right:15px !important;
+}
+.filter_box {
+	text-align: righr;
+}
+
+.filter_box dl.filters dt span {
+	margin-right: 5px;
+	}
+.filter_box span {
+	text-align: right;
+}
+.filter_box dl.filters dd li.active a.link_filter_del {
+	left: 5px;
+}
+dt a.link_filter_del{
+	left: 5px;
+}
+.extra_info{
+right:-6px;
+
+}}
+.filter_box dl.filters dd li.more_filters,
+.filter_box dl.filters dd li.more_filters1 {
+	padding-right: 1.3em;
+}
+
+.filter_box dl.filters dt span em {
+	margin-left: 4px;
+}
+#filter_on_category span {
+	text-align: right;
+}
+.filter_box_hori span.txtdnd {
+	text-align: right;
+}
+.filter_box_hori dt {
+	text-align: right;
+}
+.filter_box_hori img {
+	margin-left:5px;
+}
+.filter_box_hori li {
+	padding-left: 10px;
+}
+
+.filter_box dl.filters dd ul {
+    font-size: 91.66%;
+    line-height: 15px;
+    list-style: outside none none;
+    position: relative;
+    right: 4px;
+    text-align: right;
+    width: 100%;
+}
+.seleccionado {
+    float: right;
+    list-style: outside none none;
+    position: relative;
+    right: 5px;
+    text-align: right !important;
+    width: 100%;
+}
+.filter_box dl.filters dd li.more_filters, .filter_box dl.filters dd li.more_filters1 {
+    float: right;
+}
+
+em {
+float:right;
+}
+
+
+.filter_box span.seleccionado em, .filter_box dl.filters dd li em, .filter_box dl.filters dd li.inactive_imagen1 em, .filter_box dl.filters dd li.active em, .filter_box dl.filters dd li.active_imagen1 em .filter_box dl.filters dd li.inactive_imagen2 em .filter_box dl.filters dd li.active_imagen2 em {
+    height: 15px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

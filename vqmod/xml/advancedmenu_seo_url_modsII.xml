@@ -1,0 +1,176 @@
+<modification>
+  <id>Advanced Menu V4 - vqmod for opencart V2.xor greater</id>
+  <version>1.1.0</version>
+  <vqmver>2.3</vqmver>
+  <author>www.ocmodules.com</author>
+  <file name="catalog/controller/common/seo_url.php">
+    <operation>
+      <search position="after" index="1">
+        <![CDATA[foreach ($parts as $part) {]]>
+      </search>
+      <add>
+        <![CDATA[	if (strrpos($part, "PR-") !== false) {
+					$price_parts=explode("-",$part);
+					$part=$price_parts[0];
+				}	
+				 ]]>
+      </add>
+    </operation>
+	<operation>
+      <search position="before" index="1">
+        <![CDATA[if ($url[0] == 'manufacturer_id') {]]>
+      </search>
+      <add>
+        <![CDATA[if ($url[0] == 'filter_width') {
+						$this->request->get['filter_width'] = $url[1];
+					}
+					if ($url[0] == 'filter_height') {
+						$this->request->get['filter_height'] = $url[1];
+					}					
+					if ($url[0] == 'filter_length') {
+						$this->request->get['filter_length'] = $url[1];
+					}					
+					if ($url[0] == 'filter_model') {
+						$this->request->get['filter_model'] = $url[1];
+					}					
+					if ($url[0] == 'filter_sku') {
+						$this->request->get['filter_sku'] = $url[1];
+					}					
+					if ($url[0] == 'filter_upc') {
+						$this->request->get['filter_upc'] = $url[1];
+					}					
+					if ($url[0] == 'filter_location') {
+						$this->request->get['filter_location'] = $url[1];
+					}					
+					if ($url[0] == 'filter_weight') {
+						$this->request->get['filter_weight'] = $url[1];
+					}					
+					if ($url[0] == 'filter_ean') {
+						$this->request->get['filter_ean'] = $url[1];
+					}					
+					if ($url[0] == 'filter_isbn') {
+						$this->request->get['filter_isbn'] = $url[1];
+					}					
+					if ($url[0] == 'filter_mpn') {
+						$this->request->get['filter_mpn'] = $url[1];
+					}					
+					if ($url[0] == 'filter_jan') {
+						$this->request->get['filter_jan'] = $url[1];
+					}	
+					if ($url[0] == 'filter_rating') {
+						$this->request->get['filter_rating'] = $url[1];
+					}					
+					if ($url[0] == 'filter_special') {
+						$this->request->get['filter_special'] = $url[1];
+					}	
+					if ($url[0] == 'filter_stock') {
+						$this->request->get['filter_stock'] = $url[1];
+					}					
+					if ($url[0] == 'filter_clearance') {
+						$this->request->get['filter_clearance'] = $url[1];
+					}	
+					if ($url[0] == 'filter_arrivals') {
+						$this->request->get['filter_arrivals'] = $url[1];
+					}			
+					$pos = strrpos($url[0], "filter_att");
+						if ($pos !== false) {
+						$data = array();
+		                parse_str($query->row['query'], $data);
+						foreach ($data['filter_att'] as $key=>$value){
+						 if ($url[0] == 'filter_att['.$key.']') {$this->request->get['filter_att'][$key]= $url[1]; }
+						}
+						}
+					$pos = strrpos($url[0], "filter_opt");
+						if ($pos !== false) {
+    					$data = array();
+		                parse_str($query->row['query'], $data);
+						foreach ($data['filter_opt'] as $key=>$value){
+						 if ($url[0] == 'filter_opt['.$key.']') {
+						$this->request->get['filter_opt'][$key]= $url[1];
+						 }
+						}
+						}	
+					if ($url[0] == 'filtering') {
+						$this->request->get['filtering'] = $url[1];
+					}]]>
+      </add>
+    </operation>
+	  <operation>
+      <search position="replace" index="1">
+        <![CDATA[if ($query->row['query'] ]]>
+      </search>
+      <add>
+        <![CDATA[	if ($query->row['query'] && strrpos($url[0], "filter_opt")===false && strrpos($url[0], "filter_att")===false && strrpos($url[0], "PR-")===false && $url[0] != 'pr' && $url[0] != 'filtering' && $url[0] != 'filter_width' && $url[0] != 'filter_height' && $url[0] != 'filter_length' && $url[0] != 'filter_model' && $url[0] != 'filter_sku' && $url[0] != 'filter_upc' && $url[0] != 'filter_location' && $url[0] != 'filter_weight' && $url[0] != 'filter_ean' && $url[0] != 'filter_isbn' && $url[0] != 'filter_mpn' && $url[0] != 'filter_jan' && $url[0] != 'filter_rating' && $url[0] != 'filter_special' && $url[0] != 'filter_stock' && $url[0] != 'filter_clearance' && $url[0] != 'filter_arrivals' 
+				 ]]>
+      </add>
+    </operation>
+	<operation>
+      <search position="replace" index="1">
+        <![CDATA[if (($data['route'] == 'product/product' ]]>
+      </search>
+      <add>
+        <![CDATA[}elseif (($data['route'] == 'product/product']]>
+      </add>
+    </operation>
+	 <operation>
+      <search position="after" index="1">
+        <![CDATA[if (isset($data['route'])) { ]]>
+      </search>
+      <add>
+        <![CDATA[	if (($data['route'] == 'product/product') ||($data['route'] == 'product/asearch' ) ){
+					$filters_array=array('filtering','product_id','manufacturer_id','filter_model','filter_width','filter_isbn','filter_jan','filter_sku','filter_upc','filter_location','filter_length','filter_weight','filter_ean','filter_height','filter_rating',);
+					if (in_array($key, $filters_array)) {
+					$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "url_alias WHERE `query` = '" . $this->db->escape($key . '=' . $value) . "'");
+						if ($query->num_rows && $query->row['keyword']) {
+							//$url .= '/' . str_replace("@value@",$value,$query->row['keyword']);
+							$url .= '/' . $query->row['keyword'];
+							unset($data[$key]);
+						}
+					}
+					if ($key == 'filter_att' || $key == 'filter_opt' ){
+						foreach ($value as $key2 => $value2) {
+							$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "url_alias WHERE `query` = '" . $this->db->escape($key.'['.$key2.']=' . $value2) . "'");
+							if ($query->num_rows && $query->row['keyword']) {
+								$url .= '/' . $query->row['keyword'];
+           					unset($data[$key]);
+							}
+						}
+					}
+					if ($key == 'path') {
+					$categories = explode('_', $value);
+					foreach ($categories as $category) {
+						$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "url_alias WHERE `query` = 'category_id=" . (int)$category . "'");
+						if ($query->num_rows && $query->row['keyword']) {
+							$url .= '/' . $query->row['keyword'];
+						} else {
+							$url = '';
+							break;
+						}
+					}
+					unset($data[$key]);
+					}
+				 ]]>
+      </add>
+    </operation>
+	 <operation>
+      <search position="after" index="2">
+        <![CDATA[foreach ($data as $key => $value) {]]>
+      </search>
+      <add>
+        <![CDATA[	if ($key == 'filter_att' || $key == 'filter_opt' ){
+						foreach ($value as $key2 => $value2) {
+							$query .= '&' . $key.'['.(string)$key2.']=' . rawurlencode((string)$value2);
+						}
+					}else{	]]>
+      </add>
+    </operation>
+	 <operation>
+      <search position="after" index="1">
+        <![CDATA[$query .= '&' . rawurlencode((string)$key) . '=' . rawurlencode((string)$value);]]>
+      </search>
+      <add>
+        <![CDATA[	}	]]>
+      </add>
+    </operation>
+  </file>
+</modification>

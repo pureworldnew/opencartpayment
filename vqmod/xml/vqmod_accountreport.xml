@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+   <id>Added Return Total Field in Accounts Report</id>
+   <version>1.0</version>
+   <vqmver>2.6.0</vqmver>
+   <author>Muzammil Versiani</author>
+   <file name="admin/controller/sale/account.php">
+       <operation info="Added Return Total Field in Accounts Report">
+           <search position="after" offset="2"><![CDATA[
+           $list_data = $this->model_sale_account->exportExcel(0,0);
+           ]]></search>
+           <add><![CDATA[
+            // Check if this order has Return products
+            $this->load->model('catalog/wk_rma_admin');
+            $rma_details = $this->model_catalog_wk_rma_admin->getRmaByOrderId($order['order_id']);
+            $total_return = 0.00;
+            if( !empty($rma_details['rma']) ) {
+              $total_return = $rma_details['return_total'];
+            }
+            $order['return_total'] = $total_return;
+           ]]></add>
+       </operation>
+       <operation info="Added Return Total Field in Accounts Report CSV">
+           <search position="replace"><![CDATA[
+           "Store Name");
+           ]]></search>
+           <add><![CDATA[
+            "Store Name",
+            "Return Total");
+           ]]></add>
+       </operation>
+   </file>
+</modification>

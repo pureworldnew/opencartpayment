@@ -1,0 +1,14 @@
+<file path="catalog/controller/information/contact.php" email_template="information.contact_customer">
+	<operation>
+		<search index="0"><![CDATA[$this->response->redirect($this->url->link('information/contact/success'));]]></search>
+		<add position="before"><![CDATA[			if (isset($template) && $template->load('information.contact_customer')) {
+				$template->build();
+			
+				$mail = $template->hook($mail);			
+				$mail->send();
+			
+				$template->sent();
+			}
+		]]></add>
+	</operation>
+</file>

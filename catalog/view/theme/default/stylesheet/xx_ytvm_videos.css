@@ -1,0 +1,64 @@
+div.product-video-list{
+    clear: both;
+    width: 100%;
+    background: #fff;
+    border: 1px solid #B3B3B3;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 20px;
+}
+div.product-video{
+    clear: both;
+    width: 100%;
+    background: #fff;
+    border-bottom: 1px solid #B3B3B3;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px;
+    
+}
+div.product-video, div.product-video-list{
+    width: 100% !important;
+} 
+div.product-video:last-child{
+    border-bottom: none !important;
+}
+div.product-video{
+/*    height: 110px;*/
+    overflow: hidden;
+    margin-bottom: 10px;
+} 
+
+div.video-info{
+    width: 400px;
+    padding: 5px 10px;
+    float: left;
+}
+
+a.video-thumbnail{
+    display: block;
+    float: left;
+    width: 140px;
+    height: 110px;
+}
+.video-thumbnail img.youtube{
+    margin: 10px;
+}
+.video-thumbnail img.vimeo{
+    margin: 20px 17px 20px 18px;
+}
+div.video-title{
+    margin-bottom: 5px;
+}
+.video-title span{
+    font-weight: bold;
+    font-size: 14px;
+}
+.video-description span.text{
+    line-height: 16px;
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+ div.video-info{ width: 350px;  word-wrap: break-word;}
+}

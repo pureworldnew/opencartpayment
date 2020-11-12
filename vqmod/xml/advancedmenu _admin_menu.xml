@@ -1,0 +1,36 @@
+<modification>
+  <id>Advanced Menu V4 - Admin Menu - vqmod for opencart V2.0 or greater</id>
+  <version>1.1.0</version>
+  <vqmver>2.3</vqmver>
+  <author>www.ocmodules.com - support: support.ocmodules.com</author>
+  <file name="admin/view/template/common/menu.tpl">
+    <operation>
+      <search position="before" index="1">
+        <![CDATA[<li><a href="<?php echo $installer; ?>"><?php echo $text_installer; ?></a></li>]]>
+      </search>
+      <add>
+        <![CDATA[<li><a class="parent">Advanced Menu V4</a>
+        <ul>
+          <li><a href="<?php echo $advsettings; ?>">Settings</a></li>
+          <li><a href="<?php echo $advfilters; ?>">Filters</a></li>
+          <li><a href="<?php echo $advseo; ?>">Seo Pack</a></li>
+         </ul>
+      </li>]]>
+      </add>
+    </operation>
+   </file> 
+    <file name="admin/controller/common/menu.php">
+    <operation>
+      <search position="before" index="1">
+        <![CDATA[$data['order_recurring'] = $this->url->link('sale/recurring', 'token=' . $this->session->data['token'], 'SSL');]]>
+      </search>
+      <add>
+        <![CDATA[
+		$data['advsettings'] = $this->url->link('module/supercategorymenuadvanced/settings', 'token=' . $this->session->data['token'], 'SSL');
+		$data['advfilters'] = $this->url->link('module/supercategorymenuadvanced', 'token=' . $this->session->data['token'], 'SSL');
+		$data['advseo'] = $this->url->link('advancedmenuseo/supercategorymenuadvancedseo', 'token=' . $this->session->data['token'], 'SSL');
+		]]>
+      </add>
+    </operation>
+   </file> 
+</modification>

@@ -1,0 +1,41 @@
+<file path="catalog/model/checkout/voucher.php" email_template="order.voucher">
+	<operation>
+		<search index="0"><![CDATA[// HTML Mail]]></search>
+		<add position="after"><![CDATA[				
+				$file = DIR_SYSTEM . 'library/emailtemplate/email_template.php';
+
+				if (file_exists($file)) {
+					include_once($file);
+				} else {
+					trigger_error('Error: Could not load library ' . $file . '!');
+					exit();
+				}
+				
+            	$template = new EmailTemplate($this->request, $this->registry); 
+		]]></add>
+	</operation>
+	<operation>
+		<search index="0"><![CDATA[$html = $this->load->view($this->config->get('config_template') . '/template/mail/voucher.tpl', $data);]]></search>
+		<add position="replace"></add>
+	</operation>
+	<operation>
+		<search index="0"><![CDATA[$html = $this->load->view('default/template/mail/voucher.tpl', $data);]]></search>
+		<add position="replace"></add>
+	</operation>
+	<operation>
+		<search index="0"><![CDATA[$mail->setHtml($html);]]></search>
+		<add position="replace"></add>
+	</operation>
+	<operation>
+		<search index="0"><![CDATA[$mail->send();]]></search>
+		<add position="replace"><![CDATA[
+				$template->addData($data);
+				
+				$template->load('order.voucher');
+								
+				$mail = $template->hook($mail);
+				$mail->send();
+				
+				$template->sent();]]></add>
+	</operation>
+</file>

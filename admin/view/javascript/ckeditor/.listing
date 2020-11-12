@@ -1,0 +1,13 @@
+drwxr-xr-x    5 496      497          4096 Dec 16 12:51 .
+drwxr-xr-x   11 496      497          4096 Dec 16 12:51 ..
+-rwxr-xr-x    1 0        0             383 Dec 16 12:51 CHANGES.md
+-rwxr-xr-x    1 0        0           66929 Dec 16 12:51 LICENSE.md
+-rwxr-xr-x    1 0        0            1344 Dec 16 12:51 README.md
+-rwxr-xr-x    1 0        0            2341 Dec 16 12:51 build-config.js
+-rwxr-xr-x    1 0        0          399677 Dec 16 12:51 ckeditor.js
+-rwxr-xr-x    1 0        0            1073 Dec 16 12:51 config.js
+-rwxr-xr-x    1 0        0            1493 Dec 16 12:51 contents.css
+drwxr-xr-x    2 496      497          4096 Dec 16 12:51 lang
+drwxr-xr-x   15 496      497          4096 Dec 16 12:51 plugins
+drwxr-xr-x    3 496      497          4096 Aug 28 09:22 skins
+-rwxr-xr-x    1 0        0            3695 Dec 16 12:51 styles.js

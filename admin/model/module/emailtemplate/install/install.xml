@@ -1,0 +1,237 @@
+<modification>
+	<name>Email Templates Core</name>
+	<code>emailtemplates_core</code>
+	<version>2.6.17.5</version>
+	<author>Opencart-Templates</author>
+	<link>http://www.opencart-templates.co.uk/advanced_professional_email_template</link>
+
+  	<file path="system/library/language.php">
+        <operation>
+            <search><![CDATA[$file = DIR_LANGUAGE]]></search>
+            <ignoreif><![CDATA[$file = $this->path]]></ignoreif>
+            <add position="replace"><![CDATA[$file = $this->path]]></add>
+        </operation>
+        <operation>
+            <search index="0"><![CDATA[private $directory;]]></search>
+            <ignoreif><![CDATA[private $path = DIR_LANGUAGE;]]></ignoreif>
+            <add position="after"><![CDATA[
+            private $path = DIR_LANGUAGE;]]></add>
+        </operation>
+        <operation>
+            <search index="0"><![CDATA[public function get($key]]></search>
+            <ignoreif><![CDATA[public function setPath($path)]]></ignoreif>
+            <add position="before"><![CDATA[
+	public function setPath($path) {
+		if (!is_dir($path)) {
+			trigger_error('Error: check path exists: '.$path);
+			exit;
+		}
+
+		$this->path = $path;
+	}
+	]]></add>
+        </operation>
+	</file>
+
+	<file path="system/library/mail.php">
+		<operation>
+			<search index="0"><![CDATA[protected $subject;]]></search>
+			<ignoreif><![CDATA[protected $bcc;]]></ignoreif>
+			<add position="before"><![CDATA[
+protected $bcc;]]></add>
+		</operation>
+		<operation>
+			<search index="0"><![CDATA[protected $subject;]]></search>
+			<ignoreif><![CDATA[protected $cc;]]></ignoreif>
+			<add position="before"><![CDATA[
+protected $cc;]]></add>
+		</operation>
+		<operation>
+			<search index="0"><![CDATA[protected $subject;]]></search>
+			<ignoreif><![CDATA[protected $emailtemplate;]]></ignoreif>
+			<add position="before"><![CDATA[
+protected $emailtemplate;]]></add>
+		</operation>
+		<operation>
+			<search index="0"><![CDATA[public function send(]]></search>
+			<ignoreif><![CDATA[public function getSubject(]]></ignoreif>
+			<add position="before"><![CDATA[
+public function getSubject() {
+		return $this->subject;
+	}]]></add>
+		</operation>
+		<operation>
+			<search index="0"><![CDATA[public function send(]]></search>
+			<ignoreif><![CDATA[public function setCc(]]></ignoreif>
+			<add position="before"><![CDATA[
+	public function setCc($address) {
+		$this->cc = $address;
+	}]]></add>
+		</operation>
+		<operation>
+			<search index="0"><![CDATA[public function send(]]></search>
+			<ignoreif><![CDATA[public function setBcc(]]></ignoreif>
+			<add position="before"><![CDATA[
+	public function setBcc($address) {
+		$this->bcc = $address;
+	}]]></add>
+		</operation>
+		<operation>
+			<search index="0"><![CDATA[public function send(]]></search>
+			<ignoreif><![CDATA[public function setEmailTemplate(]]></ignoreif>
+			<add position="before"><![CDATA[
+	public function setEmailTemplate(EmailTemplate $oEmail) {
+		$this->emailtemplate = $oEmail;
+	}
+	]]></add>
+		</operation>
+		<operation>
+			<search index="0"><![CDATA[public function send(]]></search>
+			<ignoreif><![CDATA[public function getMailProperties(]]></ignoreif>
+			<add position="before"><![CDATA[
+	public function getMailProperties() {
+		return array(
+			'to' => $this->to,
+			'from' => $this->from,
+			'sender' => $this->sender,
+			'reply_to' => (property_exists($this, 'reply_to') ? $this->reply_to : $this->replyto),
+			'cc' => $this->cc,
+			'bcc' => $this->bcc,
+			'subject' => $this->subject,
+			'text' => $this->text,
+			'html' => $this->html,
+			'attachments' => $this->attachments
+		);
+	}
+	]]></add>
+		</operation>
+		<operation>
+			<search index="0"><![CDATA[public function send() {]]></search>
+			<ignoreif><![CDATA[private function _send(]]></ignoreif>
+			<add position="after"><![CDATA[		$this->_send();
+
+		if ($this->emailtemplate) {
+			$data = get_object_vars($this);
+
+			$this->emailtemplate->sent($data);
+		}
+	}
+
+	private function _send() {]]></add>
+		</operation>
+        <operation>
+            <search index="0"><![CDATA[$header .= 'Return-Path: ' . $this->from . $this->newline;]]></search>
+            <ignoreif><![CDATA[$header .= 'CC: ' . $this->cc . $this->newline;]]></ignoreif>
+            <add position="after"><![CDATA[
+		if ($this->cc) {
+			$header .= 'CC: ' . $this->cc . $this->newline;
+		}
+		]]></add>
+        </operation>
+        <operation>
+            <search index="0"><![CDATA[$header .= 'Return-Path: ' . $this->from . $this->newline;]]></search>
+            <ignoreif><![CDATA[$header .= 'BCC: ' . $this->bcc . $this->newline;]]></ignoreif>
+            <add position="after"><![CDATA[
+		if ($this->bcc) {
+			$header .= 'BCC: ' . $this->bcc . $this->newline;
+		}
+		]]></add>
+        </operation>
+	</file>
+
+	<file path="admin/model/tool/image.php">
+		<operation>
+      		<search index="0"><![CDATA[public function resize(]]></search>
+      		<ignoreif><![CDATA[public function setUrl(]]></ignoreif>
+      		<add position="before"><![CDATA[
+	protected $url;
+
+	public function setUrl($url) {
+		$this->url = $url;
+	}
+]]></add>
+    	</operation>
+		<operation>
+      		<search index="0"><![CDATA[if ($this->request->server['HTTPS']) {]]></search>
+      		<add position="replace"><![CDATA[if ($this->url) {
+			return rtrim($this->url, '/') . '/image/' . $new_image;
+		} elseif ($this->request->server['HTTPS']) {]]></add>
+    	</operation>
+  	</file>
+
+	<file path="catalog/model/tool/image.php">
+		<operation>
+      		<search index="0"><![CDATA[public function resize(]]></search>
+      		<ignoreif><![CDATA[public function setUrl(]]></ignoreif>
+      		<add position="before"><![CDATA[
+	protected $url;
+
+	public function setUrl($url) {
+		$this->url = $url;
+	}
+]]></add>
+    	</operation>
+		<operation>
+      		<search index="0"><![CDATA[if ($this->request->server['HTTPS']) {]]></search>
+      		<add position="replace"><![CDATA[if ($this->url) {
+			return rtrim($this->url, '/') . '/image/' . $new_image;
+		} elseif ($this->request->server['HTTPS']) {]]></add>
+    	</operation>
+  	</file>
+
+	<file path="admin/controller/common/menu.php">
+		<operation>
+            <search><![CDATA[$data['home'] = $this->url->link('common/dashboard', 'token=' . $this->session->data['token'], 'SSL');]]></search>
+            <add position="before"><![CDATA[		$result = $this->db->query("SELECT * FROM `" . DB_PREFIX . "extension` WHERE `code` = 'emailtemplate'");
+		if ($result->num_rows) {
+			$data['text_emailtemplate'] = $this->language->get('text_emailtemplate');
+			$data['module_emailtemplate'] = $this->url->link('module/emailtemplate', 'token=' . $this->session->data['token'], 'SSL');
+		}
+            ]]></add>
+        </operation>
+	</file>
+
+	<file path="admin/view/template/common/menu.tpl">
+		<operation>
+            <search><![CDATA[<li><a href="<?php echo $feed; ?>"><?php echo $text_feed; ?></a></li>]]></search>
+            <add position="before"><![CDATA[<?php if (isset($module_emailtemplate)) { ?><li><a href="<?php echo $module_emailtemplate; ?>"><?php echo $text_emailtemplate; ?></a></li><?php } ?>]]></add>
+        </operation>
+	</file>
+
+	<file path="catalog/model/checkout/order.php">
+		<operation error="log">
+            <search><![CDATA[$this->db->query("INSERT INTO `" . DB_PREFIX . "order` SET]]></search>
+           	<ignoreif><![CDATA[weight = '" . (isset($data['weight']) ? floatval($data['weight']) : 0) . "',]]></ignoreif>
+            <add position="replace"><![CDATA[$this->db->query("INSERT INTO `" . DB_PREFIX . "order` SET weight = '" . (isset($data['weight']) ? floatval($data['weight']) : 0) . "',]]></add>
+        </operation>
+        <operation error="log">
+            <search><![CDATA[ => $order_query->row['customer_id'],]]></search>
+            <ignoreif><![CDATA['weight' => (isset($order_query->row['weight'])) ? $order_query->row['weight'] : 0,]]></ignoreif>
+            <add position="after"><![CDATA[            	'weight' => (isset($order_query->row['weight'])) ? $order_query->row['weight'] : 0,]]></add>
+        </operation>
+		<operation>
+			<search><![CDATA[ 'customer_id'             => $order_query->row['customer_id'],]]></search>
+			<ignoreif><![CDATA['customer_group_id' => (isset($order_query->row['customer_group_id'])) ? $order_query->row['customer_group_id'] : '',]]></ignoreif>
+			<add position="after"><![CDATA[				'customer_group_id' => (isset($order_query->row['customer_group_id'])) ? $order_query->row['customer_group_id'] : '',
+				'affiliate_id' => (isset($order_query->row['affiliate_id'])) ? $order_query->row['affiliate_id'] : '',]]></add>
+		</operation>
+	</file>
+
+    <file path="catalog/controller/affiliate/login.php">
+        <operation error="skip">
+            <search index="0"><![CDATA[$data['email'] = $this->request->post['email'];]]></search>
+            <ignoreif><![CDATA[elseif (isset($this->request->get['email']))]]></ignoreif>
+            <add position="after"><![CDATA[		} elseif (isset($this->request->get['email'])) {
+			$data['email'] = $this->request->get['email'];]]></add>
+        </operation>
+    </file>
+
+    <file path="catalog/controller/account/login.php">
+        <operation error="skip">
+            <search index="0"><![CDATA[$data['email'] = $this->request->post['email'];]]></search>
+            <ignoreif><![CDATA[elseif (isset($this->request->get['email']))]]></ignoreif>
+            <add position="after"><![CDATA[		} elseif (isset($this->request->get['email'])) {
+			$data['email'] = $this->request->get['email'];]]></add>
+        </operation>
+    </file>
+</modification>

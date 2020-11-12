@@ -1,0 +1,68 @@
+/* product_labels */
+.show {
+	display:inline;
+}
+.hide {
+	display:none;
+}
+.error {
+	border:solid 2px red;
+}
+.oc2-pl-label-input {
+	padding:2px;
+}
+.templateinput {
+  padding:0px; important!
+}
+.labelinput {
+  padding:0px; important!
+}
+.oc2-pl-label-input input, .oc2-pl-label-input select, .oc2-pl-label-input button  {
+	font-size:.85em;
+  height:22px;
+  padding:0px;
+}
+.oc2-pl-label-input-header {
+	height:15px;
+	font-size:.85em;
+	padding-left:5px;
+}
+
+/* Colorpicker  */
+div.colorPicker-picker {
+  padding:0px;
+  height:22px;
+  border:1px solid #CCC;
+  border-radius:3px;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEgAACxIB0t1+/AAAAAd0SU1FB90HHw8PNHVekc8AAAAsSURBVAjXXcyxEQAwCMNAhWzj0b2k6XIElV/oJGFmO7UBoDY8nABwJf1ToAEoARB5zGKEmwAAAABJRU5ErkJggg==) no-repeat bottom right;
+  cursor: pointer;
+}
+div.colorPicker-palette {
+  width: 92px;
+  position: absolute;
+  border: 1px solid #CCCCCC;
+  background-color: #EFEFEF;
+  padding: 2px;
+  z-index: 9999;
+}
+div.colorPicker_hexWrap {
+	width: 100%;
+	float:left;
+}
+div.colorPicker_hexWrap label {
+	font-size: 100%;
+	color: #2F2F2F;
+}
+div.colorPicker_hexWrap input {
+	padding: 0;
+	border: 1px solid #000;
+}
+div.colorPicker-swatch {
+  height: 12px;
+  width: 12px;
+  border: 1px solid #000;
+  margin: 2px;
+  float: left;
+  cursor: pointer;
+  line-height: 12px;
+}

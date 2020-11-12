@@ -1,0 +1,122 @@
+
+<!--
+/*******************************************************************************
+*                                 Opencart SEO Pack                            *
+*                             Copyright : Ovidiu Fechete                       *
+*                              email: ovife21@gmail.com                        *
+*                Below source-code or any part of the source-code              *
+*                          cannot be resold or distributed.                    *
+*******************************************************************************/
+-->
+
+<modification>
+
+	<id>Custom Image Title Tags</id>
+	<version>1.0.0</version>
+	<vqmver>2.1.5</vqmver>
+	<author>ovife21</author>
+	
+	<file name="admin/language/*/catalog/product.php">
+		<operation>
+			<search position="before"><![CDATA[$_['entry_name']]]></search>
+			<add><![CDATA[$_['entry_custom_imgtitle']            = 'Custom Image Title Tag';]]></add>
+		</operation>			
+	</file>		
+	<file name="admin/view/template/catalog/product_form.tpl">
+		<operation>
+			<search position="before" index="1"><![CDATA[<?php echo $entry_meta_description; ?>]]></search>
+			 <add><![CDATA[<label class="col-sm-2 control-label" for="input-custom-imgtitle<?php echo $language['language_id']; ?>"><span data-toggle="tooltip" title="Leave empty if you want the default image title tag to be displayed"><?php echo $entry_custom_imgtitle; ?></span></label>
+                    <div class="col-sm-10">
+                      <input type="text" name="product_description[<?php echo $language['language_id']; ?>][custom_imgtitle]" placeholder="<?php echo $entry_custom_imgtitle; ?>" id="input-meta-description<?php echo $language['language_id']; ?>" class="form-control" value="<?php echo isset($product_description[$language['language_id']]) ? $product_description[$language['language_id']]['custom_imgtitle'] : ''; ?>" />
+                    </div>
+                  </div>
+                  <div class="form-group">
+			]]></add>
+		</operation>			
+	</file>	
+	<file name="catalog/model/catalog/product.php">
+		<operation error="skip">
+			<search position="replace"><![CDATA[$query->row['meta_keyword'],]]></search>
+			<add><![CDATA[$query->row['meta_keyword'], 'custom_imgtitle' => $query->row['custom_imgtitle'],]]></add>
+		</operation>							
+	</file>		
+	<file name="admin/model/catalog/product.php">
+		<operation>
+			<search position="replace"><![CDATA['meta_description' => $result['meta_description']]]></search>
+			<add><![CDATA['custom_imgtitle' => $result['custom_imgtitle'], 'meta_description' => $result['meta_description']]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[meta_description = '" . $this->db->escape($value['meta_description']) . "',]]></search>
+			<add><![CDATA[custom_imgtitle = '" . ((isset($value['custom_imgtitle']))?($this->db->escape($value['custom_imgtitle'])):'') . "', meta_description = '" . $this->db->escape($value['meta_description']) . "',]]></add>
+		</operation>			
+	</file>
+	<file name="admin/controller/catalog/product.php">
+		<operation>
+			<search position="before"><![CDATA[$data['entry_meta_description'] = $this->language->get('entry_meta_description');]]></search>
+			<add><![CDATA[$data['entry_custom_imgtitle'] = $this->language->get('entry_custom_imgtitle');]]></add>
+		</operation>		
+					
+	</file>	
+	<file name="catalog/controller/product/product.php">
+		<operation>
+			<search position="before" error="skip"><![CDATA[$data['text_select']]]></search>
+			<add><![CDATA[$data['custom_imgtitle'] = $product_info['custom_imgtitle'];]]></add>
+		</operation>		
+	</file>
+	<file name="catalog/view/theme/*/template/product/product.tpl">
+		<operation>
+			<search position="replace" error="skip"><![CDATA[title="<?php echo $heading_title; ?>"]]></search>
+			<add><![CDATA[title="<?php echo $custom_imgtitle; ?>"]]></add>
+		</operation>		
+	</file>	
+	<file name="admin/view/template/catalog/seopack.tpl">
+		<operation>
+			<search position="before"><![CDATA[<p><a onclick="clearseo('Products Tags', '<?php echo $cleartags; ?>');" class="button" style="background:red">Clear Tags</a></p>]]></search>
+			<add><![CDATA[<p><a onclick="clearseo('Custom Image Titles', '<?php echo $clearimgtitles; ?>');" class="button" style="background:red">Clear Custom Image Titles</a></p>]]></add>
+		</operation>
+		<operation>
+			<search position="before"><![CDATA[<td class="left"><b>Tags Generator</b></td>]]></search>
+			<add><![CDATA[<td class="left"><b>Custom Image Titles Generator</b></td>
+                <td class="left"><span class="help">Custom Image Titles Generator generates custom image title tags for products from relevant keywords from product(%p) and category(%c) names.<br><br>
+				<b>Parameters</b><br>
+				There are available the following parameters and they will be replaced by their actual value: <b>%p</b> - product's name, <b>%c</b> - category's name, <b>%m</b> - model, <b>%s</b> - product's sku, <b>%u</b> - product's upc, <b>%b</b> - product's brand and <b>%$</b> - product's price.<br>
+				<b>Example: %p (%m) by www.mysite.com</b> - will generate the following custom image title tags for a product called 'iPod' with model = 'iPod4': <b>iPod (iPod4) by www.mysite.com</b>.<br>				
+				<i>Before generating custom custom image title tags, if you have modified parameters, don't forget to save them using Save Parameters button.</i>	
+				</span></td>
+                <td class="left"><input type="text" name="seopack_parameters[cimgtitles]" value="<?php if (isset($seopack_parameters['cimgtitles'])) echo $seopack_parameters['cimgtitles'];?>" size="10"/></td>
+                <td class="right">
+					<?php if (file_exists(DIR_APPLICATION.'custom_imgtitle_generator.php')) { ?>
+					<a onclick="location = 'custom_imgtitle_generator.php?token=<?php echo $token; ?>'" class="button">Generate</a>
+					<?php } else { ?>
+					<a onclick="alert('Custom imgtitles Generator is not installed!\nYou can purchase the whole Opencart SEO Pack PRO:\n http://www.opencart.com/index.php?route=extension/extension/info&extension_id=6182');" class="button" style="background:lightgrey">Generate</a>
+					<?php } ?>
+				</td>
+              </tr>
+            </tbody>
+			
+			<tbody>
+              <tr>]]></add>
+		</operation>		
+	</file>	
+	<file name="admin/controller/catalog/seopack.php">
+		<operation>
+			<search position="before"><![CDATA[public function cleartags() {]]></search>
+			<add><![CDATA[public function clearimgtitles() {
+	
+		$query = $this->db->query("update " . DB_PREFIX . "product_description set custom_imgtitle = '';");
+		
+		$this->session->data['success'] = "Custom image title tags were deleted.";
+		
+		$this->response->redirect($this->url->link('catalog/seopack', 'token=' . $this->session->data['token'], 'SSL'));
+	
+			}]]></add>
+		</operation>
+		<operation>
+			<search position="before"><![CDATA[$data['cleartags']]]></search>
+			<add><![CDATA[
+			$data['clearimgtitles'] = $this->url->link('catalog/seopack/clearimgtitles', 'token=' . $this->session->data['token'], 'SSL');	
+			]]></add>
+		</operation>
+	</file>	
+</modification>
+

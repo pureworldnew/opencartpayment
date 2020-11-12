@@ -1,0 +1,21 @@
+#supermenu ul li.tlli {
+  display: inline;
+}
+#supermenu {
+  background-image: none;
+}
+#supermenu  ul  li  div .supermenu-left {
+  display: inline;
+}
+#supermenu  ul  li  div .menu-add {
+  display: inline;
+}
+#supermenu  ul  li  div .withoutchild .withchild {
+  display: inline;
+}
+#supermenu  ul  li  div  .withchild {
+  display: inline;
+}
+#supermenu  ul  li  div .withimage {
+  display: inline;
+}

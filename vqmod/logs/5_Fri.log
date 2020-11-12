@@ -1,0 +1,15 @@
+---------- Date: 2020-10-23 07:00:02 ~ IP : 173.218.40.95 ----------
+REQUEST URI : /account/rma/viewrma?print=&vid=723
+MOD DETAILS:
+   modFile   : /var/www/vhosts/gempacked.com/home/versions/2020-02-27_15_16_01/vqmod/xml/bootstrap_added.xml
+   id        : BootstrapAdded
+   version   : 1.0
+   vqmver    : 2.1.1
+   author    : Raza Umer
+
+File Name    : catalog/view/theme/*/template/account/rma/*.tpl(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <?php echo $content_top; ?>
+
+----------------------------------------------------------------------
+
+

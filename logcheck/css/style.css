@@ -1,0 +1,60 @@
+#editdata .modal-dialog  {width:75%;}
+#ratesdatatable th{
+    text-align:center;
+}
+
+#ratesdatatable td{
+    text-align:right;
+}
+#gridtext
+    {
+        border: 0px;
+        background: transparent;
+        text-align:right;
+    }
+#login
+{
+    
+    margin: auto;
+    width: 36%;
+    border:5px #f4f4f4 solid;
+    padding: 10px;
+    
+	border-radius: 15px;
+	-webkit-border-radius: 15px;
+    
+    /*
+   	width: 420px;
+	margin: auto;
+	border: 5px #f4f4f4 solid;
+	margin-bottom: 20px;
+	padding: 0;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-left:-215px;
+	margin-top:-165px;
+	background-color: #f4f4f4;
+	opacity:0;
+	filter:alpha(opacity=0);
+	border-radius: 15px;
+	-webkit-border-radius: 15px;
+    */
+}
+#login #username_id {
+	background-image: url(../images/icon/user_.png);
+    background-repeat: no-repeat;
+    font-size: 20px;
+    padding-left: 30px;
+}
+#login #password_id {
+	background-image: url(../images/icon/pass_.png);
+    background-repeat: no-repeat;
+	font-size: 20px;
+    padding-left: 27px;
+}
+#logo {
+     width: 200px; 
+     height: 60px;
+     margin-left : 69px;
+}

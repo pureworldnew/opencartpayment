@@ -1,0 +1,53 @@
+#reportheader{
+    top:-10px;
+    width: 99%;
+    height: 150px;
+    background-color: #DDDDD7;
+    border: 1px solid;
+    background-position: 10px 50%;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    -moz-box-shadow: 0 1px 1px #fff inset;
+    -webkit-box-shadow: 0 1px 1px #fff inset;
+    box-shadow: 0 1px 1px #DDDDD7 inset;
+    font-family: Verdana;
+    font-size:15px;
+    font-weight:bold;
+    margin: 3.5em 6px 1.3em;
+    padding: 0px 0px 0px 10px;
+}
+#reportheader .heading{
+    font-family: Verdana;
+    font-size:24px;
+    text-align:center;
+    font-weight:bold;
+    text-decoration:underline;
+}
+#reportheader .controlbar{
+    width:208px;
+    height:150px;
+    position:relative;
+    left:84%;
+    top:0px;
+    border-left:1px solid;
+    margin: -109px 8px 0px;
+    
+}
+#reportheader .controlbar .control{
+    position:relative;
+    top:10px;
+    left:7%;
+    display:block;
+    padding:0px 0px 0px 10px;
+    width:180px;
+    height:28px;
+    margin: 0px 0 1em;
+}
+#reportdetails{
+    width: 100%;
+    height: 3000px;
+    border: 1px solid;
+    background-color: #ffffff;
+    display:none;
+}

@@ -1,0 +1,147 @@
+.boofonts {
+    font-size: 40px;
+}
+
+.panel-green {
+    border-color: #5cb85c;
+}
+
+.panel-green > .panel-heading {
+    border-color: #5cb85c;
+    color: #fff;
+    background-color: #5cb85c;
+}
+
+.panel-green a {
+    color: #5cb85c;
+}
+
+.panel-green a:hover {
+    color: #3d8b3d;
+}
+
+.panel-red {
+    border-color: #d9534f;
+}
+
+.panel-red > .panel-heading {
+    border-color: #d9534f;
+    color: #fff;
+    background-color: #d9534f;
+}
+
+.panel-red a {
+    color: #d9534f;
+}
+
+.panel-red a:hover {
+    color: #b52b27;
+}
+
+.panel-yellow {
+    border-color: #f0ad4e;
+}
+
+.panel-yellow > .panel-heading {
+    border-color: #f0ad4e;
+    color: #fff;
+    background-color: #f0ad4e;
+}
+
+.panel-yellow a {
+    color: #f0ad4e;
+}
+
+.panel-yellow a:hover {
+    color: #df8a13;
+}
+
+.panel-blue {
+    border-color: #1e91cf;
+}
+
+.panel-blue > .panel-heading {
+    border-color: #1e91cf;
+    color: #fff;
+    background-color: #1e91cf;
+}
+
+.panel-blue a {
+    color: #1e91cf;
+}
+
+.panel-blue a:hover {
+    color: #23527C;
+}
+
+.panel-pink {
+    border-color: #FF713C;
+}
+
+.panel-pink > .panel-heading {
+    border-color: #FF713C;
+    color: #fff;
+    background-color: #FF713C;
+}
+
+.panel-pink a {
+    color: #FF713C;
+}
+
+.panel-pink a:hover {
+    color: #E44523;
+}
+
+.panel-gray {
+    border-color: #5B5B5B;
+}
+
+.panel-gray > .panel-heading {
+    border-color: #5B5B5B;
+    color: #fff;
+    background-color: #5B5B5B;
+}
+
+.panel-gray a {
+    color: #5B5B5B;
+}
+
+.panel-gray a:hover {
+    color: #343434;
+}
+
+.custom-ul{
+	list-style:none;
+	padding:0;
+	display: inline-block;
+	text-align:center;
+	margin:0;
+}
+.custom-ul li {
+	float: left;
+	margin: 25px 25px;
+	width: 59px;
+}
+.custom-ul li a{
+	text-align:center;
+	color:#555555;
+}
+.custom-ul li.active a .icon{
+	background:#555555;
+	color:#fff;
+}
+.custom-ul li:hover a .icon{
+	background:#555555;
+	color:#fff;
+}
+.custom-ul li a .icon{
+	border-radius:50%;
+	padding:3px 0px;
+	font-size:30px;
+	height:56px;
+	border:2px solid #666666;
+}
+.custom-ul li a .labels{
+	margin-top:10px;
+	font-weight:bold;
+}

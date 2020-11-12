@@ -1,0 +1,87 @@
+// ***************************************************
+//           Leverod Framework for Opencart
+//       
+// Author : Francesco Pisanò - francesco1279@gmail.com
+//              
+//                   www.leverod.com		
+//               © All rights reserved	  
+// ***************************************************
+
+
+ChangeLog
+
+Ver. 1.3.3  -  Release date: 13-07-2018
+
+	1)	Template loader fix (function lev_controller->load_view()). On Oc 3.0.0.0_a1 the tpl class was "php", on Oc.3.0.0.0 was
+		renamed to "template".
+		
+	2)	Added levSetCookie(), levGetCookie(), levBase64 encode/decode to leverod.js.
+	
+
+Ver. 1.3.2.JsMin  -  Release date: -
+
+	1)	Added new set of icons.
+	
+	2)  Added Jsminifier
+	
+
+Ver. 1.3.1  -  Release date: 24 Feb 2017
+
+	1)	Created the template admin header inc.admin_content_header.tpl as include file.  
+	
+	2)	Added levController to the registry (index.php).
+	
+	3)	Added model user/user_group, moved there the methods setPermission/unsetPermission and added the new method hasPermission.
+	
+
+Ver. 1.3.0  -  Release date: 16 Jan 2016
+
+	1)	Implemented the loader class LevLoader.  
+	
+	2)	Added the class LevModel.
+	
+	3)	Added levModel seo/seo.
+	
+	4)	Added the functions sanitize() and seoUrl() to system/library/string.php.
+	
+
+Ver. 1.2.1  -  Release date: 10 Jan 2016
+
+	1)	Variable porting - added the variable config_product_description_length
+	
+	2)	Variable porting - added the variable config_mail_smtp_host/config_mail_smtp_hostname
+	
+	3)	Variable porting - Added Admin home links (breadcrumbs for common/home and common/dashboard)
+
+	4)	Added Uri Formatter (system/library/string.php)
+	
+	
+Ver. 1.2.0  -  Release date: 01 Oct 2016
+
+	1)	Moved constants into the file config.php
+	
+
+Ver. 1.1.2  -  Release date: 06 Sep 2016
+
+	1)	Removed the global variable $registry from index.php, on PHP 5.4 global variables are disabled by default.
+	
+
+Ver. 1.1.1  -  Release date: 18 Jul 2016
+
+	1)	Added function getLanguages() (language.php) to handle flag images
+	
+	
+Ver. 1.1.0  -  Release date: 17 Jun 2016
+
+	1)	Fixed a problem with Oc >= 2.1.0.1, the variable $registry in /leverod/index.php must be declared as global.
+	
+		
+Ver. 1.0.1  -  Release date: 01 Jun 2016
+
+	1)	Added Language support.
+
+		
+Ver. 1.0.0  -  Release date: 01 Mar 2016
+
+	1)	Initial Release.
+		

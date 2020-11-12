@@ -1,0 +1,50 @@
+<modification>
+	<id>Product Labels - OpenCart2</id>
+	<version>1.0</version>
+	<vqmver>1.5</vqmver>
+	<author>support@torcu.com</author>
+	<file name="admin/view/template/catalog/product_form.tpl">
+		<operation>
+			<search position="after"><![CDATA[<?php echo $tab_image; ?></a></li>]]></search>
+			<add><![CDATA[<li><a href="#tab-productlabels" data-toggle="tab"><?php echo "Labels" ?></a></li>]]></add>
+		</operation>
+		<operation>
+			<search position="before"><![CDATA[<div class="tab-pane" id="tab-reward">]]></search>
+			<add><![CDATA[
+			<div class="tab-pane" id="tab-productlabels">
+				<?php echo $product_labels_tab; ?>
+			</div>
+			]]></add>
+		</operation>
+		<operation>
+			<search position="after"><![CDATA[</form>]]></search>
+			<add><![CDATA[
+			<form id="product_labels_form" method="POST" action="index.php?route=module/product_labels/labels&token=<?php echo $token ?>"<?php echo (!$download)?' target="_blank"':''; ?>>
+			<input type="hidden" name="orderids" value="1">
+			<input type="hidden" name="sample" value="0">
+			<input type="hidden" name="blanks" value="">
+			<input type="hidden" name="templateid" value="">
+			<input type="hidden" name="labelid" value="">
+			<input type="hidden" name="orientation" value="">
+			<input type="hidden" name="productid" value="<?php echo $product_id ?>">
+			</form>
+			]]></add>
+		</operation>
+	</file>
+	<file name="admin/controller/catalog/product.php">
+		<operation>
+			<search position="before"><![CDATA[$data['header'] = ]]></search>
+			<add><![CDATA[
+			$this->document->addStyle('view/stylesheet/product_labels/stylesheet.css');
+			$this->document->addScript('view/javascript/product_labels/pdfobject.js');
+			$this->document->addScript('view/javascript/product_labels/product_labels.min.js');
+			$data['product_labels_tab'] = $this->load->controller('module/product_labels/tab');
+			$data['settings'] = $this->model_setting_setting->getSetting('product_labels');
+			$data['download'] = $data['settings']['product_labels_download'];
+			if (isset($_GET['product_id']))
+				$data['product_id'] = $this->request->get['product_id'];
+
+			]]></add>
+		</operation>
+	</file>
+</modification>

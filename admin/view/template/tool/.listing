@@ -1,0 +1,11 @@
+drwxr-xr-x    3 496      497          4096 Dec 16 12:51 .
+drwxr-xr-x   23 496      497          4096 Aug 28 09:22 ..
+-rwxr-xr-x    1 0        0            2213 Dec 16 12:51 backup.tpl
+-rwxr-xr-x    1 0        0             889 Dec 16 12:51 error_log.tpl
+-rwxr-xr-x    1 0        0            1596 Dec 16 12:51 google_product_feed_csv.tpl
+-rwxr-xr-x    1 0        0           40074 Dec 16 12:51 ka_export.tpl
+-rwxr-xr-x    1 0        0           35822 Dec 16 12:51 ka_import.tpl
+-rwxr-xr-x    1 0        0             633 Dec 16 12:51 ka_selector.tpl
+-rwxr-xr-x    1 0        0             589 Dec 16 12:51 ka_selector_export.tpl
+drwxr-xr-x    2 496      497          4096 Dec 16 12:51 nitro
+-rwxr-xr-x    1 0        0           12453 Dec 16 12:51 nitro.tpl

@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+   <id>Update Return Management Products Query</id>
+   <version>1.0</version>
+   <vqmver>2.6.0</vqmver>
+   <author>Muzammil Versiani</author>
+   <file name="system/library/rmamodeltrait.php">
+       <operation info="Update Return Management Products Query viewProducts() function">
+           <search position="replace" offset="1"><![CDATA[
+           public function viewProducts($id){
+           ]]></search>
+           <add><![CDATA[
+           public function viewProducts($id){
+    $sql = "SELECT pd.name,wrp.quantity,wrp.order_product_id,wrr.reason,p.model,op.product_id,op.quantity `quantity_total`,op.quantity_supplied `quantity_shipped`,op.price,op.order_id, IFNULL(rf.refund_amount,0) `refund_amount` FROM " . DB_PREFIX . "product_description pd LEFT JOIN ".DB_PREFIX."wk_rma_product wrp ON (wrp.product_id = pd.product_id) LEFT JOIN ".DB_PREFIX."wk_rma_reason wrr ON (wrp.reason = wrr.reason_id) LEFT JOIN ".DB_PREFIX."product p ON (p.product_id = pd.product_id) LEFT JOIN ".DB_PREFIX."order_product op ON (op.order_product_id = wrp.order_product_id) LEFT JOIN " .DB_PREFIX."return_refund rf ON (op.product_id = rf.product_id) WHERE wrp.rma_id = '".(int)$id."' AND pd.language_id = '".$this->config->get('config_language_id')."' AND wrr.language_id = '".$this->config->get('config_language_id')."'";
+
+    //echo $sql;
+
+    
+           ]]></add>
+       </operation>
+       <operation info="Calculate return total and insert in new table">
+           <search position="replace" offset="2"><![CDATA[
+           foreach($data['selected'] as $key => $product) {
+           ]]></search>
+           <add><![CDATA[
+           $prd_rtn = 0.00;
+           $prd_hash= array();
+           
+           //get hash to overcome this situation
+           
+           
+           
+		  foreach($data['selected'] as $key => $product) {
+          $hash = $rma_id."-".(int)$product."-".(int)$data['quantity'][$key]."-".(int)$data['reason'][$key]."-".(int)$data['product'][$key];
+          $hash = md5($hash);
+          if (in_array($hash,$prd_hash)){
+            continue;
+          }else{
+            $this->db->query("INSERT INTO `" . DB_PREFIX . "wk_rma_product` SET `rma_id` = '".(int)$rma_id."',`product_id` = '".(int)$product."',`quantity` = '".(int)$data['quantity'][$key]."',`reason` = '".(int)$data['reason'][$key]."', `order_product_id` = '".(int)$data['product'][$key]."'");
+         // Get Return Product Unit Price
+            $unt_prc = $this->db->query("SELECT price,tax FROM `" . DB_PREFIX . "order_product` WHERE `order_product_id` = '" . (int)$data['product'][$key] . "'")->row;
+            $prd_rtn += ($unt_prc['price'] + $unt_prc['tax']) * $data['quantity'][$key];
+            array_push($prd_hash,$hash);
+          }
+		  }
+          // Calculate Return Total Amount and INSERT in oc_mv_return_total
+          $this->db->query("INSERT INTO `" . DB_PREFIX . "mv_return_total` SET `order_id` = '".(int)$data['order']."', `rma_id` = '".(int)$rma_id."', `total` = '".$prd_rtn."'");
+           ]]></add>
+       </operation>
+   </file>
+   <file name="admin/controller/catalog/wk_rma_admin.php">
+       <operation info="Added more info in return table">
+           <search position="replace"><![CDATA[
+           $data['result_rmaadmin_images'] = $this->getFolderImage($result['images']);
+           ]]></search>
+           <add><![CDATA[
+           $data['result_rmaadmin_images'] = $this->getFolderImage($result['images']);
+
+          $rma_details = $this->model_catalog_wk_rma_admin->getRmaOrderid($rma_id);
+
+          $order_id = 0;
+
+          $total_data = isset($total_data) ? $total_data : 0;
+
+          if($rma_details AND isset($rma_details['order_id']))
+            $order_id = $rma_details['order_id'];
+
+          $this->load->model('sale/order');
+
+          $order_info = $this->model_sale_order->getOrder($order_id);
+
+          foreach ($result_products as $product) {
+          // die(print_r($result_products));
+            $option_data = array();
+            $options = $this->model_sale_order->getOrderOptions($order_id, $product['order_product_id']);
+
+            foreach ($options as $option) {
+              if ($option['type'] != 'file') {
+                $value = $option['value'];
+              } else {
+                $value = utf8_substr($option['value'], 0, utf8_strrpos($option['value'], '.'));
+              }
+
+              $option_data[] = array(
+                'name'  => $option['name'],
+                'value' => $value
+              );
+            }
+
+            $data['result_products'][] = array(
+              'name'     => $product['name'],
+              'product_id' => $product['product_id'],
+              'model'    => $product['model'],
+              'order_product_id'    => $product['order_product_id'],
+              'order_id'    => $product['order_id'],
+              'option'   => $option_data,
+              'quantity' => $product['quantity'],
+              'quantity_total' => $product['quantity_total'],
+              'quantity_shipped' => $product['quantity_shipped'],
+              'reason'   => $product['reason'],
+              'price'    => $this->currency->format($product['price'] + ($this->config->get('config_tax') ? $product['tax'] : 0), $order_info['currency_code'], $order_info['currency_value']),
+              'price_raw' => $product['price'] + ($this->config->get('config_tax') ? $product['tax'] : 0),
+              'total'    => $this->currency->format(($product['price'] + ($this->config->get('config_tax') ? $product['tax'] : 0)) * $product['quantity'], $order_info['currency_code'], $order_info['currency_value']),
+              'total_raw' => ($product['price'] + ($this->config->get('config_tax') ? $product['tax'] : 0)) * $product['quantity'],
+              'total_shipped'    => $this->currency->format(($product['price'] + ($this->config->get('config_tax') ? $product['tax'] : 0)) * $product['quantity_shipped'], $order_info['currency_code'], $order_info['currency_value']),
+              'refund_amount' => $product['refund_amount']
+            );
+
+            $total_data = $total_data + ( $product['price'] + ($this->config->get('config_tax') ? $product['tax'] : 0 )) * $product['quantity'];
+          }
+
+          $total_data_main = $this->model_sale_order->getOrderTotals($order_id);
+
+          $data['shipped_total'] = '';
+
+          if($total_data_main) {
+            foreach ($total_data_main as $key => $value) {
+              if($value['code']=='sub_total')
+                $total_data_main[$key]['text'] = $this->currency->format($total_data, $order_info['currency_code'], $order_info['currency_value']);
+              elseif($value['code']=='total')
+                $total_data_main[$key]['text'] = $this->currency->format($total_data, $order_info['currency_code'], $order_info['currency_value']);
+              elseif($value['code']=='shipping')
+                $total_data_main[$key]['text'] = $data['shipped_total'] = $this->currency->format($total_data_main[$key]['value'], $order_info['currency_code'], $order_info['currency_value']);
+            }
+          }
+
+          $data['total_data_main']  = $total_data_main;
+
+          $this->load->model('user/user');
+          $user_info = $this->model_user_user->getUser($this->user->getId());
+          if ($user_info) {
+            $data['logedin_user'] = $user_info['firstname'] . " " . $user_info['lastname'];
+          }
+          $this->load->model('localisation/order_status');
+          $data['order_statuses'] = $this->model_localisation_order_status->getOrderStatuses();
+          $data['order_status_id'] = $order_info['order_status_id'];
+
+          $this->load->language('sale/order');
+          $data['text_browser'] = $this->language->get('text_browser');
+          $data['text_ip'] = $this->language->get('text_ip');
+          $data['text_forwarded_ip'] = $this->language->get('text_forwarded_ip');
+          $data['text_user_agent'] = $this->language->get('text_user_agent');
+          $data['text_accept_language'] = $this->language->get('text_accept_language');
+          $data['text_history'] = $this->language->get('text_history');
+          $data['text_history_add'] = $this->language->get('text_history_add');
+          $data['btn_sales_person'] = $this->language->get('btn_sales_person');
+          $data['tab_history'] = $this->language->get('tab_history');
+          $data['tab_additional'] = $this->language->get('tab_additional');
+          $data['tab_sales_person'] = $this->language->get('tab_sales_person');
+          $data['entry_order_status'] = $this->language->get('entry_order_status');
+          $data['entry_notify'] = $this->language->get('entry_notify');
+          $data['entry_override'] = $this->language->get('entry_override');
+          $data['entry_comment'] = $this->language->get('entry_comment');
+          $data['entry_sales_person'] = $this->language->get('entry_sales_person');
+
+
+          $data['order_id'] = $order_info['order_id'];
+          $data['store_id'] = $order_info['store_id'];
+          $data['store_url'] = HTTPS_CATALOG;
+          $data['ip'] = $order_info['ip'];
+          $data['forwarded_ip'] = $order_info['forwarded_ip'];
+          $data['user_agent'] = $order_info['user_agent'];
+          $data['accept_language'] = $order_info['accept_language'];
+
+          $data['sales_persons'] = $this->model_sale_order->getSalesPersons($this->config->get('config_users_group'));
+          $data['sales_person'] = $this->model_sale_order->getSalesPerson($data['order_id']);
+
+          // Additional Tabs
+          $data['tabs'] = array();
+          $this->load->model('extension/extension');
+          $content = $this->load->controller('payment/' . $order_info['payment_code'] . '/order');
+          if ($content) {
+            $this->load->language('payment/' . $order_info['payment_code']);
+            $data['tabs'][] = array(
+              'code'    => $order_info['payment_code'],
+              'title'   => $this->language->get('heading_title'),
+              'content' => $content
+            );
+          }
+          $extensions = $this->model_extension_extension->getInstalled('fraud');
+          foreach ($extensions as $extension) {
+            if ($this->config->get($extension . '_status')) {
+              $this->load->language('fraud/' . $extension);
+              $content = $this->load->controller('fraud/' . $extension . '/order');
+              if ($content) {
+                $data['tabs'][] = array(
+                  'code'    => $extension,
+                  'title'   => $this->language->get('heading_title'),
+                  'content' => $content
+                );
+              }
+            }
+          }
+          // API login
+          $this->load->model('user/api');
+          $api_info = $this->model_user_api->getApi($this->config->get('config_api_id'));
+          if ($api_info) {
+            $data['api_id'] = $api_info['api_id'];
+            $data['api_key'] = $api_info['key'];
+            $data['api_ip'] = $this->request->server['REMOTE_ADDR'];
+          } else {
+            $data['api_id'] = '';
+            $data['api_key'] = '';
+            $data['api_ip'] = '';
+          }
+           ]]></add>
+       </operation>
+       <operation info="AJAX call to update Return Total Amount">
+           <search position="before" offset="1"><![CDATA[
+           public function transaction() {
+           ]]></search>
+           <add><![CDATA[
+           public function update_return_total() {
+            $output = array(
+              'status' => false
+            );
+
+            if ($this->user->isLogged() && isset($this->request->get['token']) && ($this->request->get['token'] == $this->session->data['token'])) {
+              $this->load->model('catalog/wk_rma_admin');
+              $this->model_catalog_wk_rma_admin->updateReturnTotal($this->request->get['order_id'],$this->request->get['rma_id'],$this->request->get['total']);
+              $output['status'] = true;
+            }
+
+            $this->response->addHeader('Content-Type: application/json');
+            $this->response->setOutput(json_encode($output));
+           }
+           ]]></add>
+       </operation>
+   </file>
+   <file name="admin/model/catalog/wk_rma_admin.php">
+       <operation info="Added new function to get RMA details by Order ID">
+           <search position="after" offset="4"><![CDATA[
+           public function checkIfCustomer($rma_id) {
+           ]]></search>
+           <add><![CDATA[
+           public function getRmaByOrderId($order_id) {
+            $resp = array();
+            $resp['rma'] = $this->db->query("SELECT * FROM `" . DB_PREFIX . "wk_rma_order` WHERE order_id = '" . (int)$order_id . "' ORDER BY id DESC LIMIT 1")->row;
+            if(!empty($resp['rma'])) {
+              $query = $this->db->query("SELECT total FROM `" . DB_PREFIX . "mv_return_total` WHERE order_id = '" . (int)$order_id . "' AND rma_id = '".(int)$resp['rma']['id']."'");
+              $resp['return_total'] = $query->row ? $query->row['total'] : 0;
+
+              //for ticket # 272 return total only show when refund is added to order. and in some cases 0
+              $query = $this->db->query("SELECT IFNULL(SUM(refund_amount),0) `refund_amount` FROM `" . DB_PREFIX . "return_refund` WHERE order_id = '" . (int)$order_id . "'");
+              $resp['refund_approved'] = $query->row ? $query->row['refund_amount'] : 0;
+            }
+            return $resp;
+           }
+
+           public function updateReturnTotal($order_id, $rma_id, $total) {
+            $this->db->query("UPDATE `" . DB_PREFIX . "mv_return_total` SET `total` = '".$total."' WHERE `order_id` = '" . (int)$order_id . "' AND `rma_id` = '".(int)$rma_id."'");
+           }
+           ]]></add>
+       </operation>
+   </file>
+   <file name="admin/controller/sale/orderq.php">
+       <operation info="Get RMA details by Order Id">
+           <search position="after" offset="1"><![CDATA[
+           public function getForm() {
+           ]]></search>
+           <add><![CDATA[
+           // Check if this order has Return products
+      $this->load->model('catalog/wk_rma_admin');
+      $data['order_id'] = $this->request->get['order_id'];
+      $data['rma_details'] = $this->model_catalog_wk_rma_admin->getRmaByOrderId($this->request->get['order_id']);
+           ]]></add>
+       </operation>
+   </file>
+</modification>

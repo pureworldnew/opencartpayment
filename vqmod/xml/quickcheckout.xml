@@ -1,0 +1,44 @@
+<modification>
+	<id>Quick Checkout</id>
+	<version>OC 2</version>
+	<vqmver>2.5.0</vqmver>
+	<author>Equotix</author>
+	<file name="catalog/controller/checkout/checkout.php">
+		<operation>
+			<search position="replace"><![CDATA[
+				class ControllerCheckoutCheckout extends Controller {
+			]]></search>
+			<add><![CDATA[
+				require_once(substr_replace(DIR_SYSTEM, '', -7) . 'vendor/equotix/quickcheckout/equotix.php');
+				class ControllerCheckoutCheckout extends Equotix {
+					protected $code = 'quickcheckout';
+					protected $extension_id = '58';
+			]]></add>
+		</operation>
+		<operation>
+			<search position="after"><![CDATA[
+				public function index() {
+			]]></search>
+			<add><![CDATA[
+				if ($this->config->get('quickcheckout_status') && $this->validated()) {
+					$this->response->redirect($this->url->link('quickcheckout/checkout', '', 'SSL'));
+				}
+			]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/checkout/success.php">
+		<operation>
+			<search position="after"><![CDATA[
+				unset($this->session->data['guest']);
+			]]></search>
+			<add><![CDATA[
+				unset($this->session->data['order_comment']);
+				unset($this->session->data['delivery_date']);
+				unset($this->session->data['delivery_time']);
+				unset($this->session->data['survey']);
+				unset($this->session->data['shipping_address']);
+				unset($this->session->data['payment_address']);
+			]]></add>
+		</operation>
+	</file>
+</modification>

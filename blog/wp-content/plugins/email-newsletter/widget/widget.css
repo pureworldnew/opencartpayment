@@ -1,0 +1,59 @@
+.eemail_caption 
+{
+    color: #FFFFFF;
+    float: left;
+    padding-bottom: 5px;
+    padding-right: 5px;
+    padding-top: 3px;
+}
+.eemail_msg 
+{
+    padding-top:5px;
+    padding-bottom:5px;
+    /*padding-left:10px;*/
+    color:#F00;
+}
+.eemail_textbox 
+{
+    float: left;
+    padding-bottom: 10px;
+    width: 100%;
+
+    /*padding-left:10px;*/
+}
+#eemail_txt_email{
+    margin: 0;
+}
+.eemail_button 
+{
+    float:left;
+    width: 100%;
+}
+.eemail_textbox_class 
+{
+    margin-left: 10px;
+    width: 130px;
+}
+.eemail_textbox_button 
+{
+    width:95px;
+    color:#fff;
+    border:none;
+}
+.subscribe{
+    background-color: #8ea4c4;
+    *background-color: #8ea4c4;
+    background-image: -moz-linear-gradient(top, #607eab, #8ea4c4);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#607eab+), to(#8ea4c4));
+    background-image: -webkit-linear-gradient(top, #607eab, #8ea4c4);
+    background-image: -o-linear-gradient(top, #607eab, #8ea4c4);
+    background-image: linear-gradient(to bottom, #607eab, #8ea4c4);
+    background-repeat: repeat-x;
+    float:left;
+    padding:11px;
+    margin-bottom:20px;
+}
+.mail_msg{
+    color:red;
+    margin-top:2px;
+}

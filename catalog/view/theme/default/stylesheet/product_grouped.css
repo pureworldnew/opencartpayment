@@ -1,0 +1,17 @@
+/* Grouped Product for OC - powered by www.fabiom7.com */
+/* Type Grouped |1img|2name|3opt|4price|5qty| */
+.gp-group .gp-tbody .gp-tcell-1{width:1px;vertical-align:middle;text-align:center;}
+.gp-group .gp-tbody .gp-tcell-2{width:auto;vertical-align:middle;text-align:left;}
+.gp-group .gp-tbody .gp-tcell-3{width:auto;vertical-align:middle;text-align:left;}
+.gp-group .gp-tbody .gp-tcell-4{width:90px;vertical-align:middle;text-align:left;}
+.gp-group .gp-tbody .gp-tcell-5{width:auto;vertical-align:middle;text-align:left;white-space:nowrap;}
+/* Table Content */
+.gp-group .gp-box-img{}
+.gp-group .gp-box-info{white-space:nowrap;display:none;}
+.gp-group .gp-box-options{}
+.gp-group .gp-box-price{text-align:right;white-space:nowrap;width:100%;}
+.gp-group .gp-box-qty{width:42px;}
+.gp-group .gp-box-button-addtocart img{vertical-align:middle;display:inline;cursor:pointer;}
+.gp-group .gp-box-button-addtocart-no img{vertical-align:middle;display:inline;cursor:default;}
+/* The level after table child-products */
+.gp-group .gp-after-t{text-align:right;padding-right:14px;}

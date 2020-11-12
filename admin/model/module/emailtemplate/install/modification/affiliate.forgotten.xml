@@ -1,0 +1,34 @@
+<file path="catalog/controller/affiliate/forgotten.php" email_template="affiliate.forgotten">
+	<operation>
+		<search index="0"><![CDATA[$mail = new Mail(]]></search>
+		<add position="before"><![CDATA[			$file = DIR_SYSTEM . 'library/emailtemplate/email_template.php';
+
+			if (file_exists($file)) {
+				include_once($file);
+			} else {
+				trigger_error('Error: Could not load library ' . $file . '!');
+				exit();
+			}
+		
+			$template = new EmailTemplate($this->request, $this->registry);
+			
+			$affiliate_info = $this->model_affiliate_affiliate->getAffiliateByEmail($this->request->post['email']);
+			
+			$template->addData($affiliate_info, 'affiliate');
+			
+			$template->data['password'] = $password;
+			
+			$template->data['account_login'] = $this->url->link('affiliate/login', '', 'SSL');
+ 			$template->data['account_login_tracking'] = $template->getTracking($template->data['account_login']); 
+ 		]]></add>
+	</operation>
+	<operation>
+		<search index="0"><![CDATA[$mail->send();]]></search>
+		<add position="replace"><![CDATA[			$template->load('affiliate.forgotten');	
+				
+			$mail = $template->hook($mail);
+			$mail->send();
+
+			$template->sent();]]></add>
+	</operation>
+</file>

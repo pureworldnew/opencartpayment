@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<modification>
+
+	<id>Search Analytics</id>
+	<version>1.3.1</version>
+	<vqmver>2.6.1+</vqmver>
+	<author>Frank - francesco1279@gmail.com - Leverod.com</author>
+
+	
+<!-- System --> 
+	
+	<file name="system/startup.php">
+		<operation error="log" >
+			<search position="after" ><![CDATA[error_reporting(]]></search>
+			<add><![CDATA[	
+
+			// Search Analytics
+
+				require_once(DIR_SYSTEM . 'library/search_analytics.php');
+			
+			// END Search Analytics
+			
+			]]></add>
+		</operation>
+	</file>
+<!-- END System --> 	
+	
+<!-- Admin -->
+
+	<!-- Install/Uninstall support for Oc >= 2.3.0.2 -->
+	
+	<file name="admin/controller/extension/extension/module.php" error="skip">
+	
+		<!-- Install -->
+			<operation error="skip">
+				<!-- Clean calls from other vQmod scripts -->
+				<search position="replace"><![CDATA[$this->load->controller('module/' . $this->request->get['extension'] . '/install');]]></search>
+				<add><![CDATA[
+				]]></add>
+			</operation>
+			<operation error="log">
+				<search position="after"><![CDATA[$this->load->controller('extension/module/' . $this->request->get['extension'] . '/install');]]></search>
+				<add><![CDATA[
+				// Oc <= 2.2.0.0 modules
+				$this->load->controller('module/' . $this->request->get['extension'] . '/install');
+				]]></add>
+			</operation>	
+
+		<!-- Uninstall -->
+			<operation error="skip">
+				<!-- Clean calls from other vQmod scripts -->
+				<search position="replace"><![CDATA[$this->load->controller('module/' . $this->request->get['extension'] . '/uninstall');]]></search>
+				<add><![CDATA[
+				]]></add>
+			</operation>
+			<operation error="log">
+				<search position="after"><![CDATA[$this->load->controller('extension/module/' . $this->request->get['extension'] . '/uninstall');]]></search>
+				<add><![CDATA[
+				// Oc <= 2.2.0.0 modules
+				$this->load->controller('module/' . $this->request->get['extension'] . '/uninstall');
+				]]></add>
+			</operation>		
+	</file>	
+	
+	
+	<!-- Left menu -->
+	
+	<file name="admin/view/template/common/header.tpl">
+
+		<operation error="log">
+		
+			<search position="before"><![CDATA[<?php foreach ($links as $link) { ?>]]></search>
+			<add><![CDATA[
+			
+			<?php  if ( version_compare(VERSION, '2.0.0.0', '>=') ) { ?>
+			
+			<script>
+			$(function() {
+			
+				var $menu = $('#column-left ul#menu');
+	
+				var $dashboardMenu = $('li[id$="dashboard"]');
+				var saLink = $dashboardMenu.find('a').attr('href');
+				
+				if (typeof saLink !== 'undefined') {
+				
+					saLink = saLink.replace('common/dashboard', 'module/search_analytics'); 
+					$menu.append('<li id="search-analytics"><a href="' + saLink + '"><i class="fa fa-bar-chart-o fw" style="color:orange; margin-right:10px;"></i><span>Search Analytics</span></a></li>');
+				}
+			
+			});
+			</script>
+			
+			<?php } ?>
+			
+			]]></add>
+		</operation>
+	</file>
+<!-- END Admin -->
+	
+	
+	
+<!-- Catalog --> 
+	
+	<file name="catalog/controller/product/search.php,catalog/controller/product/product.php">
+		<operation>
+			<search position="after" error="log"><![CDATA[function index() {]]></search>
+				<add><![CDATA[
+				
+							// Search Analytics
+							//
+							// The search string can be returned by different sources:
+							// - cookie
+							// - GET variables
+							// 
+							// In some cases we cannot use GET variables to get the search string, because 
+							// clicks don't come from a search button but from a link in the Live Search 
+							// (when installed, see Advanced Smart Search, it includes Search Analytics)
+				
+							// "search" (OC >= 1.5.5) / "filter_name" (OC < 1.5.5)
+
+							if (isset($this->request->cookie['adsmart_search_string'])) {	$search = base64_decode($this->request->cookie['adsmart_search_string']);	}		
+							else if (isset($this->request->get['search'])) 				{	$search = $this->request->get['search']; 									}	
+							else if (isset($this->request->get['filter_name']))			{	$search = $this->request->get['filter_name'];								}
+							else 														{	$search = ''; 																}
+				
+							$customer_id	= $this->customer->getId(); // 0 if Guest
+							
+							$this->load->model('catalog/product'); 
+							$this->model_catalog_product->addSearch($search, $customer_id);
+							
+							// Unset the cookie if present 
+							if (isset($_COOKIE['adsmart_search_string'])) {
+								unset($_COOKIE['adsmart_search_string']);
+								setcookie('adsmart_search_string', null, -1, '/');	
+							}
+							
+							// End Search Analytics
+				]]></add>
+		</operation>	
+	</file>
+	
+	<file  name="catalog/model/catalog/product.php">
+		<operation>
+			<search position="before" error="log"><![CDATA[public function getProduct($product_id,$visibility = 0) {]]></search>
+				<add><![CDATA[
+					public function addSearch($search, $customer_id){
+					
+						// Sanitize the search query before saving it in the database:
+						
+						$search_analytics_lib = new Search_analytics();
+						$search = $search_analytics_lib->sanitize_keyphrases($search);
+						
+						if (empty($search)) {
+							return;
+						}
+						
+						// Enable this if your server is behind a Proxy/Load Balancer
+					
+						// When OpenCart is deployed behind a load balancer, the Client IP address shows the load balancer's IP address.
+						// OpenCart should get the real client IP address looking at the HTTP_X_FORWARDED_FOR instead of REMOTE_ADDR.
+					
+					/*
+						if (!empty($_SERVER['HTTP_CLIENT_IP'])) { 
+						
+							$ip =  $this->db->escape($this->request->server['HTTP_CLIENT_IP']);
+						}
+						elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+
+							$ip =  $this->db->escape($this->request->server['HTTP_X_FORWARDED_FOR']);
+						}
+						else {
+							$ip =  $this->db->escape($this->request->server['REMOTE_ADDR']);
+						}
+					*/	
+						// Disable this line if the above code is enabled:
+						$ip = $this->db->escape($this->request->server['REMOTE_ADDR']);
+						
+						// Check if the table search_history exists:
+						$sql = "SHOW TABLES LIKE '" . DB_PREFIX . "search_history'";
+						$result = $this->db->query($sql);
+						
+						if ($result->num_rows > 0 ) {
+						
+							$sql = "INSERT INTO " . DB_PREFIX . "search_history(keyphrase, customer_id, ip) VALUES('" . $this->db->escape($search) . "','" . $customer_id . "','" . $this->db->escape($ip) . "')";
+							$this->db->query($sql);
+						}
+					}
+				]]></add>
+		</operation>
+	</file>
+
+<!-- END Catalog --> 	
+</modification>

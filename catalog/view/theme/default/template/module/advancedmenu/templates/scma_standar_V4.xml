@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu>
+<version>1.0</version>
+<name>Menu template Standard</name>
+<designed>Opencart default theme and compatibles themes</designed>
+<extension>Advanced Menu V3</extension>
+<explantion>With this menu when you select a filter the selected box will go up.</explantion>
+<intructions>This menu is designed to left and right column.</intructions>
+</menu>

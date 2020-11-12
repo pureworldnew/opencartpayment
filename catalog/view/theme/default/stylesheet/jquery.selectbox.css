@@ -1,0 +1,114 @@
+@CHARSET "UTF-8";
+.sbHolder{
+	background-color: #f7f7f7;
+	border: solid 1px #e6e6e6;
+	font-family: "open sans";
+	font-size: 11px;
+	font-weight: normal;
+	height:15px;
+	position: relative;
+	width: 102px;
+        color:#696969;
+}
+.sbHolder:focus .sbSelector{
+	
+}
+.sbSelector{
+	display: block;
+	height:14px;
+	left: -2px;
+	line-height:14px;
+	outline: none;
+	overflow: hidden;
+	position: absolute;
+	text-indent: 10px;
+	top: 0px;
+        text-align: left;
+	width: 120px;
+    font-family: "Open Sans";
+}
+.sbSelector:link, .sbSelector:visited, .sbSelector:hover{
+	color: #696969;
+	outline: 0;
+	text-decoration: none;
+}
+.sbToggle{
+	background: url("../img/select-icons.png") no-repeat scroll -6px -123px transparent;
+	display: block;
+	height: 17px;
+        border-left: 1px solid #D8D8D8;
+	outline: none;
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 21px;
+        outline: none;
+}
+.sbToggleOpen{
+	background: url(../img/select-icons.png) -6px -24px no-repeat;
+}
+
+.sbHolderDisabled{
+	background-color: #3C3C3C;
+	border: solid 1px #515151;
+}
+.sbHolderDisabled .sbHolder{
+	
+}
+.sbHolderDisabled .sbToggle{
+	
+}
+.sbOptions{
+	background-color: #f7f7f7;
+	border: solid 1px #e6e6e6;
+	list-style: none;
+	left: -1px;
+	margin: 0;
+        margin-top: 2px;
+	padding: 0;
+	position: absolute;
+	top: 30px;
+	width: 152px;
+	z-index: 1;
+	overflow-y: auto;
+        outline: 0;
+}
+.sbOptions li{
+	padding: 0 7px;
+}
+.sbOptions a{
+	border-bottom: dotted 1px #515151;
+	display: block;
+	outline: none;
+	padding: 3px 0 3px 3px;
+        text-align: left;
+}
+
+.sbOptions a:link, .sbOptions a:visited{
+	color: #333;
+	text-decoration: none;
+}
+.sbOptions a:hover,
+.sbOptions a:focus,
+.sbOptions a.sbFocus{
+	color: #333;
+}
+.sbOptions li.last a{
+	border-bottom: none;
+}
+.sbOptions .sbDisabled{
+	border-bottom: dotted 1px #515151;
+	color: #333;
+	display: block;
+	padding: 7px 0 7px 3px;
+}
+.sbOptions .sbGroup{
+	border-bottom: dotted 1px #515151;
+	color: #EBB52D;
+	display: block;
+	font-weight: bold;
+	padding: 7px 0 7px 3px;
+}
+.sbOptions .sbSub{
+	padding-left: 17px;
+}

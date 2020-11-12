@@ -1,0 +1,8 @@
+drwxr-xr-x    3 496      497          4096 Dec 16 12:51 .
+drwxr-xr-x    6 496      497          4096 Dec 16 12:51 ..
+-rwxr-xr-x    1 0        0          182385 Dec 16 12:51 codemirror.js
+-rwxr-xr-x    1 0        0           22601 Dec 16 12:51 css.js
+-rwxr-xr-x    1 0        0            3081 Dec 16 12:51 htmlmixed.js
+-rwxr-xr-x    1 0        0           14835 Dec 16 12:51 javascript.js
+drwxr-xr-x    2 496      497          4096 Dec 16 12:51 util
+-rwxr-xr-x    1 0        0           10419 Dec 16 12:51 xml.js

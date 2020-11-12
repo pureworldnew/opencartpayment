@@ -1,0 +1,193 @@
+div.gmt_gdpr {
+    position: fixed;
+    width: 100%;
+    z-index: 99999999;
+    padding: 40px 0px;
+    font-size: 14px;
+}
+
+div.gmt_gdpr div.gmt_gdpr_container {
+    margin: 0 auto;
+    padding: 0px 15px;
+    position: relative;
+}
+
+div.gmt_gdpr span.gmt_gdpr_title {
+    font-size: 18px;
+    margin-bottom: 15px;
+    position: relative;
+    float: left;
+    width: 100%;
+}
+
+div.gmt_gdpr span.gmt_gdpr_text {
+    position: relative;
+    float: left;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+div.gmt_gdpr span.gmt_gdpr_text a {
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+div.gmt_gdpr span.gmt_gdpr_close_button {
+    font-weight: bold;
+    font-size: 24px;
+    position: absolute;
+    right: 15px;
+    top: -20px;
+}
+div.gmt_gdpr span.gmt_gdpr_close_button:hover {
+    cursor: pointer;
+}
+
+/*****Checkbox custom******/
+    div.gmt_gdpr label.checkbox_container{
+        position: relative;
+        float: left;
+        width: 120px;
+        margin-bottom: 0px;
+    }
+    div.gmt_gdpr label.checkbox_container:hover
+    {
+        cursor: pointer;
+    }
+    div.gmt_gdpr label.checkbox_container label{
+        font-style: italic;
+    }
+    div.gmt_gdpr label.checkbox_container input[type="checkbox"] {
+        position: absolute;
+        opacity: 0;
+        left: -28px;
+    }
+
+    div.gmt_gdpr input[type="checkbox"].ios-switch + div {
+        vertical-align: middle;
+        width: 40px;
+        height: 20px;
+        border: 1px solid rgba(0,0,0,.4);
+        border-radius: 999px;
+        background-color: rgba(0, 0, 0, 0.1);
+        -webkit-transition-duration: .4s;
+        -webkit-transition-property: background-color, box-shadow;
+        box-shadow: inset 0 0 0 0px rgba(0,0,0,0.4);
+        margin-top: 8px;
+    }
+
+    div.gmt_gdpr input[type="checkbox"].ios-switch:checked + div {
+        width: 40px;
+        background-position: 0 0;
+        background-color: #86d993;
+        border: 1px solid #86d993;
+        box-shadow: inset 0 0 0 10px #86d993;
+    }
+
+    div.gmt_gdpr label.checkbox_container.disabled {
+        opacity: 0.3;
+        cursor: inherit !important;
+    }
+
+    div.gmt_gdpr input[type="checkbox"].ios-switch + div > div {
+        float: left;
+        width: 18px;
+        height: 18px;
+        border-radius: inherit;
+        background: #ffffff;
+        -webkit-transition-timing-function: cubic-bezier(.54,1.85,.5,1);
+        -webkit-transition-duration: 0.4s;
+        -webkit-transition-property: transform, background-color, box-shadow;
+        -moz-transition-timing-function: cubic-bezier(.54,1.85,.5,1);
+        -moz-transition-duration: 0.4s;
+        -moz-transition-property: transform, background-color;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3), 0px 0px 0 1px rgba(0, 0, 0, 0.4);
+        pointer-events: none;
+        margin-top: 0px;
+        margin-left: 1px;
+    }
+
+    div.gmt_gdpr input[type="checkbox"].ios-switch:checked + div > div {
+        -webkit-transform: translate3d(20px, 0, 0);
+        -moz-transform: translate3d(20px, 0, 0);
+        background-color: #ffffff;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3), 0px 0px 0 1px rgba(8, 80, 172,1);
+    }
+/*****Checkbox custom******/
+
+div.gmt_gdpr p {
+    line-height: 21px;
+    margin-bottom: 0px;
+}
+
+div.gmt_gdpr a.button_accept {
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    display: block;
+    position: relative;
+    float: left;
+    margin-top: 10px;
+}
+div.gmt_gdpr a.button_accept:hover {
+    cursor: pointer;
+}
+
+div.gmt_gdpr_button_config {
+    width: 0;
+	height: 0;
+    position: fixed;
+    z-index: 9999999;
+}
+div.gmt_gdpr_button_config:hover {
+    cursor: pointer;
+}
+div.gmt_gdpr_button_config img.gmt_gdpr_button_icon {
+    height: 23px;
+    width: 23px;
+    position: fixed;
+}
+
+div.gmt_gdpr_button_config.top_left{
+    border-top: 75px solid var(--gmt-gdpr-button-config-background);
+	border-right: 75px solid transparent;
+    left: 0px;
+    top: 0px;
+}
+div.gmt_gdpr_button_config.top_left img.gmt_gdpr_button_icon {
+    top: 10px;
+    left: 10px;
+}
+
+div.gmt_gdpr_button_config.top_right{
+    border-top: 75px solid var(--gmt-gdpr-button-config-background);
+	border-left: 75px solid transparent;
+    right: 0px;
+    top: 0px;
+}
+div.gmt_gdpr_button_config.top_right img.gmt_gdpr_button_icon {
+    top: 10px;
+    right: 10px;
+}
+
+div.gmt_gdpr_button_config.bottom_left{
+    border-bottom: 75px solid var(--gmt-gdpr-button-config-background);
+	border-right: 75px solid transparent;
+    left: 0px;
+    bottom: 0px;
+}
+div.gmt_gdpr_button_config.bottom_left img.gmt_gdpr_button_icon {
+    bottom: 10px;
+    left: 10px;
+}
+
+div.gmt_gdpr_button_config.bottom_right{
+    border-bottom: 75px solid var(--gmt-gdpr-button-config-background);
+	border-left: 75px solid transparent;
+    right: 0px;
+    bottom: 0px;
+}
+div.gmt_gdpr_button_config.bottom_right img.gmt_gdpr_button_icon {
+    bottom: 10px;
+    right: 10px;
+}

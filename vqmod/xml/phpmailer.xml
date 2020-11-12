@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+	<id>PHPMailer</id>
+	<version>1.1</version>
+	<vqmver>2.4.0</vqmver>
+	<author>Sirius-Dev</author>
+	
+	<file name="system/library/mail.php">
+		<operation>
+			<search position="before"><![CDATA[class Mail]]></search>
+			<add><![CDATA[require_once(DIR_SYSTEM . 'library/phpmailer/PHPMailerAutoload.php');]]></add>
+		</operation>
+
+		<operation>
+			<search position="replace"><![CDATA[public function send() {]]></search>
+			<add><![CDATA[
+  
+  public function addCC($mail) {
+    $this->cc[] = $mail;
+  }
+  
+  public function addBCC($mail) {
+    $this->bcc[] = $mail;
+  }
+  
+  public function send() {
+		if (!$this->to) {
+			trigger_error('Error: E-Mail to required!');
+			exit();
+		}
+
+		if (!$this->from) {
+			trigger_error('Error: E-Mail from required!');
+			exit();
+		}
+
+		if (!$this->sender) {
+			trigger_error('Error: E-Mail sender required!');
+			exit();
+		}
+
+		if (!$this->subject) {
+			trigger_error('Error: E-Mail subject required!');
+			exit();
+		}
+
+		if ((!$this->text) && (!$this->html)) {
+			trigger_error('Error: E-Mail message required!');
+			exit();
+		}
+    
+    $reply_to = $this->sender;
+    
+		if (!empty($this->reply_to)) {
+			$reply_to = $this->reply_to;
+		} else if (!empty($this->replyto)) {
+			$reply_to = $this->replyto;
+		}
+    
+    $mail = new PHPMailer;
+    $mail->CharSet = 'UTF-8';
+    
+    $mail->SetFrom($this->from, $this->sender);
+		$mail->AddReplyTo($reply_to);
+    
+    foreach ((array) $this->to as $to) {
+      $mail->AddAddress($to);
+    }
+    
+    foreach ((array) $this->cc as $cc) {
+      $mail->AddCC($cc);
+    }
+    
+    foreach ((array) $this->bcc as $bcc) {
+      $mail->AddBCC($bcc);
+    }
+
+    $mail->isHTML($this->html);
+    
+    $mail->Subject = $this->subject;
+    if ($this->html) {
+      $mail->MsgHTML($this->html);
+      if ($this->text) {
+        $mail->AltBody = $this->text;
+      }
+    } else {
+      $mail->Body = $this->text;
+    }
+
+		foreach ($this->attachments as $attachment) {
+			if (file_exists($attachment)) {
+        $mail->addAttachment($attachment);
+			}
+		}
+
+    
+    if ($this->protocol == 'smtp') {
+			$mail->IsSMTP();
+      if (substr(VERSION, 0, 1) == 2) {
+        $mail->Host = str_replace(array('tls://', 'ssl://'), '', $this->smtp_hostname);
+        if($this->smtp_port == '587' || (substr($this->smtp_hostname, 0, 3) == 'tls')) {
+          $mail->SMTPSecure = 'tls';
+        } elseif($this->smtp_port == '465' || (substr($this->smtp_hostname, 0, 3) == 'ssl')) {
+          $mail->SMTPSecure = 'ssl';
+        }
+        $mail->Port = $this->smtp_port;
+        if (!empty($this->smtp_username)) {
+          $mail->SMTPAuth = true;
+          $mail->Username = $this->smtp_username;
+          $mail->Password = $this->smtp_password;
+        }
+      } else {
+        $mail->Host = str_replace(array('tls://', 'ssl://'), '', $this->hostname);
+        if($this->port == '587' || (substr($this->hostname, 0, 3) == 'tls')) {
+          $mail->SMTPSecure = 'tls';
+        } elseif($this->port == '465' || (substr($this->hostname, 0, 3) == 'ssl')) {
+          $mail->SMTPSecure = 'ssl';
+        }
+        $mail->Port = $this->port;
+        if (!empty($this->username)) {
+          $mail->SMTPAuth = true;
+          $mail->Username = $this->username;
+          $mail->Password = $this->password;
+        }
+      }
+		}
+    
+		$mail->Send();
+	}
+  
+  function send_default() {
+      ]]></add>
+		</operation>
+
+	</file>
+	
+</modification>

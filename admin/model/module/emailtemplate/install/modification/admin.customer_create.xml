@@ -1,0 +1,9 @@
+<file path="admin/model/sale/customer.php" email_template="admin.customer_create">
+	<operation>
+		<search index="0"><![CDATA[$customer_id = $this->db->getLastId();]]></search>
+		<add position="after"><![CDATA[
+		$this->load->model('module/emailtemplate/event');
+		
+		$this->model_module_emailtemplate_event->customer_create($customer_id, $data);]]></add>
+	</operation>
+</file>

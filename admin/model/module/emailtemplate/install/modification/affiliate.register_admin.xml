@@ -1,0 +1,13 @@
+<file path="catalog/model/affiliate/affiliate.php" email_template="affiliate.register_admin">
+	<operation>
+		<search index="1"><![CDATA[$mail->send();]]></search>
+		<add position="replace"><![CDATA[$template->load('affiliate.register_admin');
+		
+			$template->build();
+	
+			$mail = $template->hook($mail);	
+			$mail->send();
+	
+			$template->sent();]]></add>
+	</operation>
+</file>

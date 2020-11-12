@@ -1,0 +1,20 @@
+/* Grouped Product for OC - powered by www.fabiom7.com */
+/* Type Bundle: |1img|2name|3opt|4price|5qty| - |1tot:text|2tot:price|3tot:qty| */
+.gp-bundle .gp-tbody .gp-tcell-1{width:1px;vertical-align:middle;text-align:center;}
+.gp-bundle .gp-tbody .gp-tcell-2{width:auto;vertical-align:middle;text-align:left;}
+.gp-bundle .gp-tbody .gp-tcell-3{width:auto;vertical-align:middle;text-align:left;}
+.gp-bundle .gp-tbody .gp-tcell-4{width:90px;vertical-align:middle;text-align:left;}
+.gp-bundle .gp-tbody .gp-tcell-5{width:auto;vertical-align:middle;text-align:left;}
+.gp-bundle .gp-tfoot .gp-tcell-1{vertical-align:top;padding:14px 7px 7px;text-align:right;white-space:nowrap;}
+.gp-bundle .gp-tfoot .gp-tcell-2{vertical-align:top;padding:14px 7px 7px;text-align:right;white-space:nowrap;border:solid 1px #ddd;}
+.gp-bundle .gp-tfoot .gp-tcell-3{vertical-align:top;padding:14px 7px 7px;text-align:center;white-space:nowrap;border:solid 1px #ddd;}
+/* Table Content */
+.gp-bundle .gp-box-img{}
+.gp-bundle .gp-box-info{white-space:nowrap;display:none;}
+.gp-bundle .gp-box-options{}
+.gp-bundle .gp-box-price{text-align:right;white-space:nowrap;}
+.gp-bundle .gp-box-qty{width:42px;}
+.gp-bundle .gp-loader{top:-21px;left:50%;}
+/* The level after table child-products */
+.gp-after-t .gp-discount-bundle{color:#000;font-size:13px;font-weight:normal;margin-bottom:14px;}
+.gp-after-t .gp-discount-bundle span{color:#F00;font-size:13px;font-weight:bold;}

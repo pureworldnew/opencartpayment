@@ -1,0 +1,208 @@
+/*****************************************************
+					Leverod CSS Icons
+					
+// Author : Francesco Pisanò - francesco1279@gmail.com
+//              
+//                   www.leverod.com		
+//               © All rights reserved	  
+// ***************************************************/
+
+@font-face {
+  font-family: 'lev-icons';
+  src:  url('lev-icons.eot?hwm55b');
+  src:  url('lev-icons.eot?hwm55b#iefix') format('embedded-opentype'),
+    url('lev-icons.ttf?hwm55b') format('truetype'),
+    url('lev-icons.woff?hwm55b') format('woff'),
+    url('lev-icons.svg?hwm55b#lev-icons') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="lev-icon-"], [class*=" lev-icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'lev-icons' !important;
+  speak: none;
+  font-style: normal;
+  font-size: inherit;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  
+  display: inline-block;
+   text-rendering: auto;
+   
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 
+IMPORTANT:	MAKE SURE ::before and ::after HAVE THE RIGHT FONT FAMILY. 
+			WITHOUT THIS RULE SOME THEMES LIKE JOURNAL REPLACE LEV ICONS WITH THEIR OWN ICONS. 
+*/
+[class*="lev-icon-"]::before, 
+[class*="lev-icon-"]::after {
+  font-family: 'lev-icons';
+}
+
+.lev-icon-floppy-disk2:before {
+  content: "\e963";
+}
+.lev-icon-pause:before {
+  content: "\e01a";
+}
+.lev-icon-play:before {
+  content: "\e01d";
+}
+.lev-icon-windows:before {
+  content: "\e033";
+}
+.lev-icon-close:before {
+  content: "\e070";
+}
+.lev-icon-arrow-left:before {
+  content: "\e094";
+}
+.lev-icon-arrow-right:before {
+  content: "\e095";
+}
+.lev-icon-download:before {
+  content: "\e0f2";
+}
+.lev-icon-apps:before {
+  content: "\e1ff";
+}
+.lev-icon-fullscreen:before {
+  content: "\e20c";
+}
+.lev-icon-fullscreen-exit:before {
+  content: "\e20d";
+}
+.lev-icon-zoom-in:before {
+  content: "\e311";
+}
+.lev-icon-zoom-out:before {
+  content: "\e312";
+}
+.lev-icon-share:before {
+  content: "\e80d";
+}
+.lev-icon-facebook:before {
+  content: "\e901";
+}
+.lev-icon-google:before {
+  content: "\e902";
+}
+.lev-icon-pinterest:before {
+  content: "\e903";
+}
+.lev-icon-twitter:before {
+  content: "\e904";
+}
+.lev-icon-home:before {
+  content: "\e900";
+}
+.lev-icon-pencil:before {
+  content: "\e905";
+}
+.lev-icon-image:before {
+  content: "\e90d";
+}
+.lev-icon-music:before {
+  content: "\e911";
+}
+.lev-icon-play2:before {
+  content: "\e912";
+}
+.lev-icon-file-text2:before {
+  content: "\e926";
+}
+.lev-icon-folder-open:before {
+  content: "\e930";
+}
+.lev-icon-cart:before {
+  content: "\e93a";
+}
+.lev-icon-printer:before {
+  content: "\e954";
+}
+.lev-icon-floppy-disk:before {
+  content: "\e962";
+}
+.lev-icon-database:before {
+  content: "\e964";
+}
+.lev-icon-bubble:before {
+  content: "\e96b";
+}
+.lev-icon-bubbles2:before {
+  content: "\e96d";
+}
+.lev-icon-spinner:before {
+  content: "\e97a";
+}
+.lev-icon-lock:before {
+  content: "\e98f";
+}
+.lev-icon-equalizer:before {
+  content: "\e992";
+}
+.lev-icon-cogs:before {
+  content: "\e995";
+}
+.lev-icon-stats-bars:before {
+  content: "\e99c";
+}
+.lev-icon-meter:before {
+  content: "\e9a6";
+}
+.lev-icon-bin:before {
+  content: "\e9ac";
+}
+.lev-icon-shield:before {
+  content: "\e9b4";
+}
+.lev-icon-download3:before {
+  content: "\e9c7";
+}
+.lev-icon-upload3:before {
+  content: "\e9c8";
+}
+.lev-icon-link:before {
+  content: "\e9cb";
+}
+.lev-icon-eye:before {
+  content: "\e9ce";
+}
+.lev-icon-star-half:before {
+  content: "\e9d8";
+}
+.lev-icon-star-full:before {
+  content: "\e9d9";
+}
+.lev-icon-warning:before {
+  content: "\ea07";
+}
+.lev-icon-plus:before {
+  content: "\ea0a";
+}
+.lev-icon-minus:before {
+  content: "\ea0b";
+}
+.lev-icon-cross:before {
+  content: "\ea0f";
+}
+.lev-icon-checkmark:before {
+  content: "\ea10";
+}
+.lev-icon-enter:before {
+  content: "\ea13";
+}
+.lev-icon-exit:before {
+  content: "\ea14";
+}
+.lev-icon-star-empty:before {
+  content: "\e9d7";
+}
+

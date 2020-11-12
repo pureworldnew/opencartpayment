@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+	<id>PDF Invoice - default theme</id>
+  <name>PDF Invoice - default theme</name>
+  <code>pdf_invoice_theme_default</code>
+	<version>1.0</version>
+	<vqmver>2.4.0</vqmver>
+	<author>GeekoDev</author>
+  <link></link>
+	
+	<!-- EDIT THIS PART TO MAKE IT COMPATIBLE WITH YOUR THEME -->
+	<file path="catalog/view/theme/*/template/account/order_list.tpl" error="skip">
+		<operation error="skip">
+			<search position="replace"><![CDATA[<td class="text-right"><a href="<?php echo $order['href']; ?>"]]></search>
+			<add position="replace"><![CDATA[<td class="text-right"><?php if(!($pdf_invoice_invoiced && !$order['invoice_no'])){ ?><a href="<?php echo $order['pdf_href']; ?>" target="_new" data-toggle="tooltip" title="<?php echo $button_pdfinv_invoice; ?>" class="btn btn-info"><i class="fa fa-file-pdf-o"></i></a><?php } ?> <a href="<?php echo $order['href']; ?>"]]></add>
+		</operation>
+    
+	</file><file path="catalog/view/theme/*/template/account/order_list.tpl" error="skip">
+  
+		<operation error="skip">
+			<search position="replace"><![CDATA[<td class="text-right"><a href="<?php echo $order['view']; ?>"]]></search>
+			<add position="replace"><![CDATA[<td class="text-right"><?php if(!($pdf_invoice_invoiced && !$order['invoice_no'])){ ?><a href="<?php echo $order['pdf_href']; ?>" target="_new" data-toggle="tooltip" title="<?php echo $button_pdfinv_invoice; ?>" class="btn btn-info"><i class="fa fa-file-pdf-o"></i></a><?php } ?> <a href="<?php echo $order['view']; ?>"]]></add>
+		</operation>
+	</file>
+	
+	<file path="catalog/view/theme/*/template/account/order_info.tpl" error="skip">
+		<operation error="skip">
+			<search position="replace"><![CDATA[<a href="<?php echo $continue; ?>"]]></search>
+			<add position="replace"><![CDATA[<?php if(!($pdf_invoice_invoiced && !$invoice_no)){ ?><a href="<?php echo $link_pdfinv_invoice; ?>" target="_new" data-toggle="tooltip" title="<?php echo $button_pdfinv_invoice; ?>" class="btn btn-info"><i class="fa fa-file-pdf-o"></i>&nbsp;&nbsp;<?php echo $button_pdfinv_invoice; ?></a><?php } ?> <a href="<?php echo $continue; ?>"]]></add>
+		</operation>
+	</file>
+	<!-- END OF THEME EDITION -->
+  
+  <!-- EDIT THIS PART TO MAKE IT COMPATIBLE WITH YOUR THEME - TWIG THEMES-->
+  <file path="catalog/view/theme/*/template/account/order_list.twig" error="skip">{{ order.view }}z
+		<operation error="skip">
+			<search position="replace"><![CDATA[<td class="text-right"><a href="{{ order.view }}"]]></search>
+			<add position="replace"><![CDATA[<td class="text-right">{% if not (pdf_invoice_invoiced and not order.invoice_no) %}<a href="{{ order.pdf_href }}" target="_new" data-toggle="tooltip" title="{{ button_pdfinv_invoice }}" class="btn btn-info"><i class="fa fa-file-pdf-o"></i></a>{% endif %} <a href="{{ order.view }}"]]></add>
+		</operation>
+	</file>
+	
+	<file path="catalog/view/theme/*/template/account/order_info.twig" error="skip">
+		<operation error="skip">
+			<search position="replace"><![CDATA[<a href="{{ continue }}"]]></search>
+			<add position="replace"><![CDATA[{% if not (pdf_invoice_invoiced and not order.invoice_no) %}<a href="{{ link_pdfinv_invoice }}" target="_new" class="btn btn-info"><i class="fa fa-file-pdf-o"></i> {{ button_pdfinv_invoice }}</a>{% endif %} <a href="{{ continue }}"]]></add>
+		</operation>
+	</file>
+	<!-- END OF THEME EDITION - TWIG THEMES -->
+ 
+
+</modification>

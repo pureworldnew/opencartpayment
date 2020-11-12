@@ -1,0 +1,44 @@
+<modification>
+	<id>GemPack Admin</id>
+	<version>1.2.0</version>
+	<vqmver>2.3.0</vqmver>
+	<author>KM-Technologies (kmtechnologies.net@gmail.com)</author>
+	
+	<!-- Backend Changes -->
+    <file name="admin/controller/common/menu.php"> 
+        <operation info="Text entry in menu for redirect manager">
+            <search position="after"><![CDATA[$data['text_analytics'] ]]></search>
+            <add><![CDATA[
+		$data['text_qr_code'] = "QR Code Generator";
+        $data['text_qr_code_csv'] = "Generator QR CSV";
+            ]]></add>
+        </operation>
+
+        <operation info="Link to manage import">
+            <search position="after"><![CDATA[$data['analytics'] = $this->url->link('extension/analytics']]></search>
+            <add><![CDATA[
+        $data['qr_code'] = $this->url->link('qrlabel/qrlabel', 'token=' . $this->session->data['token'], true);
+        $data['qr_code_csv'] = $this->url->link('qrlabel/qrlabel/generateQrFromCsv', 'token=' . $this->session->data['token'], true);
+                ]]></add>
+        </operation>
+    </file>
+
+
+    <file name="admin/view/template/common/menu.tpl">
+        <operation info="Add new menu item to admin menu">
+            <search position="after"><![CDATA[<?php echo $text_product; ?>]]></search>
+            <add><![CDATA[
+			<li><a class="parent"><?php echo 'QR Code(s)'; ?></a>
+              <ul>
+                  <li><a href="<?php echo $qr_code; ?>"><?php echo $text_qr_code; ?></a></li>
+                  <li><a href="<?php echo $qr_code_csv; ?>"><?php echo $text_qr_code_csv; ?></a></li>
+            
+              </ul>
+          </li> 
+		  
+                
+                ]]></add>
+        </operation>
+    </file> 
+	
+</modification>

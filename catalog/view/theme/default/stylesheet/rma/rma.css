@@ -1,0 +1,103 @@
+.float-left{
+    float: left;
+}
+.float-right{
+    float: right;
+    width: 65%;
+}
+.clear{
+    clear:both;
+}
+.text-white{
+    color: #ffffff;
+}
+label.control-label span:after {
+    font-family: FontAwesome;
+    color: #1E91CF;
+    content: "\f059";
+    margin-left: 4px;
+}
+@media screen{
+    .table thead td {
+        font-weight: bold;
+    }
+    .table a.asc:after,.table a.ASC:after {
+        content: " \f107";
+        font-family: FontAwesome;
+        font-size: 14px;
+    }
+
+    .table a.desc:after,.table a.DESC:after {
+        content: " \f106";
+        font-family: FontAwesome;
+        font-size: 14px;
+    }
+}
+
+.text-left {
+  text-align: left !important;
+  margin-bottom: 5px !important;
+}
+.rma-image{
+  max-width: 80px;
+  max-height: 80px;
+  margin-left: 15px;
+  margin-bottom: 15px;
+  cursor: pointer;
+}
+legend .fa{
+  font-size: 18px;
+}
+legend div.col-sm-6{
+  padding: 0px;
+}
+p.bg{
+  padding: 5px;
+  margin-bottom: 5px;
+}
+div.bg{
+  padding-left: 5px;
+  margin-bottom: 22px;
+}
+
+@media (max-width: 767px) {
+  legend div.col-sm-6{
+    display: inline-block;
+    margin-right: 10px;
+  }
+  table.table td{
+    /*display: block;*/
+  }
+  table.table td.text-left{
+    margin: 0px !important;
+    border-collapse: collapse;
+  }
+  .rma div.pull-right{
+    float: none !important;
+  }
+}
+@media print{
+  li.image-additional img{
+    width:50px;
+    height: 50px;
+  }
+
+  table.table td{
+    display: table-cell;
+  }
+
+  p.bg{
+    color: #fff;
+    background-color: #428bca;
+  }
+}
+
+#add-auth-no {
+    background: none repeat scroll 0 0 rgb(255, 255, 255);
+    border: 1px solid rgb(226, 226, 226);
+    box-shadow: 0 0 7px 0;
+    /*padding: 8px;*/
+    position: absolute;
+    text-align: center;
+    z-index: 1;
+}

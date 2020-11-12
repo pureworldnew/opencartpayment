@@ -1,0 +1,34 @@
+<file path="admin/model/marketing/affiliate.php" email_template="admin.affiliate_approve">
+	<operation>
+		<search index="0"><![CDATA[$mail->setSubject(sprintf($this->language->get('text_approve_subject')]]></search>
+		<add position="before"><![CDATA[
+			$file = DIR_SYSTEM . 'library/emailtemplate/email_template.php';
+
+			if (file_exists($file)) {
+				include_once($file);
+			} else {
+				trigger_error('Error: Could not load library ' . $file . '!');
+				exit();
+			}
+
+            $template = new EmailTemplate($this->request, $this->registry);
+
+			$template->addData($affiliate_info);
+
+			$template->data['affiliate_login'] = HTTP_CATALOG . 'index.php?route=affiliate/login&email=' . $affiliate_info['email'];
+			$template->data['affiliate_login_tracking'] =  $template->getTracking($template->data['affiliate_login']);]]></add>
+	</operation>
+	<operation>
+		<search index="0"><![CDATA[$mail->send();]]></search>
+		<add position="replace"><![CDATA[
+			$template->load('admin.affiliate_approve');			
+			$template->loadLanguage();
+
+			$template->data['text_welcome'] = sprintf($template->language_data['text_approve_welcome'], $template->data['store_name']);
+
+			$mail = $template->hook($mail);
+ 			$mail->send();
+
+			$template->sent();]]></add>
+	</operation>
+</file>

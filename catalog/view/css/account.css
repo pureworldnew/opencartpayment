@@ -1,0 +1,9 @@
+.profile .detail p {word-wrap: break-word;}
+.dashboard .profile .btnedit {max-width:75px;}
+.dashboard .list-group h2 {color: #333 !important;}
+
+@media (max-width: 600px) {
+    #account_already {
+        font-size:11px !important;
+    }
+  }

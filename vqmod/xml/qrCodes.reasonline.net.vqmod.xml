@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification xmlns="https://github.com/vqmod/vqmod" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://github.com/vqmod/vqmod https://raw.githubusercontent.com/vqmod/vqmod/master/vqmod.xsd">
+	<id>Provides QR Code image in product views.</id>
+	<version>1.0</version>
+	<vqmver>2.X</vqmver>
+	<author>@StephenDubliner | reasonline.net</author>
+	<file name="catalog/view/theme/*/template/product/product.tpl">
+	<operation info="provide QR image for front end view">
+		<search position="before"><![CDATA[if ($price)]]></search>
+		<add><![CDATA[
+<?php
+function getCurrentPageUrl() {
+	$isSSL = isset($_SERVER['HTTPS']) || ($_SERVER['HTTPS'] != 'on');
+	$isCustomPort = $_SERVER["SERVER_PORT"] != "80";
+	$pageURL = 'http'.($isSSL?"s://":"://").$_SERVER["SERVER_NAME"].($isCustomPort?(":".$_SERVER["SERVER_PORT"]):"").$_SERVER["REQUEST_URI"];
+ return $pageURL;
+}
+function getQRLink($url, $size = 100, $errorCorrectionLevel = 'H', $margin = '0', $encoding='UTF-8'){
+	return 'https://chart.googleapis.com/chart?choe='.$encoding.'&chs='.$size.'x'.$size.'&cht=qr&chld='.$errorCorrectionLevel.'|'.$margin.'&chl='.urlencode($url);
+}
+$qrSize = 100;
+$descriptionLong = (trim($manufacturer)!=''?$manufacturer.' | ':'') . $model;
+$qrLink = getQRLink($descriptionLong,$qrSize);
+echo '
+<span>
+<img longdesc="'.$descriptionLong.'" crossorigin="anonymous" style="width:' . $qrSize 
+. 'px;height:' . $qrSize . 
+'px;" src="' . $qrLink . '" alt="' . $heading_title . '" >
+</span>
+';
+?>
+					]]>
+			</add>
+		</operation>
+	</file>
+	<file name="admin/view/template/catalog/product_form.tpl">
+		<operation info="provide QR image for admin view">
+			<search position="before"><![CDATA[<label class="col-sm-2 control-label" for="input-date-available"><?php echo $entry_date_available]]></search>
+			<add><![CDATA[
+<?php
+function getCurrentPageUrl() {
+	$isSSL = isset($_SERVER['HTTPS']) || ($_SERVER['HTTPS'] != 'on');
+	$isCustomPort = $_SERVER["SERVER_PORT"] != "80";
+	$pageURL = 'http'.($isSSL?"s://":"://").$_SERVER["SERVER_NAME"].($isCustomPort?(":".$_SERVER["SERVER_PORT"]):"").$_SERVER["REQUEST_URI"];
+ return $pageURL;
+}
+function getQRLink($url, $size = 100, $errorCorrectionLevel = 'H', $margin = '0', $encoding='UTF-8'){
+	return 'https://chart.googleapis.com/chart?choe='.$encoding.'&chs='.$size.'x'.$size.'&cht=qr&chld='.$errorCorrectionLevel.'|'.$margin.'&chl='.urlencode($url);
+}
+$qrSize = 100;
+$descriptionLong = (trim($manufacturer)!=''?$manufacturer.' | ':'') . $model;
+$qrLink = getQRLink($descriptionLong,$qrSize);
+echo '
+<div class="form-group">
+	<label class="col-sm-2 control-label" for="input-date-available">QR Code</label>
+	<div class="col-sm-3">
+		<img longdesc="'.$descriptionLong.'" crossorigin="anonymous" style="width:' . $qrSize 
+			. 'px;height:' . $qrSize . 
+			'px;" src="' . $qrLink . '" alt="' . $heading_title . '" >
+	</div>
+</div>
+';
+?>
+				]]>
+			</add>
+		</operation>
+	</file>
+</modification>

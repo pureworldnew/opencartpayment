@@ -1,0 +1,257 @@
+/*CHECKBOX CUSTOM*/
+  label.checkbox_container{
+    position: relative;
+    float: left;
+    width: 45px;
+    margin-bottom: 0px;
+  }
+  label.checkbox_container:hover
+  {
+    cursor: pointer;
+  }
+  label.checkbox_container input[type="checkbox"] { 
+    position: absolute;
+    opacity: 0;
+    left: -28px;
+  }
+
+  input[type="checkbox"].ios-switch + div {
+    vertical-align: middle;
+    width: 40px;  
+    height: 20px;
+    border: 1px solid rgba(0,0,0,.4);
+    border-radius: 999px;
+    background-color: rgba(0, 0, 0, 0.1);
+    -webkit-transition-duration: .4s;
+    -webkit-transition-property: background-color, box-shadow;
+    box-shadow: inset 0 0 0 0px rgba(0,0,0,0.4);
+    margin-top: 8px;
+  }
+
+  input[type="checkbox"].ios-switch:checked + div {
+    width: 40px;
+    background-position: 0 0;
+    background-color: #153964;
+    border: 1px solid #154277;
+    box-shadow: inset 0 0 0 10px #194e8d;
+  }
+
+  label.checkbox_container.disabled {
+    opacity: 0.3;
+    cursor: inherit !important;
+  }
+
+  input[type="checkbox"].ios-switch + div > div {
+    float: left;
+    width: 18px; 
+    height: 18px;
+    border-radius: inherit;
+    background: #ffffff;
+    -webkit-transition-timing-function: cubic-bezier(.54,1.85,.5,1);
+    -webkit-transition-duration: 0.4s;
+    -webkit-transition-property: transform, background-color, box-shadow;
+    -moz-transition-timing-function: cubic-bezier(.54,1.85,.5,1);
+    -moz-transition-duration: 0.4s;
+    -moz-transition-property: transform, background-color;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3), 0px 0px 0 1px rgba(0, 0, 0, 0.4);
+    pointer-events: none;
+    margin-top: 0px;
+    margin-left: 1px;
+  }
+
+  input[type="checkbox"].ios-switch:checked + div > div {
+    -webkit-transform: translate3d(20px, 0, 0);
+    -moz-transform: translate3d(20px, 0, 0);
+    background-color: #ffffff;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3), 0px 0px 0 1px rgba(8, 80, 172,1);
+  }
+/*END CHECKBOX CUSTOM*/
+
+/*Ajax loading*/
+    div.ajax_loading
+    {
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        height: 100%;
+        width: 100%;
+        z-index: 99999999999999;
+        background: rgba(0, 0, 0, 0.60);
+    }
+
+    div.ajax_loading i
+    {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        font-size: 80px;
+        margin-left: -40px;
+        margin-top: -40px;
+        color: #fff;
+    }
+/*END Ajax loading*/
+
+tr.no_border > td
+{
+  border: none !important;
+}
+
+div.panel-body .fa
+{
+  margin-right: 11px;
+}
+div.panel-body div.note-editor i,
+div.panel-body button .fa
+{
+  margin: 0px;
+}
+
+div.well i.fa-minus-circle:hover
+{
+  cursor: pointer;
+}
+
+div.tab-pane > div.form-group:first-child
+{
+  padding-top: 0px !important;
+}
+
+legend
+{
+  background-color: #101010;
+  border-radius: 3px;
+  color: #fff;
+  float: left;
+  font-size: 17px;
+  font-style: normal;
+  line-height: 45px;
+  margin-bottom: 0;
+  margin-top: 5px;
+  position: relative;
+  text-indent: 13px;
+  text-shadow: 2px 2px 1px #000;
+  width: 100%;
+}
+
+/*Buttons*/
+  div.panel-body .button {
+    background-color: #55acee;
+    border-radius: 5px;
+    box-shadow: 0 5px 0 0 #3c93d5;
+    color: #fff;
+    display: inline-block;
+    font-size: 15px;
+    margin-bottom: 10px;
+    padding: 9px 19px;
+    position: relative;
+    text-decoration: none;
+  }
+
+  div.panel-body .button.disabled{
+    background-color: #a5a5a5 !important;
+    box-shadow: 0 5px 0 0 #5b5b5b;
+  }
+
+  div.panel-body .button:active {
+    transform: translate(0px, 5px);
+    -webkit-transform: translate(0px, 5px);
+    box-shadow: 0px 1px 0px 0px;
+    background: #49a6ed;
+  }
+  div.panel-body .button:hover
+  {
+    background: #49a6ed;
+    cursor: pointer;
+  }
+  div.panel-body .button.disabled:hover
+  {
+    cursor:not-allowed;
+  }
+/*END Buttons*/
+
+div.form-group-columns label
+{
+  text-align: left !important;
+  padding-top: 0px !important;
+  padding-bottom: 3px;
+}
+div.form-group-columns
+{
+  min-height: 68px !important;
+}
+.only_input
+{
+  margin-bottom: 5px !important;
+}
+div.bootstrap-select
+{
+  max-width: 300px !important;
+}
+a.hide_column
+{
+  position: relative;
+  margin-left: 5px;
+}
+a.hide_column:hover
+{
+  cursor: pointer;
+}
+a.hide_column i
+{
+  margin: 0 !important;
+}
+td.hide_column > *
+{
+  display: none !important;
+}
+
+table tbody tr td div span.multilanguage_flag + input
+{
+  margin-bottom: 0px !important;
+}
+
+.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary, .bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-primary
+{
+  background-color: #153964 !important;
+}
+.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-default, .bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-default
+{
+  background-color: #641515 !important;
+  color: #fff;
+}
+.bootstrap-switch .bootstrap-switch-handle-on, .bootstrap-switch .bootstrap-switch-handle-off, .bootstrap-switch .bootstrap-switch-label
+{
+  font-size: 11px;
+}
+/*Draggable order table*/
+  body.dragging, body.dragging * {
+    cursor: move !important;
+  }
+
+  .dragged {
+    position: absolute;
+    opacity: 0.5;
+    z-index: 2000;
+  }
+
+  ol.example li.placeholder {
+    position: relative;
+    /** More li styles **/
+  }
+  ol.example li.placeholder:before {
+    position: absolute;
+    /** Define arrowhead **/
+  }
+  td.draggable_element
+  {
+    text-align: center;
+  }
+  td.draggable_element i.fa-reorder
+  {
+    font-size: 20px;
+  }
+  td.draggable_element i.fa-reorder:hover
+  {
+    cursor: all-scroll;
+  }
+/*END*/

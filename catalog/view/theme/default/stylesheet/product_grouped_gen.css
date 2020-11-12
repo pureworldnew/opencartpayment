@@ -1,0 +1,87 @@
+/* Grouped Product for OC - powered by www.fabiom7.com */
+/* Some reset because some themes are very bad developed */
+.grouped-product img{border:0;}.grouped-product .gp-box-name *{margin:0;padding:0;border:0;background:none;}.grouped-product input,.grouped-product select{margin:0;min-width:0;min-height:0;width:36.8%;font-family: "Open Sans";  box-shadow: 0 1px 0 #666666 inset; /*width: 100%;*/}.grouped-product small{margin:0;padding:0;background:none;font-size:10px;}.grouped-product .options,.grouped-product .required,.grouped-product .price,.grouped-product .price-new,.grouped-product .price-old,.grouped-product .price-tax,.grouped-product .rr-price,.grouped-product .discount,.grouped-product .reward,.grouped-product .minimum,.grouped-product .rating,.grouped-product .saving{margin:0;padding:0;border:0;font-weight:normal;text-decoration:none;background:none;}
+
+/* Big container, images */
+.product-info-grouped-product{overflow:auto;margin-bottom:20px;}
+.product-info-grouped-product .image-container-grouped-product{float:left;margin-right:15px;}
+.product-info-grouped-product .image-grouped-product{float:left;border:1px solid #E7E7E7;margin-bottom:20px;padding:10px;text-align:center;}
+.product-info-grouped-product .image-additional-grouped-product-left{width:260px;margin-left:-10px;clear:both;overflow:hidden;}
+.product-info-grouped-product .image-additional-grouped-product-right{width:auto;float:left;}
+.product-info-grouped-product .image-additional-grouped-product img{border:1px solid #E7E7E7;}
+.product-info-grouped-product .image-additional-grouped-product a{float:left;display:block;margin-left:10px;margin-bottom:10px;}
+
+/* Childs-Products container, The GP core */
+.grouped-product .gp-loader{display:none;position:absolute;}.grouped-product .gp-toggle{cursor:pointer;}.grouped-product .gp-toggle-meno{display:none;}.grouped-product .gp-box-qty,.grouped-product .gp-box-qty-txt,.grouped-product .gp-box-button-addtocart-no,.grouped-product .gp-box-button-addtocart{display:inline-block;}.grouped-product .gp-box-qty input,.grouped-product .gp-box-qty select{box-sizing:border-box;-moz-box-sizing:border-box;width:100%;}
+.grouped-product .gp-box-name h2{display:inline-block;text-decoration:none;}
+
+/* OK Start - General */
+.gp-error-txt{text-align:left;padding:7px;color:#F00;}
+.gp-required-txt{text-align:right;padding:7px;color:#F00;}
+.gp-toggle-meno,.gp-toggle-piu{color:#F77;font-weight:bold;font-size:14px;}/*meno(-),piu(+),my(IT)language:-)*/
+.gp-loader{width:32px;height:32px;background:url('../image/loading.gif') center center no-repeat;}
+
+/* Table - General */
+.gp-table{border-top:solid 1px #ddd;border-right:solid 1px #ddd;border-collapse:collapse;border-spacing:0;width:100%;}
+.gp-thead td{border-right:solid 1px #ddd;border-left:solid 1px #ddd;border-bottom:solid 1px #ddd;background:#efefef;white-space:nowrap;}
+.gp-tbody td{border-right:solid 1px #ddd;border-left:solid 1px #ddd;border-bottom:solid 1px #ddd;}
+.gp-table td{padding:7px;font-size:13px;font-weight:normal;color:#333;}
+.gp-tcell-state-default{background:#fff;}
+.gp-tcell-state-hover{background:#efefef;}
+
+/* Common - General */
+.grouped-product .gp-box-name *{color:#333333;font-weight:bold;font-size:13px;margin-bottom:7px;}
+.grouped-product .gp-box-info{color:#4D4D4D;font-size:11px;}
+.grouped-product .gp-box-info a{color:#4D4D4D;font-size:11px;}
+.grouped-product .gp-box-info span{color:#38b0e3;font-size:11px;}
+
+.grouped-product .required {color:#ff0000;}
+.grouped-product .price    {color:#333333;font-weight:bold;margin-bottom:14px;}
+.grouped-product .price-new{color:#333333;font-weight:bold;}
+.grouped-product .price-old{color:#ff0000;text-decoration:line-through;}
+.grouped-product .price-tax{color:#bbbbbb;font-size:11px;}
+.grouped-product .rr-price {color:#999999;font-size:11px;}.grouped-product .rr-price span{color:#999;font-size:11px;}
+.grouped-product .reward   {color:#999999;font-size:11px;}
+.grouped-product .minimum  {color:#999999;font-size:11px;}
+.grouped-product .discount {color:#4d4d4d;font-size:11px;display:none;}
+.grouped-product .saving   {color:#38b0e3;}.grouped-product .saving span{color:#f00;}
+.grouped-product .rating   {color:#ffffff;}
+
+.grouped-product a.disabled{color:#fff;background:#bbb;}
+.grouped-product input.disabled,.grouped-product select.disabled{color:#bbb;}
+
+/* The level after table child-products */
+.gp-after-t{padding:20px 0;}
+.gp-after-t .price{font-size:15px;}.gp-after-t .price .price-tax{font-size:12px;}
+.gp-after-t-text-or{color:#999;padding-left:7px;}
+.gp-after-t-links{display:inline-block;vertical-align:middle;padding-left:7px;}
+
+/* Appended childs description */
+.gp-append-child-name{padding:7px 0;font-weight:bold;border-top:1px solid #DDDDDD;}.gp-append-child-description{padding-left:20px;}
+
+/* Reviews */
+.grouped-product .review{color:#4D4D4D;border-top:1px solid #E7E7E7;border-left:1px solid #E7E7E7;border-right:1px solid #E7E7E7;margin-bottom:10px;}
+.grouped-product .review > div {padding:8px;border-bottom:1px solid #E7E7E7;line-height:20px;}
+.grouped-product .review > div > span{color:#38B0E3;}
+.grouped-product .review .share{overflow:auto;line-height: normal;}
+.grouped-product .review .share a{text-decoration:none;}
+
+/* Popup: Compare/Details */
+#gp-compare-container{width:980px;margin-left:auto;margin-right:auto;text-align:left;}
+.gp-compare-info{border-collapse:collapse;width:100%;border-top:1px solid #DDDDDD;border-left:1px solid #DDDDDD;margin-bottom:20px;}
+.gp-compare-info thead td,.gp-compare-info thead tr td:first-child{color:#000000;font-size:14px;font-weight:bold;background:#F7F7F7;text-align:left;}
+.gp-compare-info tr td:first-child{color:#000000;font-weight:bold;text-align:right;}
+.gp-compare-info td{padding:7px;color:#4D4D4D;text-align:center;vertical-align:top;border-right:1px solid #DDDDDD;border-bottom:1px solid #DDDDDD;}
+.gp-compare-info-p1 td{width:50%;}.gp-compare-info-p2 td{width:33.3%;}.gp-compare-info-p3 td{width:25%;}.gp-compare-info-p4 td{width:20%;}.gp-compare-info-p5 td{width:16.6%;}.gp-compare-info-p6 td{width:14.2%;}.gp-compare-info-p7 td{width:12.5%;}.gp-compare-info-p8 td{width:11.1%;}.gp-compare-info-p9 td{width:10%;}
+.gp-compare-info .name a{font-weight:bold;}
+.gp-compare-info .price-old{font-weight:bold;color:#F00;text-decoration:line-through;}
+.gp-compare-info .price-new{font-weight:bold;}
+
+/*
+Some examples for override styles:
+               remove text - OR -: .gp-after-t-text-or{display:none;}
+   remove add to wishlist,compare: .gp-after-t-links{display:none;}
+    remove the info box (chekbox): .gp-config .gp-tbody-checkbox .gp-box-info{display:none;}   
+need to fix the height (checkbox): .gp-config .gp-tbody-checkbox td{height:100px;}
+Responsive example iPhone,Android: @media only screen and (min-device-width:320px) and (max-device-width:480px){.grouped-product{clear:both;}}
+*/

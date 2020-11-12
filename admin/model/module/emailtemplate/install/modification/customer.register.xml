@@ -1,0 +1,120 @@
+<file path="catalog/model/account/customer.php" email_template="customer.register">
+	<operation>
+		<search index="0"><![CDATA[$this->load->language('mail/customer');]]></search>
+		<add position="after"><![CDATA[		$file = DIR_SYSTEM . 'library/emailtemplate/email_template.php';
+
+		if (file_exists($file)) {
+			include_once($file);
+		} else {
+			trigger_error('Error: Could not load library ' . $file . '!');
+			exit();
+		}
+		
+		$template = new EmailTemplate($this->request, $this->registry);
+					
+		$template->addData($data); 
+		
+		// Custom fields
+		if (!empty($data['custom_field'])) {
+			$this->load->model('account/custom_field');
+			
+			if (!empty($data['customer_group_id'])) {
+				$customer_group_id = $data['customer_group_id'];
+			} else {
+				$customer_group_id = $this->config->get('config_customer_group_id');
+			}
+			
+			$custom_fields = $this->model_account_custom_field->getCustomFields($customer_group_id);
+			
+			foreach($custom_fields as $custom_field){
+				if (isset($data['custom_field'][$custom_field['location']][$custom_field['custom_field_id']])) {
+					$template->data['custom_field_' . $custom_field['location'] . '_' . $custom_field['custom_field_id'] . '_name'] = $custom_field['name'];
+					$template->data['custom_field_' . $custom_field['location'] . '_' . $custom_field['custom_field_id'] . '_value'] = $data['custom_field'][$custom_field['location']][$custom_field['custom_field_id']];
+				}	
+			}
+		}
+		
+		$template->data['newsletter'] = $this->language->get((isset($data['newsletter']) && $data['newsletter'] == 1) ? 'text_yes' : 'text_no');
+		
+		$template->data['account_login'] = $this->url->link('account/login', 'email=' . $data['email'], 'SSL');
+		$template->data['account_login_tracking'] = $template->getTracking($template->data['account_login']);
+		
+		$template->data['customer_group'] = (isset($customer_group_info['name'])) ? $customer_group_info['name'] : '';
+
+		if ($address_id) {
+			$country = '';
+			$iso_code_2 = '';
+			$iso_code_3 = '';
+			$address_format = '';
+			$zone = '';
+			$zone_code = '';
+				
+			if (!empty($data['country_id'])) {
+				$country_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "country` WHERE country_id = '" . (int)$data['country_id'] . "'");
+	
+				if ($country_query->num_rows) {
+					$country = $country_query->row['name'];
+					$iso_code_2 = $country_query->row['iso_code_2'];
+					$iso_code_3 = $country_query->row['iso_code_3'];
+					$address_format = $country_query->row['address_format'];
+				}
+			}
+				
+			if (!empty($data['zone_id'])) {
+				$zone_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "zone` WHERE zone_id = '" . (int)$data['zone_id'] . "'");
+
+				if ($zone_query->num_rows) {
+					$zone = $zone_query->row['name'];
+					$zone_code = $zone_query->row['code'];
+				}
+			}
+	
+			$address_data = array(
+				'address_id'     => $address_id,
+				'firstname'      => $data['firstname'],
+				'lastname'       => $data['lastname'],
+				'company'        => $data['company'],
+				'address_1'      => $data['address_1'],
+				'address_2'      => $data['address_2'],
+				'postcode'       => $data['postcode'],
+				'city'           => $data['city'],
+				'zone_id'        => $data['zone_id'],
+				'zone'           => $zone,
+				'zone_code'      => $zone_code,
+				'country_id'     => $data['country_id'],
+				'country'        => $country,
+				'iso_code_2'     => $iso_code_2,
+				'iso_code_3'     => $iso_code_3
+			);
+			
+			$find = array();
+			$replace = array();
+			
+			foreach(array_keys($address_data) as $key) {
+				$find[$key] = '{'.$key.'}';
+				$replace[$key] =  $address_data[$key];
+			}
+			
+			if (!$address_format) {
+				$address_format = '{firstname} {lastname}' . "\n" . '{company}' . "\n" . '{address_1}' . "\n" . '{address_2}' . "\n" . '{city} {postcode}' . "\n" . '{zone}' . "\n" . '{country}';
+			}
+			
+			$template->data['address'] =  str_replace(array("\r\n", "\r", "\n"), '<br />', preg_replace(array("/\s\s+/", "/\r\r+/", "/\n\n+/"), '<br />', trim(str_replace($find, $replace, $address_format))));
+		}
+
+        if ((isset($customer_group_info['approval']) && $customer_group_info['approval']) || $this->config->get('config_customer_approval')) {
+         	$template->data['customer_text'] = $this->language->get('text_approval');
+        } else {
+           	$template->data['customer_text'] = $this->language->get('text_login');
+        }]]></add>
+	</operation>
+	<operation>
+		<search index="0"><![CDATA[$mail->send();]]></search>
+		<add position="replace"><![CDATA[$template->load('customer.register');
+
+		$mail = $template->hook($mail);
+		$mail->send();
+
+		$template->sent();]]></add>
+	</operation>
+</file>

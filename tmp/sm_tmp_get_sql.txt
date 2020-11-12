@@ -1,0 +1,1 @@
+a:5:{s:14:"get_sql_cancel";i:0;s:13:"get_sql_table";s:0:"";s:18:"get_sql_percentage";i:0;s:17:"get_sql_file_part";i:1;s:10:"dump_parts";a:6:{s:25:"em1_bridge_db_dump004.sql";i:1;s:25:"em1_bridge_db_dump003.sql";i:1;s:24:"em1_bridge_db_dump004.gz";i:0;s:24:"em1_bridge_db_dump005.gz";i:1;s:24:"em1_bridge_db_dump006.gz";i:1;s:24:"em1_bridge_db_dump007.gz";i:1;}}

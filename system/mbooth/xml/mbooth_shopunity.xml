@@ -1,0 +1,56 @@
+<extension>
+    <id>shopunity</id>
+    <name>Shopunity Theme Patch</name>
+    <description></description>
+    <type>theme</type>
+    <version>2.3.0</version>
+	<opencart_version>2.0.0.0;2.0.1.0;2.0.1.1;2.0.1.1;2.0.2.0;2.0.3.1;2.1.0.1</opencart_version>
+    <mbooth_version>2.4</mbooth_version>
+    <author>Dreamvention</author>
+    <files>
+		<file>system/mbooth/xml/mbooth_shopunity.xml</file>
+		<file>admin/view/template/common/d_file_manager.tpl</file>
+		<file>vqmod/xml/a_vqmod_shopunity.xml</file>
+	</files>
+	<dirs>
+		<dir>admin/view/javascript/shopunity</dir>
+		<dir>admin/view/stylesheet/shopunity</dir>
+		<dir>system/library/hyperlight</dir>
+		<dir>system/elfinder</dir>
+	</dirs>
+	<required>
+		<require></require>
+	</required>
+	<updates>
+		<update version="2.3.0">
+			1. underscroe added (1.8.3)<br/>
+			2. backbone added (1.2.3)<br/>
+		</update>
+		<update version="2.2.0">
+			1. bootstrap-colorpicker<br/>
+			2. bootstrap-editable<br/>
+			3. bootstrap-slider<br/>
+			4. bootstrap-sortable<br/>
+			5. bootstrap-switch<br/>
+			6. serializeObjact
+		</update>
+		<update version="2.1.0">
+			1. rubaxa-sortable<br/>
+			2. style fixes
+		</update>
+		<update version="2.0.2">
+			1. added margins and paddings<br/>
+		</update>
+		<update version="2.0.1">
+			1. Added interect.js<br/>
+		</update>
+		<update version="2.0">
+			1. Added compatiblity with version 2.0 bootstrap<br/>
+		</update>
+		<update version="1.1">
+			1. Bug fixes<br/>
+		</update>
+		<update version="1.0">
+		</update>
+	</updates>
+</extension>

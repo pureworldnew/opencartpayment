@@ -1,0 +1,40 @@
+<file path="catalog/model/catalog/review.php" email_template="product.review">
+	<operation>
+		<search index="0"><![CDATA[$mail = new Mail(]]></search>
+		<add position="before"><![CDATA[			$file = DIR_SYSTEM . 'library/emailtemplate/email_template.php';
+
+			if (file_exists($file)) {
+				include_once($file);
+			} else {
+				trigger_error('Error: Could not load library ' . $file . '!');
+				exit();
+			}
+
+			$template = new EmailTemplate($this->request, $this->registry);
+
+			$template->addData($data, 'review');
+
+			$template->data['review_approve'] = (defined('HTTP_ADMIN') ? HTTP_ADMIN : HTTPS_SERVER.'admin/') . 'index.php?route=catalog/review/edit&review_id=' . $review_id;
+
+			$template->addData($product_info, 'product');
+
+			$template->data['product_link'] = $this->url->link('product/product', 'product_id=' . $product_id);
+			$template->data['product_link_tracking'] = $template->getTracking($template->data['product_link']);
+		]]></add>
+	</operation>
+	<operation>
+		<search index="0"><![CDATA[$mail->send();]]></search>
+		<add position="replace"><![CDATA[
+			$template->load('product.review');
+
+			$mail = $template->hook($mail);
+
+			if ($this->customer->isLogged()) {
+				$mail->setFrom($this->customer->getEmail());
+			}
+
+			$mail->send();
+
+			$template->sent();]]></add>
+	</operation>
+</file>

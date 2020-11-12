@@ -1,0 +1,243 @@
+.ui-widget-header {
+    background: url("images/ui-bg_gloss-wave_35_f6a828_500x100.png") repeat-x scroll 50% 50% #38B0E3;
+    border: 1px solid #E78F08;
+    color: #FFFFFF;
+    font-weight: bold;
+}
+
+.ui-slider-horizontal {
+    height: 0.4em;
+}
+
+.ui-slider .ui-slider-handle {
+    cursor: default;
+    height: 0.6em;
+    position: absolute;
+    width: 0.6em;
+    z-index: 2;
+}
+
+.ui-slider-horizontal .ui-slider-handle {
+    margin-left: -0.6em;
+    top: -0.2em;
+}
+
+
+#leftSlider{width: 158px;margin-left: 5px;}
+
+
+a.supercategory{
+	color:#444444;
+	text-decoration: underline;
+	font-size: 12px;
+	padding-bottom: 15px;
+}
+a.child_category{
+	color: #38B0E3;
+	text-decoration: none;
+	cursor: pointer;
+	font-style: italic;
+}
+a.child_category:hover{
+	color: #38B0E3;
+	text-decoration: underline;
+	cursor: pointer;
+	font-style: italic;
+}
+.filter_del {
+	width: 7px;
+	height: 10px;
+	background-image: url('images/delete.v31.gif');
+	background-position: 0 0;	
+	vertical-align: middle;
+}
+.filter_del:hover {
+	width: 7px;
+	height: 10px;
+	background-image: url('images/delete.v31.gif');
+	background-position: 0 10;	
+	vertical-align: middle;
+}
+
+
+
+
+#filter_box dl, #filter_box dt, #filter_box dd, #filter_box ol, #filter_box ul, #filter_box li{margin: 0; padding: 0; border: 0; outline: 0; font-size: 100%; vertical-align: baseline; background-color: transparent;}
+#filter_box ul #filter_box li, #filter_box dt, #filter_box dd {display: block;}
+
+
+#filter_box span{
+	text-align: left;
+	position: relative;
+	font-size:12px;
+	font-style:normal;
+	font-weight:bold;
+ 	text-transform: uppercase;
+}
+
+
+#filter_box {
+	text-align: left;
+	position: relative;
+	font-size:12px;
+}
+#filter_box dl.filters dt,
+#filter_box dl.filters dt span {
+	display: block;
+	background-image: url(images/bg_filters.gif);
+	background-repeat: no-repeat;
+	background-position: 0 -80px;
+}
+
+#filter_box dl.filter_expanded dt {
+	background-position: 0 -180px!important;
+}
+#filter_box dl.filter_expanded dt span {
+	background-position: 100% -180px!important;
+}
+
+#filter_box dl.filter_expanded dt.first {
+	background-position: 0 -250px!important;
+}
+#filter_box dl.filter_expanded dt.first span {
+	background-position: 100% -250px!important;
+}
+
+#filter_box dl.filters dt {position: relative; z-index: 5;}
+
+#filter_box dl.closed dt img {display: none!important;}
+
+#filter_box dl.filters dt span {
+	position: relative;
+	height: 14px;
+}
+
+#filter_box dl.filters dt {cursor: pointer; font-size: 91.66%; font-weight: 700; color: #444444;}
+	#filter_box dl.filters dt span {white-space: nowrap; overflow: hidden; margin-left: 5px; padding: 8px 0; background-position: 100% -80px;}
+
+#filter_box dl.filters dt.first {background-position: 0 0;}
+	#filter_box dl.filters dt.first span {background-position: 100% 0;}
+
+#filter_box dl.filters dt.last {height: 6px; background-position: 0 -160px; border: none;}
+	#filter_box dl.filters dt.last span {height: 6px; padding: 0; font-size: 0; background-position: 100% -160px;}
+
+#filter_box dl.filters dd {overflow: auto; position: relative;}
+
+#filter_box dl.filters dt,
+#filter_box dl.filters dd {border-right: 1px solid #D5D5D5; border-left: 1px solid #D5D5D5;}
+
+#filter_box dl.filters dd {
+	padding: 5px 3px;
+	border: 1px solid #D5D5D5;
+	border-width: 1px 1px 0 1px;
+	background-color: #FBFBFB;
+}
+
+#filter_box dl.filters dt.first {border: none;}
+
+#filter_box dl.filters dd ul {position: relative; width: 100%; font-size: 91.66%; line-height: 16px;}
+
+
+#filter_box span.seleccionado em {
+	display: inline-block;
+	width: 13px;
+	height: 17px;
+	margin: 0 7px 0 4px;
+	font-size: 0;
+	vertical-align: middle;
+	background: url('images/chk_filter.gif') no-repeat 0 -48px;
+	cursor: pointer;
+}
+#filter_box dl.filters dd li em {
+	display: inline-block;
+	width: 13px;
+	height: 17px;
+	margin: 0 7px 0 4px;
+	font-size: 0;
+	vertical-align: middle;
+	background: url('images/chk_filter.gif') no-repeat 0 2px;
+	cursor: pointer;
+}
+
+#filter_box dl.filters dd li.active {
+	position: relative;
+}
+
+#filter_box dl.filters dd li.active em {
+	display: inline-block;
+	width: 13px;
+	height: 17px;
+	margin: 0 7px 0 4px;
+	font-size: 0;
+	vertical-align: middle;
+	background: url('images/chk_filter.gif') no-repeat 0 -48px;
+	cursor: pointer;
+}
+
+#filter_box dl.filters dd li.active a.link_filter_del {
+	position: absolute;
+	top: 0;
+	right: 5px;
+}
+
+#filter_box dl.filters dd li.active span {
+	font-weight: 700;
+}
+
+#filter_box dl.filters dd li.active a,
+#filter_box dl.filters dd li.active a:hover,
+#filter_box dl.filters dd li.active a:active {
+	font-weight: 700;
+	text-decoration: none;
+	color: #000000;
+}
+
+#filter_box dl.filters dd .arrs li,
+#filter_box dl.filters dd li.arr {
+	padding-left: 10px;
+	background: url('images/chk_filter.gif') no-repeat -3px -148px;
+}
+
+#filter_box dl.filters dd li.more_filters {
+	padding-left: 1.3em;
+	margin: 0.3em 0;
+	background: url('images/chk_filter.gif') no-repeat 0 -97px;
+}
+
+#filter_box dl.filters dd li a:link,
+#filter_box dl.filters dd li a:visited {
+	text-decoration: none;
+}
+
+#filter_box dl.filters dd li a:hover,
+#filter_box dl.filters dd li a:active {
+	text-decoration: underline;
+}
+
+#filter_box dl.filters dd li.more_filters a:link,
+#filter_box dl.filters dd li.more_filters a:visited,
+#filter_box dl.filters dd li.more_filters a:hover,
+#filter_box dl.filters dd li.more_filters a:active {
+	font-size: 91.66%;
+	text-decoration: underline;
+	color: #444444;
+}
+
+#filter_box dl.filters dt span em {
+	display: inline-block;
+	width: 7px;
+	height: 17px;
+	margin-right: 4px;
+	font-size: 0;
+	line-height: 17px;
+	vertical-align: middle;
+	background: url('images/arr_opened_filter.v31.gif') no-repeat 0 6px;
+}
+
+#filter_box dl.closed dt span em {
+	background: url('images/arr_closed_filter.v31.gif') no-repeat 0 4px;
+}
+
+#filter_box dl.closed dd {
+	display: none!important;
+}

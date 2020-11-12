@@ -1,0 +1,12 @@
+drwxr-xr-x    3 496      497          4096 Dec 16 12:51 .
+drwxrwxrwx    4 496      497          4096 Dec 16 12:51 ..
+-rw-r--r--    1 0        0            1131 Dec 16 12:51 MySQLStorage.sql
+-rw-r--r--    1 0        0           44809 Dec 16 12:51 elFinder.class.php
+-rw-r--r--    1 0        0            3128 Dec 16 12:51 elFinderConnector.class.php
+-rw-r--r--    1 0        0          101068 Dec 16 12:51 elFinderVolumeDriver.class.php
+-rw-r--r--    1 0        0           35972 Dec 16 12:51 elFinderVolumeFTP.class.php
+-rw-r--r--    1 0        0           19057 Dec 16 12:51 elFinderVolumeLocalFileSystem.class.php
+-rw-r--r--    1 0        0           24599 Dec 16 12:51 elFinderVolumeMySQL.class.php
+-rw-r--r--    1 0        0           17570 Dec 16 12:51 elFinderVolumeS3.class.php
+-rw-r--r--    1 0        0           13871 Dec 16 12:51 mime.types
+drwxr-xr-x    5 496      497          4096 Nov 14 12:37 plugins

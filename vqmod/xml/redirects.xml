@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+    <id>Redirector URL 301</id>
+    <version>1.0</version>
+    <vqmver>2.X</vqmver>
+    <author>M.Bilal Tajammal</author>
+    <comment>
+        
+    </comment>
+
+    <file name="catalog/controller/common/seo_url.php">
+        <operation info="if SEO URL lookup fails, check to see if a redirect exists">
+            <search position="before"><![CDATA[error/not_found]]></search>
+            <add><![CDATA[
+            
+            $request = basename($_SERVER['REQUEST_URI']);
+                    $redirect_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "url_redirect WHERE old_url = '" . $this->db->escape($request) . "'");
+                    if($redirect_query->num_rows)
+                    {
+                       // $new_link_id = $redirect_query->row['active_url'];
+                            $url = explode('=', $redirect_query->row['new_url']);
+                            if ($url[0] == 'product_id') {
+                            $_product_id = $url[1];
+                            $new_href = $this->db->query("SELECT keyword FROM " . DB_PREFIX . "url_alias WHERE query = 'product_id=" . $_product_id . "'");
+                            $move_to_url = $new_href->row['keyword'];
+                            } elseif ($url[0] == 'category_id') {
+                            $_category_id = $url[1];
+                            $new_href = $this->db->query("SELECT keyword FROM " . DB_PREFIX . "url_alias WHERE query = 'category_id=" . $_category_id . "'");
+                            $move_to_url = $new_href->row['keyword'];
+                            }else{
+                            $move_to_url = $redirect_query->row['new_url'];
+                            }
+                            
+                            Header('HTTP/1.1 301 Moved Permanently');
+                            Header('Location: /' . $move_to_url);
+                            exit();
+                    }
+                ]]></add>
+        </operation>
+    </file>
+
+
+    <!-- Backend Changes -->
+    <file name="admin/controller/common/menu.php">
+        <operation info="Text entry in menu for redirect manager">
+            <search position="after"><![CDATA[$data['text_analytics'] ]]></search>
+            <add><![CDATA[
+		$data['text_redirects'] = "Redirects 301";
+            ]]></add>
+        </operation>
+
+        <operation info="Link to manage redirects">
+            <search position="after"><![CDATA[$data['analytics'] = $this->url->link('extension/analytics']]></search>
+            <add><![CDATA[
+        $data['redirects'] = $this->url->link('module/redirects', 'token=' . $this->session->data['token'], true);
+                ]]></add>
+        </operation>
+    </file>
+
+
+    <file name="admin/view/template/common/menu.tpl">
+        <operation info="Add new menu item to admin menu">
+            <search position="after"><![CDATA[<?php echo $text_information; ?>]]></search>
+            <add><![CDATA[
+                <li><a href="<?php echo $redirects; ?>"><?php echo $text_redirects; ?></a></li>
+                ]]></add>
+        </operation>
+    </file>
+
+</modification>

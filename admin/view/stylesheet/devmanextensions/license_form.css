@@ -1,0 +1,80 @@
+div.license_form_container
+{
+	max-width: 538px;
+	border: 1px solid #dcdcdc;
+	position: relative;
+	float: none;
+	margin: 0 auto;
+	margin-top: 30px;
+	margin-bottom: 30px;
+	box-shadow: 0px 0px 9px 2px #eee;
+	text-align: center;
+	overflow: hidden;
+	background: url('../../image/devmanextensions/license_form/devman.png') no-repeat -121px -24px;
+}
+
+
+div.license_form_container h2.heading
+{
+	font-size: 28px;
+	color: #5e5e5e;
+	margin-bottom: 25px;
+	font-weight: normal !important;
+	text-transform: none !important;
+	border-bottom: 0px !important;
+}
+
+div.license_form_container h2.heading:before
+{
+	content: "";
+	display: block;
+	width: 69px;
+	height: 61px;
+	background: url('../../image/devmanextensions/license_form/logo_devman_grey.png') no-repeat left top;
+	margin: 0 auto;
+	margin-top: 27px;
+	margin-bottom: 27px;
+}
+
+div.license_form_container input
+{
+	max-width: 372px;
+	margin: 0 auto;
+	font-size: 14px;
+	color: #000;
+	margin-bottom: 20px;
+}
+
+div.license_form_container input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: #c4c4c4;
+  font-style: italic;
+}
+div.license_form_container input::-moz-placeholder { /* Firefox 19+ */
+  color: #c4c4c4;
+  font-style: italic;
+}
+div.license_form_container input:-ms-input-placeholder { /* IE 10+ */
+  color: #c4c4c4;
+  font-style: italic;
+}
+div.license_form_container input:-moz-placeholder { /* Firefox 18- */
+  color: #c4c4c4;
+  font-style: italic;
+}
+
+a.btn.btn-lg.btn-primary
+{
+	max-width: 372px;
+	margin: 0 auto;
+	border: 1px solid #940101;
+	font-size: 14px;
+	font-weight: bold;
+	margin-bottom: 30px;
+	text-decoration: none !important;
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ec4e20+1,ca3014+100 */
+	background: #ec4e20; /* Old browsers */
+	background: -moz-linear-gradient(top, #ec4e20 1%, #ca3014 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top, #ec4e20 1%,#ca3014 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom, #ec4e20 1%,#ca3014 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ec4e20', endColorstr='#ca3014',GradientType=0 ); /* IE6-9 */
+}

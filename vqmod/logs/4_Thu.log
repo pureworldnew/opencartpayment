@@ -1,0 +1,141 @@
+---------- Date: 2020-10-08 10:06:42 ~ IP : 192.99.4.168 ----------
+REQUEST URI : /tools-and-stringing-supplies/thread-and-beading-cord/tools-and-supplies-nylon-polyester-string/Nylon-Cord-Polyamide-Beading-Cord-with-Needle-Attached-2-Meters-Long?gp_product_id=44712
+VQMod::_parseMods - INVALID XML FILE: : Document is empty in /var/www/vhosts/gempacked.com/home/versions/2020-02-27_15_16_01/vqmod/xml/404s_report.xml, line: 1
+MOD DETAILS:
+   modFile   : /var/www/vhosts/gempacked.com/home/versions/2020-02-27_15_16_01/vqmod/xml/a_vqmod_d_quickcheckout.xml
+   id        : AJAX QUICK CHECKOUT V6 BY DREAMVENTION
+   version   : 2.0.0.0
+   vqmver    : 2.2.1
+   author    : dreamvention.com
+VQModObject::parseMods - Could not resolve path for [system/library/cart/tax.php] (SKIPPED)
+MOD DETAILS:
+   modFile   : /var/www/vhosts/gempacked.com/home/versions/2020-02-27_15_16_01/vqmod/xml/jc_returns_admin_email.xml
+   id        : Returns admin email
+   version   : 1.0.1
+   vqmver    : 2.1.5
+   author    : Jeroen Custers
+VQModObject::parseMods - Could not resolve path for [catalog/language/dutch/account/return.php] (SKIPPED)
+MOD DETAILS:
+   modFile   : /var/www/vhosts/gempacked.com/home/versions/2020-02-27_15_16_01/vqmod/xml/universal_import_pro.xml
+   id        : Universal Import Export Pro
+   version   : 1.9.0
+   vqmver    : 2.5.1
+   author    : GeekoDev
+
+File Name    : admin/view/template/catalog/product_list.tpl(0)
+Operation <add> tag missing
+
+File Name    : admin/view/template/catalog/product_list.tpl(1)
+Operation <search> tag missing
+
+File Name    : admin/view/template/catalog/product_list.tpl(1)
+Operation <add> tag missing
+MOD DETAILS:
+   modFile   : /var/www/vhosts/gempacked.com/home/versions/2020-02-27_15_16_01/vqmod/xml/vqmod_ALTHEMIST_TABS.xml
+   id        : ALTHEMIST TABS/ACCORDION/TOGGLE Module
+   version   : 1.0
+   vqmver    : 2.1.0
+   author    : Dimitar Koev
+
+File Name    : catalog/view/theme/*/template/common/header.tpl(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <?php echo $google_analytics; ?>
+----------------------------------------------------------------------
+
+
+---------- Date: 2020-10-08 10:06:44 ~ IP : 23.240.105.73 ----------
+REQUEST URI : /admin/index.php?route=extension/modification&token=8gxJyBQDQGalrdk3MV77Uld8SN3ZHDqi
+MOD DETAILS:
+   modFile   : /var/www/vhosts/gempacked.com/home/versions/2020-02-27_15_16_01/vqmod/xml/zoemdevfix.xml
+   id        : One page order entry systems
+   version   : 6.1
+   vqmver    : 2.5.2
+   author    : cartbinder.com
+
+File Name    : admin/model/sale/order.php(0)
+VQModObject::applyMod - SEARCH NOT FOUND (SKIPPED): $sql = "SELECT o.order_id
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2020-10-08 10:06:45 ~ IP : 23.240.105.73 ----------
+REQUEST URI : /admin/index.php?route=sale/order&token=zVGtIZMe6l48dACvnNFsIESjyB4UWxSA&page=2
+MOD DETAILS:
+   modFile   : /var/www/vhosts/gempacked.com/home/versions/2020-02-27_15_16_01/vqmod/xml/zoemdev.xml
+   id        : One page order entry systems
+   version   : 6.1
+   vqmver    : 2.5.2
+   author    : cartbinder.com
+
+File Name    : admin/controller/sale/order.php(0)
+VQModObject::applyMod - SEARCH NOT FOUND (SKIPPED): 'order_id'      => $result['order_id'],
+
+File Name    : admin/controller/sale/order.php(0)
+VQModObject::applyMod - SEARCH NOT FOUND (SKIPPED): 'order_id'      => $result['order_id'],
+
+File Name    : admin/view/template/sale/order_list.tpl(0)
+VQModObject::applyMod - SEARCH NOT FOUND (SKIPPED): <td class="text-right"><a href="<?php echo $order['view']; ?>" data-toggle="tooltip" title="<?php echo $button_view; ?>" class="btn btn-info"><i class="fa fa-eye"></i></a>
+
+File Name    : admin/view/template/sale/order_list.tpl(0)
+VQModObject::applyMod - SEARCH NOT FOUND (SKIPPED): <td class="text-right"><a href="<?php echo $order['view']; ?>" data-toggle="tooltip" title="<?php echo $button_view; ?>" class="btn btn-info"><i class="fa fa-eye"></i></a>
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2020-10-08 10:06:46 ~ IP : 23.240.105.73 ----------
+REQUEST URI : /index.php?route=api/login
+MOD DETAILS:
+   modFile   : /var/www/vhosts/gempacked.com/home/versions/2020-02-27_15_16_01/vqmod/xml/advancedmenu_seo_url_modsII.xml
+   id        : Advanced Menu V4 - vqmod for opencart V2.xor greater
+   version   : 1.1.0
+   vqmver    : 2.3
+   author    : www.ocmodules.com
+
+File Name    : catalog/controller/common/seo_url.php(2)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): if ($query->row['query']
+----------------------------------------------------------------------
+
+
+---------- Date: 2020-10-08 10:06:49 ~ IP : 76.94.14.174 ----------
+REQUEST URI : /product/product_grouped/group?pid=78875&group_id=78796
+MOD DETAILS:
+   modFile   : /var/www/vhosts/gempacked.com/home/versions/2020-02-27_15_16_01/vqmod/xml/vqmod_ALTHEMIST_TABS.xml
+   id        : ALTHEMIST TABS/ACCORDION/TOGGLE Module
+   version   : 1.0
+   vqmver    : 2.1.0
+   author    : Dimitar Koev
+
+File Name    : catalog/view/theme/*/template/common/header.tpl(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): <?php echo $google_analytics; ?>
+----------------------------------------------------------------------
+
+
+---------- Date: 2020-10-08 10:07:19 ~ IP : 76.168.154.144 ----------
+REQUEST URI : /
+MOD DETAILS:
+   modFile   : /var/www/vhosts/gempacked.com/home/versions/2020-02-27_15_16_01/vqmod/xml/canonical-url.xml
+   id        : Opencart Canonical URL
+   version   : 1
+   vqmver    : 
+   author    : Ersen16 - www.opencart-soft.com
+
+File Name    : catalog/controller/common/home.php(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): $this->document->setTitle($this->config->get('config_title'));
+
+----------------------------------------------------------------------
+
+
+---------- Date: 2020-10-08 10:21:38 ~ IP : 2600:1:b12a:64c6:2557:1637:2e7a:d1ed ----------
+REQUEST URI : /findings-jewelry-components-and-parts/charms/love-peace-and-heart-charms/6mm-14k-gold-heart-charm-red?search=heart%20charm&page=7
+MOD DETAILS:
+   modFile   : /var/www/vhosts/gempacked.com/home/versions/2020-02-27_15_16_01/vqmod/xml/qrCodes.reasonline.net.vqmod.xml
+   id        : Provides QR Code image in product views.
+   version   : 1.0
+   vqmver    : 2.X
+   author    : @StephenDubliner | reasonline.net
+
+File Name    : catalog/view/theme/*/template/product/product.tpl(0)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): if ($price)
+
+----------------------------------------------------------------------
+
+

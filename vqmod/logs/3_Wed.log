@@ -1,0 +1,15 @@
+---------- Date: 2020-10-28 13:18:26 ~ IP : 23.240.105.73 ----------
+REQUEST URI : /admin/index.php?route=sale/account&token=C7SvH2eOAsWIsBP5H6LIHCOyLid80fRc
+MOD DETAILS:
+   modFile   : /var/www/vhosts/gempacked.com/home/versions/2020-02-27_15_16_01/vqmod/xml/vqmod_accountreport.xml
+   id        : Added Return Total Field in Accounts Report
+   version   : 1.0
+   vqmver    : 2.6.0
+   author    : Muzammil Versiani
+
+File Name    : admin/controller/sale/account.php(1)
+VQModObject::applyMod - SEARCH NOT FOUND (ABORTING MOD): "Store Name");
+
+----------------------------------------------------------------------
+
+

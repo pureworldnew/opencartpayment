@@ -1,0 +1,27 @@
+/* Grouped Product for OC - powered by www.fabiom7.com */
+/* Type Configurable: |1img|2name-infobox|3price| */
+.gp-config .gp-tbody td{height:50px;}
+.gp-config .gp-tbody .gp-tcell-1{width:1px;vertical-align:top;text-align:center;}
+.gp-config .gp-tbody .gp-tcell-2{width:auto;vertical-align:top;text-align:left;}
+.gp-config .gp-tbody .gp-tcell-3{width:99px;vertical-align:top;text-align:left;}
+.gp-config .gp-tbody-checkbox .gp-box-info,.gp-config .gp-tbody-inline .gp-box-info{right:113px;}/*related gp-tcell-3*/
+/* Table Content */
+.gp-config .gp-box-img{}
+.gp-config .gp-box-info{width:auto;white-space:nowrap;position:absolute;right:0;top:0;overflow-x:hidden;}
+.gp-config .gp-box-info-mini{width:20px;}.gp-config .gp-box-info-minihover{padding:3px;background:#fff;}
+.gp-config .gp-tbody-checkbox .gp-box-info-focus,.gp-config .gp-tbody-inline .gp-box-info-focus{width:auto;padding:3px;background:#fff;}
+.gp-config .gp-box-price{text-align:right;white-space:nowrap;}
+.gp-config .gp-box-switch{padding-left:14px;margin-bottom:7px;}
+.gp-config .gp-box-switch select{width:auto;}
+.gp-config .gp-box-switch label{padding:2px 0;display:inline-block;width:100%;}
+.gp-config .gp-box-switch label:hover{background:#fff;}
+.gp-config .gp-box-switch .gp-plus-price{color:#999;float:right;}
+.gp-config .gp-box-qty-txt{padding-left:14px;}.gp-config .gp-box-qty{width:42px;}
+.gp-config .gp-loader{top:50%;left:50%;}
+/* The level after table child-products */
+.gp-after-t .gp-progressbar{min-height:24px;margin-bottom:14px;}.ui-progressbar{position:relative;}
+.gp-after-t .progress-label{position:absolute;width:99.9%;text-align:center;top:4px;font-weight:bold;}
+.gp-after-t .gp-progress-label-info-empty{position:absolute;font-weight:bold;top:4px;left:7px;}
+.gp-after-t .gp-progress-label-info-full{position:absolute;font-weight:bold;top:4px;right:7px;}
+.gp-after-t .gp-discount-config{color:#000;font-size:13px;font-weight:normal;margin-bottom:14px;}
+.gp-after-t .gp-discount-config span{color:#F00;font-size:13px;font-weight:bold;}

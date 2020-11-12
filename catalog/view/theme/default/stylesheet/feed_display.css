@@ -1,0 +1,4 @@
+.feeddisplay a{color:#71c2d9;text-decoration: none; cursor: pointer;}
+.feeddisplay a:hover{color:#666; cursor: pointer;}
+.feeddisplay span.feeddisplay_title {font: 14px Arial; font-weight:bold;}
+.feeddisplay span.feeddisplay_date {font-size:10px;display:block;margin-bottom:5px;}

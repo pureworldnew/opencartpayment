@@ -1,0 +1,141 @@
+.box.althemist {
+	overflow:hidden;
+}
+.althemist h2.heading_title {
+	margin-bottom:20px;
+}
+.althemist .htabs {
+    border-bottom: 1px solid #DDDDDD;
+    height: 35px;
+    line-height: 16px;
+}
+.althemist .htabs a {
+	background:none !important;
+	background-color:#333333 !important;
+    border-left: 1px solid #DDDDDD;
+    border-right: 1px solid #DDDDDD;
+    border-top: 1px solid #DDDDDD;
+    color: #ffffff !important;
+    display: none;
+    float: left;
+	text-transform:uppercase;
+    font-size: 13px;
+    font-weight: bold;
+    margin-right: 2px;
+    padding: 10px 15px 8px 15px;
+    text-align: center;
+    text-decoration: none;
+}
+.althemist .htabs a.selected {
+    background-color: #FFFFFF !important;
+    padding-bottom: 9px !important;
+	color:#333333 !important;
+}
+.althemist .tab-content {
+    border-bottom: 1px solid #DDDDDD;
+    border-left: 1px solid #DDDDDD;
+    border-right: 1px solid #DDDDDD;
+    margin-bottom: 20px;
+    overflow: auto;
+    padding-bottom: 10px;
+    z-index: 2;
+}
+.althemist div.accordion, .althemist div.toggling {
+	background-color: #ffffff;
+	margin-bottom: 20px;
+}
+.althemist .accord-header, .althemist .togg-header {
+	cursor: pointer;
+	padding: 16px 12px;
+	background-color: #f8f8f8;
+	border-left: 3px solid #f8f8f8;
+	font-size: 14px;
+	margin-top: 1px;
+	text-transform: uppercase;
+	color: #666666;
+	transition: all 0.5s ease 0s;
+	-webkit-transition: all 0.5s ease 0s;
+	-ms-transition: all 0.5s ease 0s;
+	-moz-transition: all 0.5s ease 0s;
+	-o-transition: all 0.5s ease 0s;
+}
+.althemist .accord-content, .althemist .togg-content {
+	display: none;
+	padding: 20px;
+	background-color: #ffffff;
+	border-bottom: 1px solid #f8f8f8;
+}
+.althemist .accord-content img, .althemist .togg-content img{
+	max-width:100% !important;
+}
+.althemist .accord-header.on, .althemist .accord-header:hover, .althemist .togg-header.on, .althemist .togg-header:hover {
+	background-color: #f8f8f8;
+	border-left: 3px solid #333333;
+	color: #111111;
+}
+.althemist  img {
+	max-width:100%;
+}
+/* GRID COLUMNS */
+
+.althemist .one_half, .althemist .one_third, .althemist .two_third, .althemist .three_fourth, .althemist .one_fourth, .althemist .one_fifth, .althemist .two_fifth, .althemist .three_fifth, .althemist .four_fifth, .althemist .one_sixth, .althemist .five_sixth {
+	float: left;
+	margin-right: 4%;
+	position: relative;
+}
+.althemist .last {
+	margin-right: 0 !important;
+}
+.althemist .one_half {
+	width: 48%;
+}
+.althemist .one_third {
+	width: 30.6666%;
+}
+.althemist .two_third {
+	width: 65.3332%;
+}
+.althemist .one_fourth {
+	width: 22%;
+}
+.althemist .three_fourth {
+	width: 74%;
+}
+.althemist .one_fifth {
+	width: 16.8%;
+}
+.althemist .two_fifth {
+	width: 37.6%;
+}
+.althemist .three_fifth {
+	width: 58.4%;
+}
+.althemist .four_fifth {
+	width: 79.2%;
+}
+/* Clear Fix Hack ----*/
+
+
+.fixed:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+.fixed {
+	display: block;
+}
+/*  \*/
+.fixed {
+	min-height: 1%;
+}
+* html .fixed {
+	height: 1%;
+}
+.clear {
+	clear: both;
+	font-size: 0;
+	line-height: 0;
+	height: 0
+}

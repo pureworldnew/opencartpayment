@@ -1,0 +1,60 @@
+.center {
+    text-align: center;
+}
+
+.fa-pulse {
+    -webkit-animation-name: fa-spin;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-timing-function: steps(8, end);
+    -webkit-animation-delay: initial;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-direction: initial;
+    -webkit-animation-fill-mode: initial;
+    -webkit-animation-play-state: initial;
+    -webkit-animation: fa-spin 1s infinite steps(8);
+    animation-name: fa-spin;
+    animation-duration: 1s;
+    animation-timing-function: steps(8, end);
+    animation-delay: initial;
+    animation-iteration-count: infinite;
+    animation-direction: initial;
+    animation-fill-mode: initial;
+    animation-play-state: initial;
+    animation: fa-spin 1s infinite steps(8);
+}
+
+.input-horizontal {
+    line-height: 34px;
+    float: left;
+}
+
+.input-horizontal.date {
+    width: 150px;
+}
+
+.spacer20 {
+    margin-bottom: 20px;
+}
+
+
+.alert-error {
+    background-color: #fef1f1;
+    border-color: #fcd9df;
+    color: #f56b6b;
+}
+
+.license_info {
+    display: block;
+    margin-left: 150px;
+    margin-bottom: 10px;
+    padding: 0;
+}
+
+.license_info li {
+    list-style: none;
+}
+
+.license_label {
+    float: left;
+    width: 140px;
+}

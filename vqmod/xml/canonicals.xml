@@ -1,0 +1,113 @@
+
+<!--
+/*******************************************************************************
+*                                 Opencart SEO Pack                            *
+*                             Copyright : Ovidiu Fechete                       *
+*                              email: ovife21@gmail.com                        *
+*                Below source-code or any part of the source-code              *
+*                          cannot be resold or distributed.                    *
+*******************************************************************************/
+-->
+
+<modification>
+
+	<id>Category Canonical</id>
+	<version>1.0.0</version>
+	<vqmver>2.1.5</vqmver>
+	<author>ovife21</author>
+	<file name="system/library/document.php">
+		<operation>
+			<search position="before"><![CDATA[function addLink]]></search>
+			<add><![CDATA[
+				public function removeLink($rel) {
+					foreach ($this->links as $val=>$link) {
+						if ($link['rel'] == $rel) {unset($this->links[$val]);}
+					}
+				}
+			]]></add>
+		</operation>		
+	</file>
+	<file name="catalog/controller/product/category.php">
+		<operation>
+			<search position="before"><![CDATA[$data['column_left']]]></search>
+			<add><![CDATA[
+				$canonicals = $this->config->get('canonicals');
+				if (isset($canonicals['canonicals_categories'])) {
+					$this->document->removeLink('canonical');
+					$pathx = explode('_', $this->request->get['path']);
+					$pathx = end($pathx);
+					$this->document->addLink($this->url->link('product/category', 'path=' . $pathx .((isset($page) && ($page > 1))?('&page='.$page):'') ), 'canonical');
+					}
+			]]></add>
+		</operation>		
+	</file>
+	<file name="catalog/controller/product/manufacturer.php">
+		<operation>
+			<search position="after"><![CDATA[$data['column_left']]]></search>
+			<add><![CDATA[
+				$canonicals = $this->config->get('canonicals');
+				if (isset($canonicals['canonicals_brands'])) {
+					$this->document->removeLink('canonical');
+					if (isset($this->request->get['manufacturer_id'])) {$this->document->addLink($this->url->link('product/manufacturer/info', 'manufacturer_id=' . $this->request->get['manufacturer_id'].((isset($page) && ($page > 1))?('&page='.$page):'')), 'canonical');}
+					}]]></add>
+		</operation>		
+	</file>
+	<file name="catalog/controller/information/information.php">
+		<operation>
+			<search position="after"><![CDATA[$this->document->setTitle]]></search>
+			<add><![CDATA[
+				$canonicals = $this->config->get('canonicals');
+				if (isset($canonicals['canonicals_info'])) {
+					$this->document->removeLink('canonical');
+					$this->document->addLink($this->url->link('information/information', 'information_id=' .  $information_id), 'canonical');
+					}]]></add>
+		</operation>		
+	</file>
+	<file name="catalog/controller/product/special.php">
+		<operation>
+			<search position="after"><![CDATA[$this->document->setTitle]]></search>
+			<add><![CDATA[
+				$canonicals = $this->config->get('canonicals');
+				if (isset($canonicals['canonicals_specials'])) {
+					$this->document->removeLink('canonical');
+					$this->document->addLink($this->url->link('product/special'.((isset($page) && ($page > 1))?('&page='.$page):'')), 'canonical');
+					}]]></add>
+		</operation>		
+	</file>
+	<file name="catalog/controller/common/home.php">
+		<operation>
+			<search position="after"><![CDATA[$this->document->setTitle]]></search>
+			<add><![CDATA[
+				$canonicals = $this->config->get('canonicals');
+				if (isset($canonicals['canonicals_home'])) {
+					$this->document->addLink($this->config->get('config_url'), 'canonical');
+					}]]></add>
+		</operation>		
+	</file>
+	<file name="catalog/controller/common/header.php">
+		<operation>
+			<search position="after"><![CDATA[$data['links']]]></search>
+			<add><![CDATA[
+				
+				foreach ($data['links'] as $link) { 
+					if ($link['rel']=='canonical') {$hasCanonical = true;} 
+					} 
+				$data['canonical_link'] = '';
+				$canonicals = $this->config->get('canonicals'); 
+				if (!isset($hasCanonical) && isset($this->request->get['route']) && (isset($canonicals['canonicals_extended']))) {
+					$data['canonical_link'] = $this->url->link($this->request->get['route']);					
+					}
+				
+				]]></add>
+		</operation>		
+	</file>
+	<file name="catalog/view/theme/*/template/common/header.tpl">
+		<operation>
+			<search position="after"><![CDATA[base href]]></search>
+			<add><![CDATA[<?php if ($canonical_link) {echo '<link href="'.$canonical_link.'" rel="canonical" />';} ?>]]></add>
+		</operation>		
+	</file>
+</modification>
+
+
+

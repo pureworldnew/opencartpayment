@@ -1,0 +1,11 @@
+.last-viewed-wrapper {
+  padding: 10px 10px 0px 10px;
+  border: 1px solid #d7d9dd;
+  border-radius: 0px 0px 7px 7px;
+}
+
+.last-viewed-wrapper-title {
+  border-radius: 7px 7px 0px 0px;
+  background: #DBDEE1;
+  padding: 5px 10px;
+}

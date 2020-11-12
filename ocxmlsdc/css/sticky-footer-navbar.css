@@ -1,0 +1,60 @@
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+	position: relative;
+	min-height: 100%;
+}
+body {
+	/* Margin bottom by footer height */
+	margin-bottom: 60px;
+}
+.footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	/* Set the fixed height of the footer here */
+	height: 60px;
+	line-height: 60px; /* Vertically center the text there */
+	background-color: #f5f5f5;
+}
+
+
+/* Custom page CSS
+-------------------------------------------------- */
+/* Not required for template or sticky footer method. */
+
+.google-adsense{
+	margin-bottom: 1rem;
+	margin-top: 1rem;
+	border: 1px solid black;
+	width: 728px;
+	height: 90px;
+	min-height: 90px;
+	min-width: 728px;
+	max-height: 90px;
+	max-width: 728px;
+	display: none !important;
+}
+
+.call-to-action
+ {
+	color: white;
+	background: url('https://www1.ocxmlsdc.com/images/background-images/gp-blue.jpg') no-repeat center bottom fixed;
+	-webkit-background-size: cover;
+	background-size: cover;
+}
+
+body > .container {
+/*	padding: 60px 15px 0;*/
+	padding-bottom: 2rem;
+	padding-top: 2rem;
+}
+
+.footer > .container {
+	padding-right: 15px;
+	padding-left: 15px;
+}
+
+code {
+	font-size: 80%;
+}

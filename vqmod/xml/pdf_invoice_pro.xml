@@ -1,0 +1,1294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+	<id>PDF Invoice Pro</id>
+  <name>PDF Invoice Pro</name>
+  <code>pdf_invoice_pro</code>
+	<version>3.0.2</version>
+	<vqmver>2.4.0</vqmver>
+	<author>GeekoDev</author>
+  <link></link>
+	
+  <file path="admin/controller/module/pdf_invoice.php">
+    <operation>
+      <search position="replace"><![CDATA[$modification_active = false;]]></search>
+      <add position="replace"><![CDATA[$modification_active = true;]]></add>
+    </operation>
+  </file>
+  
+	<file path="catalog/controller/checkout/confirm.php">
+    <!--Force language-->
+		<operation>
+			<search position="after"><![CDATA[if (!$redirect) {]]></search>
+			<add position="after"><![CDATA[
+				if ($this->config->get('pdf_invoice_force_lang')) {
+					$pdf_langs = array($this->config->get('pdf_invoice_force_lang'), $this->config->get('config_language_id'));
+				} else {
+					$pdf_langs = array(1);
+				}
+				foreach($pdf_langs as $pdf_lang) {
+					if (count($pdf_langs) > 1) {
+						$this->config->set('config_language_id', $pdf_lang);
+						$this->load->model('localisation/language');
+						$language_info = $this->model_localisation_language->getLanguage($pdf_lang);
+						$this->language = new Language($language_info['directory']);
+            if (isset($language_info['filename'])) {
+              $this->language->load($language_info['filename']);
+            } else {
+              $this->language->load($language_info['directory']);
+            }
+					}
+			]]></add>
+		</operation>
+    <operation error="skip" v="2.0">
+			<search position="replace"><![CDATA[$order_data['payment_method'] = $this->session->data['payment_method']['title'];]]></search>
+			<add position="replace"><![CDATA[
+					if ($this->config->get('pdf_invoice_force_lang')) {
+            $this->language->load('payment/'.$this->session->data['payment_method']['code']);
+            $order_data['payment_method'] = $this->language->get('text_title');
+					} else {
+            $order_data['payment_method'] = $this->session->data['payment_method']['title'];
+          }
+			]]></add>
+		</operation>
+    <operation error="skip" v="2.0">
+			<search position="replace"><![CDATA[$order_data['shipping_method'] = $this->session->data['shipping_method']['title'];]]></search>
+			<add position="replace"><![CDATA[
+					if ($this->config->get('pdf_invoice_force_lang')) {
+            $shipping_code = explode('.', $this->session->data['shipping_method']['code']);
+            
+            if (version_compare(VERSION, '2.3', '>=')) {
+              $this->load->model('extension/shipping/' . $shipping_code[0]);
+              $shipping_info = $this->{'model_extension_shipping_' . $shipping_code[0]}->getQuote($this->session->data['shipping_address']);
+            } else {
+              $this->load->model('shipping/' . $shipping_code[0]);
+              $shipping_info = $this->{'model_shipping_' . $shipping_code[0]}->getQuote($this->session->data['shipping_address']);
+            }
+            $order_data['shipping_method'] = $shipping_info['title'];
+					} else {
+            $order_data['shipping_method'] = $this->session->data['shipping_method']['title'];
+          }
+			]]></add>
+		</operation>
+    <operation error="skip" v="2.0">
+			<search position="replace"><![CDATA[$this->session->data['order_id'] = $this->model_checkout_order->addOrder($order_data);]]></search>
+			<add position="replace"><![CDATA[
+					if (!$this->config->get('pdf_invoice_force_lang') || ($this->config->get('pdf_invoice_force_lang') && !isset($order_added))) {
+						$this->session->data['order_id'] = $this->model_checkout_order->addOrder($order_data);
+						$order_added = true;
+					}
+				} // end language loop
+			]]></add>
+		</operation>
+	</file><file path="catalog/controller/checkout/confirm.php">
+    <operation error="skip" v="1.5">
+			<search position="replace"><![CDATA[$this->session->data['order_id'] = $this->model_checkout_order->addOrder($data);]]></search>
+			<add position="replace"><![CDATA[
+					if (!$this->config->get('pdf_invoice_force_lang') || ($this->config->get('pdf_invoice_force_lang') && !isset($order_added))) {
+						$this->session->data['order_id'] = $this->model_checkout_order->addOrder($data);
+						$order_added = true;
+					}
+				} // end language loop
+			]]></add>
+		</operation>
+    <operation error="skip" v="1.5">
+			<search position="replace"><![CDATA[$data['payment_method'] = $this->session->data['payment_method']['title'];]]></search>
+			<add position="replace"><![CDATA[
+					if ($this->config->get('pdf_invoice_force_lang')) {
+            $this->language->load('payment/'.$this->session->data['payment_method']['code']);
+            $data['payment_method'] = $this->language->get('text_title');
+					} else {
+            $data['payment_method'] = $this->session->data['payment_method']['title'];
+          }
+			]]></add>
+		</operation>
+    <operation error="skip" v="1.5">
+			<search position="replace"><![CDATA[$data['shipping_method'] = $this->session->data['shipping_method']['title'];]]></search>
+			<add position="replace"><![CDATA[
+		if ($this->config->get('pdf_invoice_force_lang')) {
+            if ($this->customer->isLogged() && isset($this->session->data['shipping_address_id'])) {					
+              $shipping_address = $this->model_account_address->getAddress($this->session->data['shipping_address_id']);		
+            } elseif (isset($this->session->data['guest'])) {
+              $shipping_address = $this->session->data['guest']['shipping'];
+            }
+            
+            $shipping_code = explode('.', $this->session->data['shipping_method']['code']);
+            
+            $this->load->model('shipping/' . $shipping_code[0]);
+            $shipping_info = $this->{'model_shipping_' . $shipping_code[0]}->getQuote($shipping_address);
+            
+            $data['shipping_method'] = $shipping_info['title'];
+					} else {
+            $data['shipping_method'] = $this->session->data['shipping_method']['title'];
+          }
+			]]></add>
+		</operation>
+	</file>
+	
+	<file path="catalog/controller/account/order.php">
+		<operation>
+			<search position="after"><![CDATA[public function index() {]]></search>
+			<add position="after"><![CDATA[
+			$this->language->load('module/pdf_invoice');
+			if (version_compare(VERSION, '2', '>=')) {
+				$data['button_pdfinv_invoice'] = $this->language->get('text_pdf_invoice');
+				$data['pdf_invoice_invoiced'] = $this->config->get('pdf_invoice_invoiced');
+				$data['pdf_invoice_icon'] = $this->config->get('pdf_invoice_icon');
+			} else {
+				$this->data['button_pdfinv_invoice'] = $this->language->get('text_pdf_invoice');
+				$this->data['pdf_invoice_invoiced'] = $this->config->get('pdf_invoice_invoiced');
+				$this->data['pdf_invoice_icon'] = $this->config->get('pdf_invoice_icon');
+			}
+			]]></add>
+		</operation>
+		<operation>
+			<search position="after"><![CDATA[public function info() {]]></search>
+			<add position="after"><![CDATA[
+			$this->language->load('module/pdf_invoice');
+			if (version_compare(VERSION, '2', '>=')) {
+				$data['button_pdfinv_invoice'] = $this->language->get('text_pdf_invoice');
+				$data['link_pdfinv_invoice'] = $this->url->link('account/order/info', 'order_id=' . (int) $this->request->get['order_id'] . '&pdf=1', 'SSL');
+				$data['pdf_invoice_invoiced'] = $this->config->get('pdf_invoice_invoiced');
+				$data['pdf_invoice_icon'] = $this->config->get('pdf_invoice_icon');
+			} else {
+				$this->data['button_pdfinv_invoice'] = $this->language->get('text_pdf_invoice');
+				$this->data['link_pdfinv_invoice'] = $this->url->link('account/order/info', 'order_id=' . (int) $this->request->get['order_id'] . '&pdf=1', 'SSL');
+				$this->data['pdf_invoice_invoiced'] = $this->config->get('pdf_invoice_invoiced');
+				$this->data['pdf_invoice_icon'] = $this->config->get('pdf_invoice_icon');
+			}
+			]]></add>
+		</operation>
+		<operation>
+			<search position="after"><![CDATA['order_id'   => $result['order_id'],]]></search>
+			<add position="after"><![CDATA[
+				'invoice_no'   => $result['invoice_no'],
+			]]></add>
+		</operation>
+		<operation>
+			<search position="after"><![CDATA['order_id'   => $result['order_id'],]]></search>
+			<add position="after"><![CDATA[
+			'pdf_href'       => $this->url->link('account/order/info', 'order_id=' . $result['order_id'] . '&pdf=1', 'SSL'),
+			]]></add>
+		</operation>
+		<operation>
+			<search position="after" offset="1"><![CDATA[if ($order_info) {]]></search>
+			<add position="after" offset="1"><![CDATA[
+			if(isset($this->request->get['pdf']))
+			{
+				$this->load->model('tool/pdf_invoice');
+				$this->model_tool_pdf_invoice->generate($order_id, 'display', 'invoice');
+			}
+			]]></add>
+		</operation>
+	</file>
+	
+	<file path="catalog/model/account/order.php">
+		<operation>
+			<search position="replace"><![CDATA[SELECT o.order_id,]]></search>
+			<add position="replace"><![CDATA[SELECT o.order_id, o.invoice_no,]]></add>
+		</operation>
+	<!--
+		<operation>
+			<search position="after"><![CDATA[$order_query->row['order_id'],]]></search>
+			<add position="after"><![CDATA[
+			'payment_company_id'                => isset($order_query->row['payment_company_id']) ? $order_query->row['payment_company_id'] : '',
+			'payment_tax_id'                => isset($order_query->row['payment_tax_id']) ? $order_query->row['payment_tax_id'] : '',
+			'customer_group_id'            => $order_query->row['customer_group_id'],
+			]]></add>
+		</operation>
+	-->
+	</file>
+	
+  <!-- openbay -->
+	<file path="catalog/model/openbay/ebay_order.php" error="skip">
+    <operation>
+			<search position="replace" index="1"><![CDATA[$mail->send();]]></search>
+			<add position="replace" index="1"><![CDATA[
+				if($this->config->get('pdf_invoice_auto_generate')){
+					$invoice_no = '';
+					if ($order_info && !$order_info['invoice_no']) {
+						$query = $this->db->query("SELECT MAX(invoice_no) AS invoice_no FROM `" . DB_PREFIX . "order` WHERE invoice_prefix = '" . $this->db->escape($order_info['invoice_prefix']) . "'");
+
+						if ($query->row['invoice_no']) {
+							$order_info['invoice_no'] = $query->row['invoice_no'] + 1;
+						} else {
+							$order_info['invoice_no'] = 1;
+						}
+
+						$this->db->query("UPDATE `" . DB_PREFIX . "order` SET invoice_no = '" . (int)$order_info['invoice_no'] . "', invoice_prefix = '" . $this->db->escape($order_info['invoice_prefix']) . "' WHERE order_id = '" . (int)$order_id . "'");
+					}
+				}
+				
+        $this->load->model('tool/pdf_invoice');
+
+        if ($this->config->get('pdf_invoice_mail') || in_array($order_status_id, (array) $this->config->get('pdf_invoice_auto_notify')) || ($order_info['payment_code'] == 'invoicepay' && $this->config->get('invoicepay_forcepdf'))){
+          if (!$this->config->get('pdf_invoice_invoiced') || ($this->config->get('pdf_invoice_invoiced') && $order_info['invoice_no'])) {
+            $temp_pdf = $this->model_tool_pdf_invoice->generate($order_id, 'file', 'invoice');
+            $mail->addAttachment($temp_pdf);
+          }
+        }
+        
+        if ($this->config->get('pdf_invoice_backup') && $this->config->get('pdf_invoice_backup_moment') == 'order') {
+          if ((!$this->config->get('pdf_invoice_adminlang') || ($this->config->get('pdf_invoice_adminlang') == $order_info['language_id'])) && isset($temp_pdf)) {
+            copy($temp_pdf, $this->model_tool_pdf_invoice->getBackupPath($order_id));
+          } else {
+            $this->model_tool_pdf_invoice->generate($order_id, 'backup', 'invoice', $this->config->get('pdf_invoice_adminlang'));
+          }
+        }
+				
+				$mail->send();
+				
+				if(isset($temp_pdf) && is_file($temp_pdf)){
+					unlink($temp_pdf);
+				}
+			]]></add>
+		</operation>
+    
+		<operation>
+			<search position="replace" index="2"><![CDATA[$mail->send();]]></search>
+			<add position="replace" index="2"><![CDATA[
+				if(in_array($order_status_id, (array) $this->config->get('pdf_invoice_auto_notify'))) {
+          if (!$this->config->get('pdf_invoice_invoiced') || ($this->config->get('pdf_invoice_invoiced') && $order_info['invoice_no'])) {
+            $this->load->model('tool/pdf_invoice');
+            $temp_pdf = $this->model_tool_pdf_invoice->generate($order_id, 'file', 'invoice');
+            $mail->addAttachment($temp_pdf);
+          }
+				}
+				
+				$mail->send();
+				
+				if (isset($temp_pdf) && is_file($temp_pdf)) {
+					unlink($temp_pdf);
+				}
+			]]></add>
+		</operation>
+	</file>
+  
+  <file path="catalog/controller/mail/order.php" error="skip" v="3">
+		<operation error="skip" v="2">
+			<search position="replace" index="1"><![CDATA[$mail->send();]]></search>
+			<add position="replace" index="1"><![CDATA[
+				if($this->config->get('pdf_invoice_auto_generate')){
+					$invoice_no = '';
+					if ($order_info && !$order_info['invoice_no']) {
+						$query = $this->db->query("SELECT MAX(invoice_no) AS invoice_no FROM `" . DB_PREFIX . "order` WHERE invoice_prefix = '" . $this->db->escape($order_info['invoice_prefix']) . "'");
+
+						if ($query->row['invoice_no']) {
+							$order_info['invoice_no'] = $query->row['invoice_no'] + 1;
+						} else {
+							$order_info['invoice_no'] = 1;
+						}
+
+						$this->db->query("UPDATE `" . DB_PREFIX . "order` SET invoice_no = '" . (int)$order_info['invoice_no'] . "', invoice_prefix = '" . $this->db->escape($order_info['invoice_prefix']) . "' WHERE order_id = '" . (int)$order_info['order_id'] . "'");
+					}
+				}
+				
+        $this->load->model('tool/pdf_invoice');
+
+        if ($this->config->get('pdf_invoice_mail') || in_array($order_status_id, (array) $this->config->get('pdf_invoice_auto_notify')) || ($order_info['payment_code'] == 'invoicepay' && $this->config->get('invoicepay_forcepdf'))) {
+          if (!$this->config->get('pdf_invoice_invoiced') || ($this->config->get('pdf_invoice_invoiced') && $order_info['invoice_no'])) {
+            $temp_pdf = $this->model_tool_pdf_invoice->generate($order_info['order_id'], 'file', 'invoice');
+            $mail->addAttachment($temp_pdf);
+          }
+        }
+        
+        if ($this->config->get('pdf_invoice_backup') && $this->config->get('pdf_invoice_backup_moment') == 'order') {
+          if ((!$this->config->get('pdf_invoice_adminlang') || ($this->config->get('pdf_invoice_adminlang') == $order_info['language_id'])) && isset($temp_pdf)) {
+            copy($temp_pdf, $this->model_tool_pdf_invoice->getBackupPath($order_info['order_id']));
+          } else {
+            $this->model_tool_pdf_invoice->generate($order_info['order_id'], 'backup', 'invoice', $this->config->get('pdf_invoice_adminlang'));
+          }
+        }
+				
+				$mail->send();
+				
+				if(isset($temp_pdf) && is_file($temp_pdf)){
+					unlink($temp_pdf);
+				}
+			]]></add>
+		</operation>
+    <operation error="skip">
+			<search position="replace" index="2"><![CDATA[$mail->send();]]></search>
+			<add position="replace" index="2"><![CDATA[
+				if (in_array($order_status_id, (array) $this->config->get('pdf_invoice_auto_notify'))) {
+          if (!$this->config->get('pdf_invoice_invoiced') || ($this->config->get('pdf_invoice_invoiced') && $order_info['invoice_no'])) {
+            $this->load->model('tool/pdf_invoice');
+            $temp_pdf = $this->model_tool_pdf_invoice->generate($order_info['order_id'], 'file', 'invoice');
+            $mail->addAttachment($temp_pdf);
+          }
+				}
+				
+				$mail->send();
+				
+				if (isset($temp_pdf) && is_file($temp_pdf)) {
+					unlink($temp_pdf);
+				}
+			]]></add>
+		</operation>
+    <operation error="skip">
+			<search position="after"><![CDATA[$mail->setTo($this->config->get('config_email'));]]></search>
+			<add position="after"><![CDATA[
+        $this->load->model('tool/pdf_invoice');
+      
+				if ($this->config->get('pdf_invoice_admincopy')){
+					$temp_pdf_admin = $this->model_tool_pdf_invoice->generate($order_id, 'file', 'invoice', $this->config->get('pdf_invoice_adminlang'));
+					$mail->addAttachment($temp_pdf_admin);
+				}
+				
+				if($this->config->get('pdf_invoice_packingslip')){
+					$temp_pdf_slip = $this->model_tool_pdf_invoice->generate($order_id, 'file', 'packingslip', $this->config->get('pdf_invoice_adminlang'));
+					$mail->addAttachment($temp_pdf_slip);
+				}
+			]]></add>
+		</operation>
+    <operation error="skip">
+			<search position="after" offset="5"><![CDATA[foreach ($emails as $email) {]]></search>
+			<add position="after" offset="5"><![CDATA[
+				if(isset($temp_pdf_slip) && is_file($temp_pdf_slip)){
+					unlink($temp_pdf_slip);
+				}
+        
+				if(isset($temp_pdf_admin) && is_file($temp_pdf_admin)){
+					unlink($temp_pdf_admin);
+				}
+			]]></add>
+		</operation>
+  </file>
+  
+	<file path="catalog/model/checkout/order.php">
+		<operation error="skip" v="2">
+			<search position="replace" index="1"><![CDATA[$mail->send();]]></search>
+			<add position="replace" index="1"><![CDATA[
+				if($this->config->get('pdf_invoice_auto_generate')){
+					$invoice_no = '';
+					if ($order_info && !$order_info['invoice_no']) {
+						$query = $this->db->query("SELECT MAX(invoice_no) AS invoice_no FROM `" . DB_PREFIX . "order` WHERE invoice_prefix = '" . $this->db->escape($order_info['invoice_prefix']) . "'");
+
+						if ($query->row['invoice_no']) {
+							$order_info['invoice_no'] = $query->row['invoice_no'] + 1;
+						} else {
+							$order_info['invoice_no'] = 1;
+						}
+
+						$this->db->query("UPDATE `" . DB_PREFIX . "order` SET invoice_no = '" . (int)$order_info['invoice_no'] . "', invoice_prefix = '" . $this->db->escape($order_info['invoice_prefix']) . "' WHERE order_id = '" . (int)$order_id . "'");
+					}
+				}
+				
+        $this->load->model('tool/pdf_invoice');
+
+        if ($this->config->get('pdf_invoice_mail') || in_array($order_status_id, (array) $this->config->get('pdf_invoice_auto_notify')) || ($order_info['payment_code'] == 'invoicepay' && $this->config->get('invoicepay_forcepdf'))) {
+          if (!$this->config->get('pdf_invoice_invoiced') || ($this->config->get('pdf_invoice_invoiced') && $order_info['invoice_no'])) {
+            $temp_pdf = $this->model_tool_pdf_invoice->generate($order_id, 'file', 'invoice');
+            $mail->addAttachment($temp_pdf);
+          }
+        }
+        
+        if ($this->config->get('pdf_invoice_backup') && $this->config->get('pdf_invoice_backup_moment') == 'order') {
+          if ((!$this->config->get('pdf_invoice_adminlang') || ($this->config->get('pdf_invoice_adminlang') == $order_info['language_id'])) && isset($temp_pdf)) {
+            copy($temp_pdf, $this->model_tool_pdf_invoice->getBackupPath($order_id));
+          } else {
+            $this->model_tool_pdf_invoice->generate($order_id, 'backup', 'invoice', $this->config->get('pdf_invoice_adminlang'));
+          }
+        }
+				
+				$mail->send();
+				
+				if(isset($temp_pdf) && is_file($temp_pdf)){
+					unlink($temp_pdf);
+				}
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search position="replace" index="4"><![CDATA[$mail->send();]]></search>
+			<add position="replace" index="4"><![CDATA[
+				if (in_array($order_status_id, (array) $this->config->get('pdf_invoice_auto_notify'))) {
+          if (!$this->config->get('pdf_invoice_invoiced') || ($this->config->get('pdf_invoice_invoiced') && $order_info['invoice_no'])) {
+            $this->load->model('tool/pdf_invoice');
+            $temp_pdf = $this->model_tool_pdf_invoice->generate($order_id, 'file', 'invoice');
+            $mail->addAttachment($temp_pdf);
+          }
+				}
+				
+				$mail->send();
+				
+				if (isset($temp_pdf) && is_file($temp_pdf)) {
+					unlink($temp_pdf);
+				}
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search position="after"><![CDATA[$mail->setTo($this->config->get('config_email'));]]></search>
+			<add position="after"><![CDATA[
+        $this->load->model('tool/pdf_invoice');
+      
+				if ($this->config->get('pdf_invoice_admincopy')){
+					$temp_pdf_admin = $this->model_tool_pdf_invoice->generate($order_id, 'file', 'invoice', $this->config->get('pdf_invoice_adminlang'));
+					$mail->addAttachment($temp_pdf_admin);
+				}
+				
+				if($this->config->get('pdf_invoice_packingslip')){
+					$temp_pdf_slip = $this->model_tool_pdf_invoice->generate($order_id, 'file', 'packingslip', $this->config->get('pdf_invoice_adminlang'));
+					$mail->addAttachment($temp_pdf_slip);
+				}
+				/* adminalertcopy disabled
+				if ($this->config->get('pdf_invoice_adminalertcopy')){
+          if (version_compare(VERSION, '2.2', '>=')) {
+            $mail->setHtml($this->load->view('mail/order', $data));
+          } else {
+					  $mail->setHtml($html);
+          }
+				}
+        */
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search position="after" offset="5"><![CDATA[foreach ($emails as $email) {]]></search>
+			<add position="after" offset="5"><![CDATA[
+				if(isset($temp_pdf_slip) && is_file($temp_pdf_slip)){
+					unlink($temp_pdf_slip);
+				}
+				if(isset($temp_pdf_admin) && is_file($temp_pdf_admin)){
+					unlink($temp_pdf_admin);
+				}
+			]]></add>
+		</operation>
+		<operation>
+			<search position="after"><![CDATA[=> $order_query->row['customer_id'],]]></search>
+			<add position="after"><![CDATA[
+				'customer_group_id'            => $order_query->row['customer_group_id'],
+			]]></add>
+		</operation>
+		<!--operation error="skip" i ="adminalertcopy disabled">
+			<search position="before" index="2"><![CDATA[$mail = new Mail(]]></search>
+			<add position="before" index="2"><![CDATA[
+				} // end copy mail for admin
+			]]></add>
+		</operation-->
+		<!-- invoice date -->
+		<operation>
+			<search position="before"><![CDATA[=> $order_query->row['date_modified']]]></search>
+			<add position="before"><![CDATA[			'date_invoice'              => isset($order_query->row['date_invoice']) ? $order_query->row['date_invoice'] : '',]]></add>
+		</operation>
+		<!-- end invoice date -->
+    <!-- copy mail for admin adminalertcopy disabled -->
+		<!--operation error="skip" v="2.3">
+			<search position="after" offset="2"><![CDATA[if (in_array('order', (array)$this->config->get('config_mail_alert'))) {]]></search>
+			<add position="after" offset="2"><![CDATA[
+				if (!$this->config->get('pdf_invoice_adminalertcopy')) {  // start copy mail for admin
+			]]></add>
+		</operation>
+	</file><file path="catalog/model/checkout/order.php">
+		<operation error="skip" v="order entry compat">
+			<search position="after" offset="2"><![CDATA[if ($this->config->get('config_order_mail') && (!isset($this->session->data['oe']['order_entry']) || $notify)) {]]></search>
+			<add position="after" offset="2"><![CDATA[
+				if (!$this->config->get('pdf_invoice_adminalertcopy')) {  // start copy mail for admin
+			]]></add>
+		</operation>
+	</file><file path="catalog/model/checkout/order.php">
+		<operation error="skip" v="2.0">
+			<search position="after" offset="2"><![CDATA[if ($this->config->get('config_order_mail')) {]]></search>
+			<add position="after" offset="2"><![CDATA[
+				if (!$this->config->get('pdf_invoice_adminalertcopy')) {  // start copy mail for admin
+			]]></add>
+		</operation>
+    <operation error="skip" v="1.5">
+			<search position="after" offset="2"><![CDATA[if ($this->config->get('config_alert_mail')) {]]></search>
+			<add position="after" offset="2"><![CDATA[
+				if (!$this->config->get('pdf_invoice_adminalertcopy')) {  // start copy mail for admin
+			]]></add>
+		</operation-->
+	</file>
+	
+  <file path="admin/view/template/sale/order_info.twig" error="skip" v="3">
+		<operation error="skip">
+			<search position="replace"><![CDATA[<div class="pull-right"><a href="{{ invoice }}"]]></search>
+			<add position="replace"><![CDATA[<div class="pull-right">{{gkd_pdfinvoice_parts.top_buttons}} <a href="{{ invoice }}"]]></add>
+		</operation>
+  </file><file path="admin/view/template/sale/order_info.tpl" error="skip">
+		<operation error="skip" v="1.5">
+			<search position="replace"><![CDATA[<div class="buttons">]]></search>
+			<add position="replace"><![CDATA[<div class="buttons"><a href="<?php echo $link_pdfinv_invoice; ?>" <?php echo !empty($pdf_invoice_new_tab) ? 'target="_blank"':''; ?> class="button"><img src="view/pdf_invoice_pro/img/icon.png" style="vertical-align:top;padding-right:4px"/> <?php echo $button_pdfinv_invoice; ?></a><a href="<?php echo $link_pdfinv_packing; ?>" <?php echo !empty($pdf_invoice_new_tab) ? 'target="_blank"':''; ?> class="button"><img src="view/pdf_invoice_pro/img/icon.png" style="vertical-align:top;padding-right:4px"/> <?php echo $button_pdfinv_packing; ?></a><?php if($pdf_invoice_manual_backup) { ?><a href="<?php echo $link_pdfinv_backup; ?>" class="button"><img src="view/pdf_invoice_pro/img/icon.png" style="vertical-align:top;padding-right:4px"/> <?php echo $button_invoice_backup; ?></a><?php } ?>]]></add>
+		</operation>
+	</file><file path="admin/view/template/sale/order_info.tpl" error="skip">
+		<operation error="skip" v="2.0">
+			<search position="replace"><![CDATA[<div class="pull-right"><a href="<?php echo $invoice; ?>"]]></search>
+			<add position="replace"><![CDATA[<div class="pull-right"><?php echo isset($gkd_pdfinvoice_parts['top_buttons']) ? $gkd_pdfinvoice_parts['top_buttons'] : ''; ?> <a href="<?php echo $invoice; ?>"]]></add>
+		</operation>
+  </file><file path="admin/view/template/sale/order_info.tpl" error="skip">
+		<operation error="skip">
+			<search position="replace" offset="4"><![CDATA[<td><?php if ($invoice_no) { ?>]]></search>
+			<add position="replace" offset="4"><![CDATA[
+				<td>
+					<?php if ($pdf_invoice_manual_inv_no) { ?>
+					<div id="manual_inv_no" style="display:none">
+						<input type="text" name="manual_inv_prefix" value="<?php echo $invoice_prefix; ?>" size="10" style="border-radius: 3px;border: 1px solid #aaa;padding: 3px 5px;"/>
+						<input type="text" name="manual_inv_number" value="<?php echo $invoice_number; ?>" size="6" style="border-radius: 3px;border: 1px solid #aaa;padding: 3px 5px;"/>
+						<?php if (version_compare(VERSION, '2', '>=')) { ?>
+							<button id="invoice-manual-save" class="btn btn-success btn-xs"><i class="fa fa-pencil"></i> <?php echo $text_manual_invoice_save; ?></button>
+						<?php } else { ?>
+							[ <a id="invoice-manual-save"><?php echo $text_manual_invoice_save; ?></a> ]
+						<?php } ?>
+					</div>
+					<?php if ($invoice_no) { ?>
+						<?php if (version_compare(VERSION, '2', '>=')) { ?>
+							<span id="invoice"><?php echo $invoice_no; ?> <button id="invoice-manual-edit" class="btn btn-success btn-xs"><i class="fa fa-pencil"></i> <?php echo $text_manual_invoice_edit; ?></button></span>
+						<?php } else { ?>
+							<span id="invoice"><?php echo $invoice_no; ?> [ <a id="invoice-manual-edit"><?php echo $text_manual_invoice_edit; ?></a> ]</span>
+						<?php } ?>
+					  <?php } else { ?>
+						<?php if (version_compare(VERSION, '2', '>=')) { ?>
+							<span id="invoice"><button id="invoice-manual-new" class="btn btn-success btn-xs"><i class="fa fa-cog"></i> <?php echo $button_generate; ?></button></span>
+					  <?php } else { ?>
+							<span id="invoice"><b>[</b> <a id="invoice-manual-new"><?php echo $text_generate; ?></a> <b>]</b></span>
+					  <?php } ?>
+					  <?php } ?>
+  					<?php } else { ?>
+						<?php if ($invoice_no) { ?>
+						 <?php echo $invoice_no; ?>
+					  <?php } else if (version_compare(VERSION, '2', '>=')) { ?>
+						<button id="button-invoice" class="btn btn-success btn-xs"><i class="fa fa-cog"></i> <?php echo $button_generate; ?></button>
+					  <?php } else { ?>
+						 <span id="invoice"><b>[</b> <a id="invoice-generate"><?php echo $text_generate; ?></a> <b>]</b></span>
+					  <?php } ?>
+					<?php } ?></td>
+			]]></add>
+		</operation>
+  </file><file path="admin/view/template/sale/order_info.tpl" error="skip">
+    <operation error="skip" v="2.1">
+			<search position="replace"><![CDATA[<td id="invoice" class="text-right"><?php echo $invoice_no; ?></td>]]></search>
+			<add position="replace"><![CDATA[
+				<td id="invoice" class="text-right">
+        <span id="orig_invoice_no"><?php echo $invoice_no; ?></span>
+        <?php if ($pdf_invoice_manual_inv_no) { ?>
+					<div id="manual_inv_no" style="display:none">
+						<input type="text" name="manual_inv_prefix" value="<?php echo $invoice_prefix; ?>" size="10" style="border-radius: 3px;border: 1px solid #aaa;padding: 3px 5px;"/>
+						<input type="text" name="manual_inv_number" value="<?php echo $invoice_number; ?>" size="6" style="border-radius: 3px;border: 1px solid #aaa;padding: 3px 5px;"/>
+						<button id="invoice-manual-save" class="btn btn-success btn-xs"><i class="fa fa-pencil"></i> <?php echo $text_manual_invoice_save; ?></button>
+					</div>
+          <?php } ?>
+        </td>
+			]]></add>
+		</operation>
+  </file><file path="admin/view/template/sale/order_info.tpl" error="skip">
+    <operation error="skip">
+			<search position="replace" offset="4"><![CDATA[<td style="width: 1%;" class="text-center"><?php if (!$invoice_no) { ?>]]></search>
+			<add position="replace" offset="4"><![CDATA[
+				<td style="width: 1%;" class="text-center">
+					<?php if ($pdf_invoice_manual_inv_no) { ?>
+					<?php if ($invoice_no) { ?>
+              <button id="invoice-manual-edit" class="btn btn-success btn-xs" data-loading-text="<?php echo $text_loading; ?>" data-toggle="tooltip" title="<?php echo $text_manual_invoice_edit; ?>"><i class="fa fa-pencil"></i></button>
+					  <?php } else { ?>
+              <button id="invoice-manual-new" class="btn btn-success btn-xs" data-loading-text="<?php echo $text_loading; ?>" data-toggle="tooltip" title="<?php echo $button_generate; ?>"><i class="fa fa-cog"></i></button>
+              <button style="display:none" id="invoice-manual-edit" class="btn btn-success btn-xs" data-loading-text="<?php echo $text_loading; ?>" data-toggle="tooltip" title="<?php echo $text_manual_invoice_edit; ?>"><i class="fa fa-pencil"></i></button>
+					  <?php } ?>
+  					<?php } else { ?>
+						<?php if (!$invoice_no) { ?>
+            <button id="button-invoice" data-loading-text="<?php echo $text_loading; ?>" data-toggle="tooltip" title="<?php echo $button_generate; ?>" class="btn btn-success btn-xs"><i class="fa fa-cog"></i></button>
+            <?php } else { ?>
+            <button disabled="disabled" class="btn btn-success btn-xs"><i class="fa fa-refresh"></i></button>
+            <?php } ?>
+					<?php } ?></td>
+			]]></add>
+		</operation>
+  </file><file path="admin/view/template/sale/order_info.tpl" error="skip">
+		<operation>
+			<search position="after" index="1"><![CDATA[<script type="text/javascript">]]></search>
+			<add position="after" index="1"><![CDATA[
+$('body').on('click', '#invoice-manual-new', function() {
+	$.ajax({
+		url: 'index.php?route=sale/order/getnewinvoiceno&token=<?php echo $token; ?>&order_id=<?php echo $order_id; ?>',
+		dataType: 'json',
+		beforeSend: function() {
+      <?php if (version_compare(VERSION, '2.1', '>=')) { ?>
+			$('#invoice-manual-new i').addClass('fa-spin');
+      <?php } else { ?>
+			$('#invoice').after('<img src="view/pdf_invoice_pro/img/loading.gif" class="loading" style="padding-left: 5px;" />');	
+      <?php } ?>
+		},
+		complete: function() {
+      <?php if (version_compare(VERSION, '2.1', '>=')) { ?>
+      $('#invoice-manual-new i').removeClass('fa-spin');
+      <?php } else { ?>
+			$('.loading').remove();
+      <?php } ?>
+		},
+		success: function(json) {
+			$('.success, .warning').remove();
+						
+			if (json['error']) {
+				$('#tab-order').prepend('<div class="warning" style="display: none;">' + json['error'] + '</div>');
+				$('.warning').fadeIn('slow');
+			}
+			
+			if (json.invoice_no) {
+        <?php if (version_compare(VERSION, '2.1', '>=')) { ?>
+          $('#manual_inv_no input[name=manual_inv_number]').val(json['invoice_no']);
+					$('#manual_inv_no input[name=manual_inv_prefix]').val(json['prefix']);
+          $('#orig_invoice_no').hide();
+          $('#invoice-manual-new').hide();
+          $('.tooltip').fadeOut('fast');
+          $('#orig_invoice_no').html(json['prefix']+json['invoice_no']);
+          $('#orig_invoice_no').fadeIn('slow');
+          $('#invoice-manual-edit').fadeIn('slow');
+        <?php } else { ?>
+				$('#invoice').fadeOut('slow', function() {
+					$('#manual_inv_no input[name=manual_inv_number]').val(json['invoice_no']);
+					$('#manual_inv_no input[name=manual_inv_prefix]').val(json['prefix']);
+					$('#manual_inv_no').show();
+            $('#invoice').hide();
+				});
+        <?php } ?>
+			}
+		}
+	});
+});
+$('body').on('click', '#invoice-manual-edit', function() {
+	$('#manual_inv_no').show();
+	<?php if (version_compare(VERSION, '2.1', '>=')) { ?>
+    $('#orig_invoice_no').hide();
+    $('#invoice-manual-edit').hide();
+  <?php } else { ?>
+    $('#invoice').hide();
+  <?php } ?>
+});
+$('body').on('click', '#invoice-manual-save', function() {
+	$.ajax({
+		url: 'index.php?route=sale/order/manualinvoiceno&token=<?php echo $token; ?>&order_id=<?php echo $order_id; ?>',
+		dataType: 'json',
+		data:{prefix:$('#manual_inv_no input[name=manual_inv_prefix]').val(),number:$('#manual_inv_no input[name=manual_inv_number]').val()},
+		success: function(json) {
+			$('.success, .warning').remove();
+						
+			if (json['error']) {
+				$('#tab-order').prepend('<div class="warning" style="display: none;">' + json['error'] + '</div>');
+				$('.warning').fadeIn('slow');
+			}
+			
+			if (json.invoice_no) {
+				$('#invoice').fadeOut('slow', function() {
+          <?php if (version_compare(VERSION, '2.1', '>=')) { ?>
+            $('#orig_invoice_no').html(json['invoice_no']);
+            $('#invoice-manual-edit').fadeIn('slow');
+            $('#orig_invoice_no').fadeIn('slow');
+					<?php } else if (version_compare(VERSION, '2', '>=')) { ?>
+						$('#invoice').html(json['invoice_no'] + ' <button id="invoice-manual-edit" class="btn btn-success btn-xs"><i class="fa fa-pencil"></i> <?php echo $text_manual_invoice_edit; ?></button>');
+					<?php } else { ?>
+						$('#invoice').html(json['invoice_no'] + ' [ <a id="invoice-manual-edit"><?php echo $text_manual_invoice_edit; ?></a> ]');
+					<?php } ?>
+					
+					$('#manual_inv_no').hide();
+					$('#invoice').fadeIn('slow');
+				});
+			}
+		}
+	});
+});
+]]></add>
+		</operation>
+  </file><file path="admin/view/template/sale/order_info.tpl" error="skip">
+		<!-- invoice date -->
+		<operation error="skip">
+			<search position="after" offset="1"><![CDATA[<td><?php echo $date_modified; ?></td>]]></search>
+			<add position="after" offset="1"><![CDATA[
+				<tr>
+					<td><?php echo $text_pdf_date_invoice; ?>:</td>
+					<td>
+						<span id="pdf_invoice_date_edit" style="display:none"><input type="text" id="pdf_date_input" value="<?php echo $date_invoice; ?>" /> [ <a id="pdf_date_save" href="javascript:pdf_invoice_date();"><?php echo $text_manual_invoice_save; ?></a> ]</span>
+						<?php if (version_compare(VERSION, '2', '>=')) { ?>
+							<span id="pdf_invoice_date"><span title="<?php echo $text_pdf_edit; ?>"><?php echo $date_invoice; ?></span> <button onclick="pdf_invoice_date('now');" class="btn btn-success btn-xs"><i class="fa fa-calendar"></i> <?php echo $text_pdf_now; ?></button></span>
+						<?php } else { ?>
+							<span id="pdf_invoice_date"><span title="<?php echo $text_pdf_edit; ?>"><?php echo $date_invoice; ?></span> [ <a href="javascript:pdf_invoice_date('now');"><?php echo $text_pdf_now; ?></a> ]</span>
+						<?php } ?>
+						<script type="text/javascript">
+							function pdf_invoice_date(date){
+								if(date){
+									$('#pdf_invoice_date span').fadeOut('fast').load('index.php?route=sale/order/pdf_invoice_date&token=<?php echo $token; ?>&order_id=<?php echo $order_id; ?>&date='+date).fadeIn();
+								}
+								else {
+									$('#pdf_invoice_date_edit').fadeOut('fast', function(){
+										$('#pdf_invoice_date span').load('index.php?route=sale/order/pdf_invoice_date&token=<?php echo $token; ?>&order_id=<?php echo $order_id; ?>&date='+$('#pdf_date_input').val(), function(){
+											$('#pdf_invoice_date').fadeIn();
+										});
+									});
+								}
+							}
+							$('body').on('click', '#pdf_invoice_date span', function() {
+								$('#pdf_invoice_date_edit').show();
+								$('#pdf_invoice_date').hide();
+							});
+						</script>
+					</td>
+				</tr>
+			]]></add>
+		</operation>
+    <!--2.1-->
+  </file><file path="admin/view/template/sale/order_info.tpl" error="skip">
+    <operation error="skip">
+			<search position="after" offset="2"><![CDATA[<td><button data-toggle="tooltip" title="<?php echo $text_date_added; ?>"]]></search>
+			<add position="after" offset="2"><![CDATA[
+        <tr>
+          <td><button data-toggle="tooltip" title="<?php echo $text_pdf_date_invoice; ?>" class="btn btn-info btn-xs"><i class="fa fa-calendar fa-fw"></i></button></td>
+          <td><span id="pdf_invoice_date_edit" style="display:none"><input type="text" id="pdf_date_input" value="<?php echo $date_invoice; ?>" /> [ <a id="pdf_date_save" href="javascript:pdf_invoice_date();"><?php echo $text_manual_invoice_save; ?></a> ]</span>
+						<?php if (version_compare(VERSION, '2', '>=')) { ?>
+							<span id="pdf_invoice_date"><span title="<?php echo $text_pdf_edit; ?>"><?php echo $date_invoice; ?></span> <button onclick="pdf_invoice_date('now');" class="btn btn-success btn-xs"><i class="fa fa-calendar"></i> <?php echo $text_pdf_now; ?></button></span>
+						<?php } else { ?>
+							<span id="pdf_invoice_date"><span title="<?php echo $text_pdf_edit; ?>"><?php echo $date_invoice; ?></span> [ <a href="javascript:pdf_invoice_date('now');"><?php echo $text_pdf_now; ?></a> ]</span>
+						<?php } ?>
+						<script type="text/javascript">
+							function pdf_invoice_date(date){
+								if(date){
+									$('#pdf_invoice_date span').fadeOut('fast').load('index.php?route=sale/order/pdf_invoice_date&token=<?php echo $token; ?>&order_id=<?php echo $order_id; ?>&date='+date).fadeIn();
+								}
+								else {
+									$('#pdf_invoice_date_edit').fadeOut('fast', function(){
+										$('#pdf_invoice_date span').load('index.php?route=sale/order/pdf_invoice_date&token=<?php echo $token; ?>&order_id=<?php echo $order_id; ?>&date='+$('#pdf_date_input').val(), function(){
+											$('#pdf_invoice_date').fadeIn();
+										});
+									});
+								}
+							}
+							$('body').on('click', '#pdf_invoice_date span', function() {
+								$('#pdf_invoice_date_edit').show();
+								$('#pdf_invoice_date').hide();
+							});
+						</script></td>
+        </tr>
+			]]></add>
+		</operation>
+		<!-- invoice date -->
+  </file>
+	
+  <file path="admin/controller/sale/return.php">
+    <operation>
+			<search position="before"><![CDATA[public function index() {]]></search>
+			<add position="before"><![CDATA[
+      public function pdf() {
+				$this->load->model('tool/pdf_invoice');
+				$this->model_tool_pdf_invoice->generate($this->request->get['return_id'], 'display', 'return');
+      }
+			]]></add>
+		</operation>
+    
+    <operation>
+			<search position="after"><![CDATA[=> $result['return_id'],]]></search>
+			<add position="after"><![CDATA[
+     'pdf_link'          => $this->model_sale_order->getOrder($result['order_id']) ? $this->url->link('sale/return/pdf', (isset($this->session->data['user_token']) ? 'user_token='.$this->session->data['user_token'] : 'token='.$this->session->data['token']) . '&return_id=' . $result['return_id'] . '&order_id=' . $result['order_id'] . $url, 'SSL') : '',
+     ]]></add>
+		</operation>
+    
+    <operation>
+			<search position="after"><![CDATA[protected function getList() {]]></search>
+			<add position="after"><![CDATA[
+     $this->load->model('sale/order');
+     ]]></add>
+		</operation>
+	</file>
+
+  <file path="admin/model/sale/return.php">
+		<operation error="skip">
+			<search position="replace"><![CDATA[$mail->send();]]></search>
+			<add position="replace"><![CDATA[
+			if (in_array($data['return_status_id'], (array) $this->config->get('pdf_invoice_return_pdf'))) {
+				$this->load->model('tool/pdf_invoice');
+				$temp_pdf = $this->model_tool_pdf_invoice->generate($return_id, 'file', 'return');
+				$mail->addAttachment($temp_pdf);
+			}
+			
+			$mail->send();
+			
+			if (isset($temp_pdf) && is_file($temp_pdf)) {
+				unlink($temp_pdf);
+			}
+			]]></add>
+		</operation>
+  </file>
+  
+  <file path="admin/view/template/sale/return_list.tpl" error="skip">
+		<operation error="skip" v="2.0">
+			<search position="replace"><![CDATA[<td class="text-right"><a href="<?php echo $return['edit']; ?>"]]></search>
+			<add position="replace"><![CDATA[<td class="text-right"><?php if ($return['pdf_link']) { ?><a href="<?php echo $return['pdf_link']; ?>" target="_blank" data-toggle="tooltip" title="PDF" class="btn btn-warning"><i class="fa fa-file-pdf-o"></i></a><?php } ?>
+      <a href="<?php echo $return['edit']; ?>"]]></add>
+		</operation>
+	</file>
+  
+	<file path="admin/view/template/sale/order_list.twig" error="skip" v="3">
+		<operation error="skip">
+			<search position="before"><![CDATA[<button type="submit" id="button-shipping"]]></search>
+			<add position="before"><![CDATA[{{gkd_pdfinvoice_parts.top_buttons}}]]></add>
+		</operation>
+		<operation error="skip">
+			<search position="after"><![CDATA[$('#button-shipping, #button-invoice').prop('disabled', true);]]></search>
+			<add position="after"><![CDATA[$('#btn-pdfinv-invoice, #btn-pdfinv-packing, #btn-pdfinv-backup').prop('disabled', true);]]></add>
+		</operation>
+		<operation error="skip">
+			<search position="after"><![CDATA[$('#button-invoice').prop('disabled', false);]]></search>
+			<add position="after"><![CDATA[$('#btn-pdfinv-invoice, #btn-pdfinv-packing, #btn-pdfinv-backup').prop('disabled', false);]]></add>
+		</operation>
+    <operation error="skip">
+			<search position="after"><![CDATA[<li><a href="{{ order.edit }}"><i class="fa fa-pencil"></i> {{ button_edit }}</a></li>]]></search>
+			<add position="after"><![CDATA[
+        <li><a href="{{link_pdfinv_invoice}}&order_id={{order.order_id}}" {{pdf_invoice_new_tab ? 'target="_blank"':''}}><i class="fa fa-file-pdf-o"></i> {{button_pdfinv_invoice}}</a></li>
+        <li><a href="{{link_pdfinv_packing}}&order_id={{order.order_id}}" {{pdf_invoice_new_tab ? 'target="_blank"':''}}><i class="fa fa-file-text-o"></i> {{button_pdfinv_packing}}</a></li>
+      ]]></add>
+		</operation>
+	</file><file path="admin/view/template/sale/order_list.tpl" error="skip">
+		<operation error="skip" v="2.0">
+			<search position="before"><![CDATA[<button type="submit" id="button-shipping"]]></search>
+			<add position="before"><![CDATA[<?php echo isset($gkd_pdfinvoice_parts['top_buttons']) ? $gkd_pdfinvoice_parts['top_buttons'] : ''; ?>]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[<h1><?php echo $heading_title; ?></h1>]]></search>
+			<add position="replace"><![CDATA[<h1><?php echo $heading_title_org; ?></h1>]]></add>
+		</operation>
+		<operation error="skip" v="2.0">
+			<search position="after"><![CDATA[$('#button-shipping, #button-invoice').prop('disabled', true);]]></search>
+			<add position="after"><![CDATA[$('#btn-pdfinv-invoice, #btn-pdfinv-packing, #btn-pdfinv-backup').prop('disabled', true);]]></add>
+		</operation>
+		<operation error="skip" v="2.0">
+			<search position="after"><![CDATA[$('#button-invoice').prop('disabled', false);]]></search>
+			<add position="after"><![CDATA[$('#btn-pdfinv-invoice, #btn-pdfinv-packing, #btn-pdfinv-backup').prop('disabled', false);]]></add>
+		</operation>
+    <operation error="skip" v="2.0">
+			<search position="replace"><![CDATA[<a href="<?php echo $order['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a>]]></search>
+			<add position="replace"><![CDATA[<a href="<?php echo $order['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a> 
+      <a href="<?php echo $link_pdfinv_invoice.'&order_id='.$order['order_id']; ?>" data-toggle="tooltip" title="<?php echo $button_pdfinv_invoice; ?>" class="btn btn-warning" <?php echo !empty($pdf_invoice_new_tab) ? 'target="_blank"':''; ?>><i class="fa fa-file-pdf-o"></i></a>
+      <a href="<?php echo $link_pdfinv_packing.'&order_id='.$order['order_id']; ?>" data-toggle="tooltip" title="<?php echo $button_pdfinv_packing; ?>" class="btn btn-warning" <?php echo !empty($pdf_invoice_new_tab) ? 'target="_blank"':''; ?>><i class="fa fa-file-text-o"></i></a>]]></add>
+		</operation>
+	</file><file path="admin/view/template/sale/order_list.tpl" error="skip">
+ 		<operation error="skip" v="1.5">
+			<search position="replace"><![CDATA[<div class="buttons">]]></search>
+			<add position="replace"><![CDATA[<div class="buttons"><a onclick="if(!$('#form :checkbox:checked').length) return alert('Select at least one checkbox'); $('#form').attr('action', '<?php echo $link_pdfinv_invoice; ?>'); <?php if ($pdf_invoice_new_tab) { ?>$('#form').attr('target', '_blank'); <?php } ?> $('#form').submit();" class="button"><img src="view/pdf_invoice_pro/img/icon.png" style="vertical-align:top;padding-right:4px"/> <?php echo $button_pdfinv_invoice; ?></a><a onclick="if(!$('#form :checkbox:checked').length) return alert('Select at least one checkbox'); $('#form').attr('action', '<?php echo $link_pdfinv_packing; ?>'); <?php if ($pdf_invoice_new_tab) { ?>$('#form').attr('target', '_blank'); <?php } ?> $('#form').submit();" class="button"><img src="view/pdf_invoice_pro/img/icon.png" style="vertical-align:top;padding-right:4px"/> <?php echo $button_pdfinv_packing; ?></a><?php if($pdf_invoice_manual_backup) { ?><a onclick="if(!$('#form :checkbox:checked').length) return alert('Select at least one checkbox'); if($('#form :checkbox:checked').length > 1) return alert('Select only one checkbox'); $('#form').attr('action', '<?php echo $link_pdfinv_backup; ?>'); $('#form').submit();" class="button"><img src="view/pdf_invoice_pro/img/icon.png" style="vertical-align:top;padding-right:4px"/> <?php echo $button_invoice_backup; ?></a><?php } ?>]]></add>
+		</operation>
+	</file>
+	
+	<file path="admin/controller/sale/order.php">
+     <operation error="skip">
+      <search position="before"><![CDATA[$this->response->setOutput($this->load->view('sale/order_list', $data));]]></search>
+      <add position="before"><![CDATA[
+        $this->load->model('tool/gkd_lib');
+        
+        $data['gkd_pdfinvoice_parts'] = $this->model_tool_gkd_lib->fetch('module/pdf_invoice_order_list', $data, 'all');
+      ]]></add>
+    </operation>
+    
+    <operation error="skip">
+      <search position="before"><![CDATA[$this->response->setOutput($this->load->view('sale/order_info', $data));]]></search>
+      <add position="before"><![CDATA[
+        $this->load->model('tool/gkd_lib');
+        
+        $data['gkd_pdfinvoice_parts'] = $this->model_tool_gkd_lib->fetch('module/pdf_invoice_order_info', $data, 'all');
+      ]]></add>
+    </operation>
+	</file><file path="admin/controller/sale/order.php">
+		<operation>
+			<search position="before"><![CDATA[function createInvoiceNo()]]></search>
+			<add position="before"><![CDATA[
+	public function manualInvoiceNo() {
+		$this->language->load('sale/order');
+
+		$json = array();
+
+		if (!$this->user->hasPermission('modify', 'sale/order')) {
+			$json['error'] = $this->language->get('error_permission');
+		} elseif (isset($this->request->get['order_id'])) {
+			$this->load->model('sale/order');
+
+			$this->db->query("UPDATE `" . DB_PREFIX . "order` SET invoice_no = '" . (int)$this->request->get['number'] . "', invoice_prefix = '" . $this->db->escape($this->request->get['prefix']) . "' WHERE order_id = '" . (int)$this->request->get['order_id'] . "'");
+			
+			if ($this->config->get('pdf_invoice_backup') && $this->config->get('pdf_invoice_backup_moment') == 'invoiceno') {
+				$this->load->model('tool/pdf_invoice');
+				$this->model_tool_pdf_invoice->generate($this->request->get['order_id'], 'backup');
+			}
+
+			$json['invoice_no'] = $this->request->get['prefix'] . $this->request->get['number'];
+		}
+
+		$this->response->setOutput(json_encode($json));
+	}
+	
+	public function getNewInvoiceNo() {
+		$this->language->load('sale/order');
+
+		$json = array();
+
+		if (!$this->user->hasPermission('modify', 'sale/order')) {
+			$json['error'] = $this->language->get('error_permission');
+		} elseif (isset($this->request->get['order_id'])) {
+			$this->load->model('sale/order');
+			$order_info = $this->model_sale_order->getOrder($this->request->get['order_id']);
+
+			if ($order_info && !$order_info['invoice_no']) {
+				$query = $this->db->query("SELECT MAX(invoice_no) AS invoice_no FROM `" . DB_PREFIX . "order` WHERE invoice_prefix = '" . $this->db->escape($order_info['invoice_prefix']) . "'");
+
+				if ($query->row['invoice_no']) {
+					$invoice_no = $query->row['invoice_no'] + 1;
+				} else {
+					$invoice_no = 1;
+				}
+				$prefix = $order_info['invoice_prefix'];
+			}
+
+			if ($invoice_no) {
+				$json['invoice_no'] = $invoice_no;
+				$json['prefix'] = $prefix;
+			} else {
+				$json['error'] = $this->language->get('error_action');
+			}
+		}
+
+    // create it
+    $this->createInvoiceNo();
+    
+		$this->response->setOutput(json_encode($json));
+	}
+			]]></add>
+		</operation>
+		<operation>
+			<search position="before" index="1"><![CDATA[if ($order_info['invoice_no']) {]]></search>
+			<add position="before" index="1"><![CDATA[			
+			if (version_compare(VERSION, '2', '>=')) {
+				$data['invoice_prefix'] = $order_info['invoice_prefix'];
+				$data['invoice_number'] = $order_info['invoice_no'];
+			} else {
+				$this->data['invoice_prefix'] = $order_info['invoice_prefix'];
+				$this->data['invoice_number'] = $order_info['invoice_no'];
+			}
+			]]></add>
+		</operation>
+		<operation>
+			<search position="after"><![CDATA[public function index() {]]></search>
+			<add position="after"><![CDATA[
+      if (version_compare(VERSION, '3', '>=')) {
+        $this->load->language('extension/module/pdf_invoice');
+      } else {
+        $this->load->language('module/pdf_invoice');
+      }
+      ]]></add>
+		</operation>
+		<operation>
+			<search position="after"><![CDATA[function getList() {]]></search>
+			<add position="after"><![CDATA[
+				$data['heading_title_org']=$this->language->get('heading_title');
+		if (version_compare(VERSION, '2', '>=')) {
+			$data['button_pdfinv_invoice'] = $this->language->get('button_pdf_invoice');
+			$data['button_pdfinv_packing'] = $this->language->get('button_packing_slip');
+			$data['button_pdfinv_backup'] = $this->language->get('button_invoice_backup');
+			$data['link_pdfinv_invoice'] = $this->url->link('sale/order/pdf_invoice', (isset($this->session->data['user_token']) ? 'user_token='.$this->session->data['user_token'] : 'token='.$this->session->data['token']), 'SSL');
+			$data['link_pdfinv_packing'] = $this->url->link('sale/order/pdf_packingslip', (isset($this->session->data['user_token']) ? 'user_token='.$this->session->data['user_token'] : 'token='.$this->session->data['token']), 'SSL');
+			$data['link_pdfinv_backup'] = $this->url->link('sale/order/pdf_backup', (isset($this->session->data['user_token']) ? 'user_token='.$this->session->data['user_token'] : 'token='.$this->session->data['token']), 'SSL');
+			$data['pdf_invoice_manual_backup'] = $this->config->get('pdf_invoice_backup_moment') == 'manual';
+			$data['pdf_invoice_new_tab'] = $this->config->get('pdf_invoice_display_mode') == 'view';
+		} else {
+			$this->data['button_pdfinv_invoice'] = $this->language->get('button_pdf_invoice');
+			$this->data['button_pdfinv_packing'] = $this->language->get('button_packing_slip');
+			$this->data['button_pdfinv_backup'] = $this->language->get('button_invoice_backup');
+			$this->data['link_pdfinv_invoice'] = $this->url->link('sale/order/pdf_invoice', (isset($this->session->data['user_token']) ? 'user_token='.$this->session->data['user_token'] : 'token='.$this->session->data['token']), 'SSL');
+			$this->data['link_pdfinv_packing'] = $this->url->link('sale/order/pdf_packingslip', (isset($this->session->data['user_token']) ? 'user_token='.$this->session->data['user_token'] : 'token='.$this->session->data['token']), 'SSL');
+			$this->data['link_pdfinv_backup'] = $this->url->link('sale/order/pdf_backup', (isset($this->session->data['user_token']) ? 'user_token='.$this->session->data['user_token'] : 'token='.$this->session->data['token']), 'SSL');
+			$this->data['pdf_invoice_manual_backup'] = $this->config->get('pdf_invoice_backup_moment') == 'manual';
+			$this->data['pdf_invoice_new_tab'] = $this->config->get('pdf_invoice_display_mode') == 'view';
+		}
+			]]></add>
+		</operation>
+		<operation>
+			<search position="after"><![CDATA[public function info() {]]></search>
+			<add position="after"><![CDATA[
+			if (version_compare(VERSION, '3', '>=')) {
+        $this->load->language('extension/module/pdf_invoice');
+      } else {
+        $this->load->language('module/pdf_invoice');
+      }
+      
+			if (version_compare(VERSION, '2', '>=')) {
+				// buttons
+				$data['button_pdfinv_invoice'] = $this->language->get('button_pdf_invoice');
+				$data['button_pdfinv_packing'] = $this->language->get('button_packing_slip');
+				$data['button_invoice_backup'] = $this->language->get('button_invoice_backup');
+				$data['link_pdfinv_invoice'] = $this->url->link('sale/order/pdf_invoice', (isset($this->session->data['user_token']) ? 'user_token='.$this->session->data['user_token'] : 'token='.$this->session->data['token']) . '&order_id=' . (int)$this->request->get['order_id'], 'SSL');
+				$data['link_pdfinv_packing'] = $this->url->link('sale/order/pdf_packingslip', (isset($this->session->data['user_token']) ? 'user_token='.$this->session->data['user_token'] : 'token='.$this->session->data['token']) . '&order_id=' . (int)$this->request->get['order_id'], 'SSL');
+				$data['link_pdfinv_backup'] = $this->url->link('sale/order/pdf_backup', (isset($this->session->data['user_token']) ? 'user_token='.$this->session->data['user_token'] : 'token='.$this->session->data['token']) . '&order_id=' . (int)$this->request->get['order_id'], 'SSL');
+				$data['pdf_invoice_manual_backup'] = $this->config->get('pdf_invoice_backup_moment') == 'manual';
+        $data['pdf_invoice_new_tab'] = $this->config->get('pdf_invoice_display_mode') == 'view';
+				
+				// invoice number editor
+				$data['pdf_invoice_manual_inv_no'] = $this->config->get('pdf_invoice_manual_inv_no');
+				$data['text_manual_invoice_save'] = $this->language->get('text_manual_invoice_save');
+				$data['text_manual_invoice_edit'] = $this->language->get('text_manual_invoice_edit');
+
+				// date
+				$data['text_pdf_date_invoice'] = $this->language->get('text_pdf_date_invoice');
+				$data['text_pdf_edit'] = $this->language->get('text_pdf_edit');
+				$data['text_pdf_now'] = $this->language->get('text_pdf_now');
+			} else {
+				// buttons
+				$this->data['button_pdfinv_invoice'] = $this->language->get('button_pdf_invoice');
+				$this->data['button_pdfinv_packing'] = $this->language->get('button_packing_slip');
+				$this->data['button_invoice_backup'] = $this->language->get('button_invoice_backup');
+				$this->data['link_pdfinv_invoice'] = $this->url->link('sale/order/pdf_invoice', (isset($this->session->data['user_token']) ? 'user_token='.$this->session->data['user_token'] : 'token='.$this->session->data['token']) . '&order_id=' . (int)$this->request->get['order_id'], 'SSL');
+				$this->data['link_pdfinv_packing'] = $this->url->link('sale/order/pdf_packingslip', (isset($this->session->data['user_token']) ? 'user_token='.$this->session->data['user_token'] : 'token='.$this->session->data['token']) . '&order_id=' . (int)$this->request->get['order_id'], 'SSL');
+				$this->data['link_pdfinv_backup'] = $this->url->link('sale/order/pdf_backup', (isset($this->session->data['user_token']) ? 'user_token='.$this->session->data['user_token'] : 'token='.$this->session->data['token']) . '&order_id=' . (int)$this->request->get['order_id'], 'SSL');
+				$this->data['pdf_invoice_manual_backup'] = $this->config->get('pdf_invoice_backup_moment') == 'manual';
+				$this->data['pdf_invoice_new_tab'] = $this->config->get('pdf_invoice_display_mode') == 'view';
+				
+				// invoice number editor
+				$this->data['pdf_invoice_manual_inv_no'] = $this->config->get('pdf_invoice_manual_inv_no');
+				$this->data['text_manual_invoice_save'] = $this->language->get('text_manual_invoice_save');
+				$this->data['text_manual_invoice_edit'] = $this->language->get('text_manual_invoice_edit');
+
+				// date
+				$this->data['text_pdf_date_invoice'] = $this->language->get('text_pdf_date_invoice');
+				$this->data['text_pdf_edit'] = $this->language->get('text_pdf_edit');
+				$this->data['text_pdf_now'] = $this->language->get('text_pdf_now');
+			}
+			]]></add>
+		</operation>
+		<operation>
+			<search position="after"><![CDATA[$invoice_no = $this->model_sale_order->createInvoiceNo]]></search>
+			<add position="after"><![CDATA[
+        if ($this->config->get('pdf_invoice_duedate_invoice')) {
+          $this->db->query("UPDATE `" . DB_PREFIX . "order` SET date_invoice = '".date('Y-m-d')."' WHERE order_id = '" . (int)$this->request->get['order_id'] . "'");
+        }
+      
+				if($this->config->get('pdf_invoice_backup') && $this->config->get('pdf_invoice_backup_moment') == 'invoiceno'){
+					$this->load->model('tool/pdf_invoice');
+					$this->model_tool_pdf_invoice->generate($this->request->get['order_id'], 'backup');
+				}
+			]]></add>
+		</operation>
+		<operation>
+			<search position="before"><![CDATA[public function invoice() {]]></search>
+			<add position="before"><![CDATA[
+	public function pdf_invoice() {
+		$orders = array();
+
+		if (isset($this->request->post['selected'])) {
+			$orders = $this->request->post['selected'];
+		} elseif (isset($this->request->get['order_id'])) {
+			$orders[] = $this->request->get['order_id'];
+		}
+		
+		$this->load->model('tool/pdf_invoice');
+		$this->response->setOutput($this->model_tool_pdf_invoice->generate($orders, 'display', 'invoice', $this->config->get('pdf_invoice_adminlang')));
+	}
+	
+	public function pdf_packingslip() {
+		$orders = array();
+
+		if (isset($this->request->post['selected'])) {
+			$orders = $this->request->post['selected'];
+		} elseif (isset($this->request->get['order_id'])) {
+			$orders[] = $this->request->get['order_id'];
+		}
+		
+		$this->load->model('tool/pdf_invoice');
+		$this->response->setOutput($this->model_tool_pdf_invoice->generate($orders, 'display', 'packingslip', $this->config->get('pdf_invoice_adminlang')));
+	}
+	
+	public function pdf_backup() {
+		$orders = array();
+
+		if (isset($this->request->post['selected'])) {
+			$orders = $this->request->post['selected'];
+		} elseif (isset($this->request->get['order_id'])) {
+			$orders[] = $this->request->get['order_id'];
+		}
+		
+		$this->load->model('tool/pdf_invoice');
+		$this->model_tool_pdf_invoice->generate($orders, 'backup', 'invoice', $this->config->get('pdf_invoice_adminlang'));
+		
+		if (version_compare(VERSION, '3', '>=')) {
+      $this->load->language('extension/module/pdf_invoice');
+    } else {
+      $this->load->language('module/pdf_invoice');
+    }
+    
+		$this->session->data['success'] = str_replace('[order]', (int) $orders[0], $this->language->get('text_pdf_backup_done'));
+		
+		if (version_compare(VERSION, '2', '>=')) {
+			$this->response->redirect($this->url->link('sale/order', (isset($this->session->data['user_token']) ? 'user_token='.$this->session->data['user_token'] : 'token='.$this->session->data['token']), 'SSL'));
+		} else {
+			$this->redirect($this->url->link('sale/order', (isset($this->session->data['user_token']) ? 'user_token='.$this->session->data['user_token'] : 'token='.$this->session->data['token']), 'SSL'));
+		}
+	}
+
+	public function pdf_invoice_date() {
+		$order_id = $this->request->get['order_id'];
+		$date = $this->request->get['date'];
+		
+		if($date == 'now') {
+			$date = 'NOW()';
+      $return_date = date($this->language->get('date_format_short'));
+		} else {
+			$date = "'".date_format(date_create_from_format($this->language->get('date_format_short'), $date), 'Y-m-d')."'";
+      $return_date = $this->request->get['date'];
+		}
+		
+		$this->db->query("UPDATE `" . DB_PREFIX . "order` SET date_invoice = ".$date." WHERE order_id = '" . (int)$order_id . "'"); 	
+		
+		echo $return_date;
+		die;
+	}
+			]]></add>
+		</operation>
+		<!-- invoice date -->
+		<operation>
+			<search position="after"><![CDATA[data['date_added'] =]]></search>
+			<add position="after"><![CDATA[
+			if(isset($data['order_id'])) { //detect V2.0
+				$data['date_invoice'] = date($this->language->get('date_format_short'), strtotime($order_info['date_invoice'] ? $order_info['date_invoice'] : $order_info['date_added']));
+			} else {
+				$this->data['date_invoice'] = date($this->language->get('date_format_short'), strtotime($order_info['date_invoice'] ? $order_info['date_invoice'] : $order_info['date_added']));
+			}
+			]]></add>
+		</operation>
+		<!-- end invoice date -->
+	</file>
+	
+	<!--attach invoice on order update (1.5 only, in c/m/c/o for v2)-->
+	<file path="admin/model/sale/order.php">
+		<operation error="skip">
+			<search position="replace"><![CDATA[$mail->send();]]></search>
+			<add position="replace"><![CDATA[
+			if (in_array($data['order_status_id'], (array) $this->config->get('pdf_invoice_auto_notify'))) {
+				$this->load->model('tool/pdf_invoice');
+				$temp_pdf = $this->model_tool_pdf_invoice->generate($order_id, 'file', 'invoice');
+				$mail->addAttachment($temp_pdf);
+			}
+			
+			$mail->send();
+			
+			if (isset($temp_pdf) && is_file($temp_pdf)) {
+				unlink($temp_pdf);
+			}
+			]]></add>
+		</operation>
+	</file>
+	
+	<file path="admin/model/sale/order.php">
+		<!-- invoice date -->
+		<operation>
+			<search position="after"><![CDATA[=> $order_query->row['date_added'],]]></search>
+			<add position="after"><![CDATA[			'date_invoice'              => !empty($order_query->row['date_invoice']) ? $order_query->row['date_invoice'] : '',]]></add>
+		</operation>
+		<!-- end invoice date -->
+	</file>
+	
+	<file path="admin/view/template/common/header.tpl" error="skip" v="1.5">
+		<operation error="skip">
+			<search position="after"><![CDATA[<li><a href="<?php echo $feed; ?>">]]></search>
+			<add position="after"><![CDATA[
+			<?php $this->load->model('setting/extension'); if(in_array('pdf_invoice', $this->model_setting_extension->getInstalled('module'))){ ?>
+			<li><a href="<?php echo $this->url->link('module/pdf_invoice', (isset($this->session->data['user_token']) ? 'user_token='.$this->session->data['user_token'] : 'token='.$this->session->data['token']), 'SSL'); ?>"><img style="vertical-align:top" src="view/pdf_invoice_pro/img/icon.png"/> PDF Invoice Pro</a></li>
+			<?php }else{ ?>
+			<li><a href="<?php echo $this->url->link('extension/module/install', 'extension=pdf_invoice&'.(isset($this->session->data['user_token']) ? 'user_token='.$this->session->data['user_token'] : 'token='.$this->session->data['token']), 'SSL'); ?>"><img style="vertical-align:top" src="view/pdf_invoice_pro/img/icon.png"/> Install PDF Invoice Pro</a></li>
+			<?php } ?>
+			]]></add>
+		</operation>
+	</file>
+  
+	<file path="admin/controller/common/menu.php" error="skip" v="2.0">
+		<operation error="skip">
+			<search position="after"><![CDATA[$this->load->language('common/menu');]]></search>
+			<add position="after"><![CDATA[
+			$this->load->model('extension/extension');
+			if (in_array('pdf_invoice', $this->model_extension_extension->getInstalled('module'))) {
+				$data['text_pdfinvpro'] = 'PDF Invoice Pro';
+				$data['link_pdfinvpro'] = $this->url->link('module/pdf_invoice', (isset($this->session->data['user_token']) ? 'user_token='.$this->session->data['user_token'] : 'token='.$this->session->data['token']), 'SSL');
+			} else {
+				$data['text_pdfinvpro'] = 'Install PDF Invoice Pro';
+				$data['link_pdfinvpro'] = $this->url->link('extension/module/install', 'extension=pdf_invoice&'.(isset($this->session->data['user_token']) ? 'user_token='.$this->session->data['user_token'] : 'token='.$this->session->data['token']), 'SSL');
+			}
+			]]></add>
+		</operation>
+	</file>
+  
+  <file path="admin/controller/common/column_left.php" error="skip" v="3">
+  
+    <operation error="skip">
+      <search position="before"><![CDATA[if ($this->user->hasPermission('access', 'marketplace/modification')) {]]></search>
+      <add position="before"><![CDATA[
+      $this->load->model('setting/extension');
+
+      if (!in_array('pdf_invoice', $this->model_setting_extension->getInstalled('module'))) {
+        $marketplace[] = array(
+					'name'	   => '<img style="vertical-align:top" src="view/pdf_invoice_pro/img/icon.png"/> Install PDF Invoice Pro',
+					'href'     => $this->url->link('extension/extension/module/install', 'extension=pdf_invoice&redir=1&user_token=' . $this->session->data['user_token'], true),
+					'children' => array()		
+				);
+      } else if ($this->user->hasPermission('access', 'module/pdf_invoice')) {
+				$marketplace[] = array(
+					'name'	   => '<img style="vertical-align:top" src="view/pdf_invoice_pro/img/icon.png"/> PDF Invoice Pro',
+					'href'     => $this->url->link('module/pdf_invoice', 'user_token=' . $this->session->data['user_token'], true),
+					'children' => array()		
+				);
+			}
+      ]]></add>
+    </operation>
+    
+  </file><file path="admin/controller/common/column_left.php" error="skip" v="2.3">
+  
+    <operation error="skip">
+      <search position="before"><![CDATA[if ($this->user->hasPermission('access', 'extension/event')) {]]></search>
+      <add position="before"><![CDATA[
+      $this->load->model('extension/extension');
+      
+      if (!in_array('pdf_invoice', $this->model_extension_extension->getInstalled('module'))) {
+        $extension[] = array(
+					'name'	   => '<img style="vertical-align:top" src="view/pdf_invoice_pro/img/icon.png"/> Install PDF Invoice Pro',
+					'href'     => $this->url->link('extension/extension/module/install', 'extension=pdf_invoice&redir=1&'.(isset($this->session->data['user_token']) ? 'user_token='.$this->session->data['user_token'] : 'token='.$this->session->data['token']), true),
+					'children' => array()		
+				);
+      } else if ($this->user->hasPermission('access', 'module/pdf_invoice')) {
+				$extension[] = array(
+					'name'	   => '<img style="vertical-align:top" src="view/pdf_invoice_pro/img/icon.png"/> PDF Invoice Pro',
+					'href'     => $this->url->link('module/pdf_invoice', (isset($this->session->data['user_token']) ? 'user_token='.$this->session->data['user_token'] : 'token='.$this->session->data['token']), true),
+					'children' => array()		
+				);
+			}
+      ]]></add>
+    </operation>
+    
+  </file>
+  
+	<file path="admin/view/template/common/menu.tpl" error="skip" v="2.0">
+		<operation error="skip">
+			<search position="after"><![CDATA[<li><a href="<?php echo $feed; ?>"><?php echo $text_feed; ?></a></li>]]></search>
+			<add position="after"><![CDATA[
+			<li><a href="<?php echo $link_pdfinvpro; ?>"><img style="vertical-align:top" src="view/pdf_invoice_pro/img/icon.png"/> <?php echo $text_pdfinvpro; ?></a></li>
+			]]></add>
+		</operation>
+	</file>
+  
+  <file path="admin/controller/extension/extension/module.php" error="skip">
+  
+    <operation error="skip">
+			<search position="after"><![CDATA[$files = glob(DIR_APPLICATION . 'controller/extension/module/*.php');]]></search>
+			<add position="after"><![CDATA[
+    if (version_compare(VERSION, '3', '>=')) {
+      $files[] = 'pdf_invoice';
+    }
+			]]></add>
+		</operation>
+    
+  </file><file path="admin/controller/extension/extension/module.php" i="fix 2.3 link" error="skip">
+  
+    <operation error="skip">
+			<search position="before" index="1"><![CDATA[$data['extensions'][] = array(]]></search>
+			<add position="before" index="1"><![CDATA[
+        if ($extension == 'pdf_invoice') {
+          ${'data'}['extensions'][] = array(
+            'name'      => (version_compare(VERSION, '3', '>=') ? $this->language->get('extension')->get('heading_title') : $this->language->get('heading_title')),
+            'module'    => $module_data,
+            'install'   => $this->url->link('extension/extension/module/install', (isset($this->session->data['user_token']) ? 'user_token='.$this->session->data['user_token'] : 'token='.$this->session->data['token']) . '&extension=' . $extension, true),
+            'uninstall' => $this->url->link('extension/extension/module/uninstall', (isset($this->session->data['user_token']) ? 'user_token='.$this->session->data['user_token'] : 'token='.$this->session->data['token']) . '&extension=' . $extension, true),
+            'installed' => in_array($extension, $extensions),
+            'edit'      => $this->url->link('module/' . $extension, (isset($this->session->data['user_token']) ? 'user_token='.$this->session->data['user_token'] : 'token='.$this->session->data['token']), true)
+          );
+          
+          continue;
+        }
+			]]></add>
+		</operation>
+		
+	</file>
+	
+</modification>

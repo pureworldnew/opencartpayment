@@ -1,0 +1,35 @@
+<modification>
+<id>Timed Logout</id>
+<version>1.0</version>
+<vqmver>2.1.6</vqmver>
+<author>Raza Umer</author>
+<file name="system/library/user.php">
+    <operation error="log">
+        <search position="after"><![CDATA[if (isset($this->session->data['user_id'])) {]]></search>
+
+<add><![CDATA[	if (!isset($this->session->data['SESSIONCREATED'])) {
+			$this->session->data['SESSIONCREATED'] = time();
+			} else if (time() - $this->session->data['SESSIONCREATED'] > 86400) { //time in seconds 
+			session_destroy();
+			$this->logout();
+			} else if (isset($this->session->data['SESSIONCREATED'])) { 
+			$this->session->data['SESSIONCREATED'] = time();
+			 }
+
+]]></add>
+    </operation>
+     <operation error="log">
+        <search position="replace"><![CDATA[$user_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "user WHERE user_id = '" . (int)$this->session->data['user_id'] . "' AND status = '1'");]]></search>
+
+<add><![CDATA[
+if (isset($this->session->data['user_id'])) {
+	$user_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "user WHERE user_id = '" . (int)$this->session->data['user_id'] . "' AND status = '1'");
+}else{
+	$user_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "user WHERE user_id = '0' AND status = '1'");
+}
+
+]]></add>
+    </operation>
+    
+</file>
+</modification>

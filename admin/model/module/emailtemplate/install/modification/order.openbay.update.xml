@@ -1,0 +1,93 @@
+<file path="catalog/model/openbay/ebay_order.php" email_template="order.openbay.update">
+	<operation>
+		<search index="0"><![CDATA[$message .= $language->get('text_update_footer');]]></search>
+		<add position="after"><![CDATA[
+				$file = DIR_SYSTEM . 'library/emailtemplate/email_template.php';
+
+				if (file_exists($file)) {
+					include_once($file);
+				} else {
+					trigger_error('Error: Could not load library ' . $file . '!');
+					exit();
+				}
+
+            	$template = new EmailTemplate($this->request, $this->registry);
+
+            	if (!empty($order_info['customer_group_id'])) {
+	            	$this->load->model('account/customer_group');
+					$template->data['customer_group'] = $this->model_account_customer_group->getCustomerGroup($order_info['customer_group_id']);
+	            }
+
+				if (!empty($order_info['affiliate_id'])) {
+	            	$this->load->model('affiliate/affiliate');
+					$template->data['affiliate'] = $this->model_affiliate_affiliate->getAffiliate($order_info['affiliate_id']);
+	            }
+
+				$template->addData($order_info);
+
+				$template->addData('order_status_id', $order_status_id);
+
+				$template->data['text_update_order_status'] = $language->get('text_update_order_status');
+				$template->data['text_update_link'] = $language->get('text_update_link');
+
+				$template->data['date_added'] = date($language->get('date_format_short'), strtotime($order_info['date_added']));
+
+				if ($order_info['order_status_id'] != $order_status_id){
+					$template->data['prev_order_status_id'] = $order_info['order_status_id'];
+				}
+
+				$template->data['comment'] = $comment;
+
+				if ($order_info['comment']) {
+	            	$template->data['order_comment'] = str_replace(array("\r\n", "\r", "\n"), "<br />", $order_info['comment']);
+	            }
+
+	            if ($comment && $order_info['comment'] != $comment) {
+					$template->data['instruction'] = str_replace(array("\r\n", "\r", "\n"), "<br />", $comment);
+				} else {
+					$template->data['instruction'] = '';
+				}
+
+				if ($order_status_query->num_rows) {
+					$template->data['order_status'] = $order_status_query->row['name'];
+				}
+
+				if ($order_info['customer_id']) {
+					$template->data['order_url'] = $order_info['store_url'] . 'index.php?route=account/order/info&order_id=' . $order_id;
+					$template->data['order_url_tracking'] = $template->getTracking($template->data['order_url']);
+				}
+				]]></add>
+	</operation>
+	<operation>
+		<search index="0"><![CDATA[$mail->send();]]></search>
+		<add position="replace"><![CDATA[
+				$template_load = array(
+					'key' => 'order.openbay.update'
+				);
+
+				if (!empty($order_info['language_id'])) {
+					$template_load['language_id'] = $order_info['language_id'];
+				}
+
+				$template->load($template_load);
+
+				$mail = $template->hook($mail);
+
+				if ($template->data['emailtemplate']['attach_invoice']) {
+		    		$this->load->model('module/pdf_invoice');
+
+		    		$pdf_invoice = $this->model_module_pdf_invoice->getInvoice($order_info, true);
+
+		    		if ($pdf_invoice && file_exists($pdf_invoice)) {
+		    			$template->data['emailtemplate_invoice_pdf'] = $pdf_invoice;
+
+		    			$mail->addAttachment($pdf_invoice);
+		    		}
+		    	}
+
+				$mail->send();
+
+				$template->sent();
+		]]></add>
+	</operation>
+</file>

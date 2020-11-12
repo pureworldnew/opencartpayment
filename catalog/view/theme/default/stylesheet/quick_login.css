@@ -1,0 +1,290 @@
+#header .links{
+    padding-right: 0;
+}
+
+#header .links .quick_login #link_login{
+    /*margin-left: 8px;*/
+    /*margin-top: -1px;*/
+    margin: -5px 0 0;
+    position: relative;
+    z-index: 2;
+    font-size: 14px;
+    /*padding-right: 5px;*/
+/*    border-top: 1px solid white;
+    border-right: 1px solid white;
+    border-bottom: 1px solid white;
+    border-left: 1px solid #CCC;*/
+
+    font-weight: normal;
+    letter-spacing: 0 !important;
+  color: #fff;
+  font-family: "Open Sans";
+  text-transform: capitalize;
+  text-spacing: none !important ;
+  font-weight: normal !important;
+}
+
+#header .links .quick_login.logged #link_login{
+    font-weight: bold;
+    letter-spacing: 0px;
+    color: #fff;
+}
+
+#header .links .quick_login.logged .ql_login{
+/*    width: 120px;
+    height: 190px;*/
+}
+
+#header .links .quick_login.active #link_login{
+    border-color: #CCC;
+    /*border-bottom: 1px solid white;*/
+    -webkit-border-radius: 7px 7px 0 0;
+    -moz-border-radius: 7px 7px 0 0;
+    -khtml-border-radius: 7px 7px 0 0;
+    border-radius: 7px 7px 0 0;
+}
+
+#header .links .quick_login.active a{
+    text-decoration: none;
+}
+
+#header .links .quick_login .ql_login{
+    background-color: white;
+
+    -webkit-border-radius: 7px 7px 7px 7px;
+    -moz-border-radius: 7px 7px 7px 7px;
+    -khtml-border-radius: 7px 7px 7px 7px;
+    border-radius: 7px 7px 7px 7px;
+
+    border: 1px solid #CCC;
+    position: absolute;
+    left: 0;
+    top: 30px;
+/*    width: 250px;
+    height: 187px;*/
+
+    display: none;
+    z-index: 666;
+}
+
+#header .links .quick_login.active .ql_login{
+    display: block;
+}
+
+#main_page{
+    background-color: white;
+    padding: 10px 18px;
+    color: black;
+    border-radius: 7px;
+}
+
+#main_page input{
+    float: left;
+    display: block;
+    -webkit-border-radius: 5px 5px 5px 5px;
+    -moz-border-radius: 5px 5px 5px 5px;
+    -khtml-border-radius: 5px 5px 5px 5px;
+    border-radius: 5px 5px 5px 5px;
+    font-family: "Open Sans";
+}
+
+#main_page #label_password{
+    margin-top: 10px;
+}
+
+#main_page input.datafields{
+    width: 200px;
+    background: #FBFBFB;
+}
+
+#main_page input.datafields:focus{
+    outline: none;
+}
+
+#main_page label{
+    float: left;
+    display: block;
+    font-size: 12px;
+}
+
+#main_page .login_form input.datafields{
+    argin-left: 200px;
+}
+
+#main_page .login_form .login_links{
+    float: left;
+    margin-top: 10px;
+}
+
+#main_page .login_form .login_links a{
+    text-decoration: underline;
+}
+
+#main_page .login_form .login_links a:hover{
+    text-decoration: none;
+}
+
+#main_page .login_form .login_links a#link_register{
+    padding-left: 0;
+}
+
+#main_page .button_login{
+    margin-top: 20px;
+    padding: 0 15px;
+}
+
+#main_page .login_error{
+    color: red;
+}
+
+#main_page .account_menu ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+#main_page .account_menu ul li{
+    padding-top: 2px;
+}
+
+#header .links #main_page .account_menu ul li a{
+    text-decoration: none;
+    float:none;
+    font-family: "Open Sans";
+}
+
+#header .links #main_page .account_menu ul li a:hover{
+    text-decoration: underline;
+}
+
+.quick_login .login_form{
+    overflow: hidden;
+    width:230px;
+    display:block;
+}
+
+
+#header .links_desktop{
+    padding-right: 0;
+	float: left;
+}
+
+
+
+#header .links_desktop .quick_login_desktop .link_login_desktop {
+    /*margin-left: 8px;*/
+    /*margin-top: -1px;*/
+    margin: -5px 0 0;
+    position: relative;
+    z-index: 2;
+    font-size: 14px;
+    /*padding-right: 5px;*/
+/*    border-top: 1px solid white;
+    border-right: 1px solid white;
+    border-bottom: 1px solid white;
+    border-left: 1px solid #CCC;*/
+
+    font-weight: normal;
+    letter-spacing: 0 !important;
+  color: #fff;
+  font-family: "Open Sans";
+  text-transform: capitalize;
+  text-spacing: none !important ;
+  font-weight: normal !important;
+      text-decoration: underline;
+}
+
+#header .links_desktop .quick_login_desktop.logged .link_login_desktop {
+    font-weight: bold;
+    letter-spacing: 0px;
+    color: #fff;
+}
+
+#header .links_desktop .quick_login_desktop.logged .ql_login_desktop{
+/*    width: 120px;
+    height: 190px;*/
+}
+
+#header .links_desktop .quick_login_desktop.active .link_login_desktop {
+    border-color: #CCC;
+    /*border-bottom: 1px solid white;*/
+    -webkit-border-radius: 7px 7px 0 0;
+    -moz-border-radius: 7px 7px 0 0;
+    -khtml-border-radius: 7px 7px 0 0;
+    border-radius: 7px 7px 0 0;
+}
+
+#header .links_desktop .quick_login_desktop.active a{
+    text-decoration: none;
+}
+
+#header .links_desktop .quick_login_desktop .ql_login_desktop{
+    background-color: white;
+
+    -webkit-border-radius: 7px 7px 7px 7px;
+    -moz-border-radius: 7px 7px 7px 7px;
+    -khtml-border-radius: 7px 7px 7px 7px;
+    border-radius: 7px 7px 7px 7px;
+
+    border: 1px solid #CCC;
+    position: absolute;
+    left: 0;
+    top: 30px;
+/*    width: 250px;
+    height: 187px;*/
+
+    display: none;
+    z-index: 666;
+}
+
+
+
+#header .links .quick_login .ql_login{
+    background-color: white;
+
+    -webkit-border-radius: 7px 7px 7px 7px;
+    -moz-border-radius: 7px 7px 7px 7px;
+    -khtml-border-radius: 7px 7px 7px 7px;
+    border-radius: 7px 7px 7px 7px;
+
+    border: 1px solid #CCC;
+    position: absolute;
+    left: 0;
+    top: 30px;
+/*    width: 250px;
+    height: 187px;*/
+
+    display: none;
+    z-index: 666;
+}
+
+#header .links .quick_login.active .ql_login {
+    display: block;
+}
+
+a.link_login_desktop {
+        background: url("login.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+        height: 21px;
+        text-indent: -9999px;
+        width: 21px;
+    }
+   
+#header .links_desktop .quick_login_desktop.active .ql_login_desktop{
+    display: block;
+}
+
+#header .links_desktop .quick_login_desktop .link_login_desktop {
+        margin-top: 0 !important;
+    }
+a.link_login_desktop {
+        background: url("login.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+        height: 21px;
+        text-indent: -9999px;
+        width: 21px;
+    }
+	
+	.quick_login_desktop .login_form{
+    overflow: hidden;
+    width:230px;
+    display:block;
+}
